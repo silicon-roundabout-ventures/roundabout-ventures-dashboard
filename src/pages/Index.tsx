@@ -44,19 +44,19 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Deep Tech',
-                description: 'Investing in technologies that push the boundaries of what's possible, from AI and machine learning to quantum computing.',
-                icon: '🧠'
+                title: "Deep Tech",
+                description: "Investing in technologies that push the boundaries of what's possible, from AI and machine learning to quantum computing.",
+                icon: "🧠"
               },
               {
-                title: 'HealthTech',
-                description: 'Supporting innovative healthcare solutions that improve patient outcomes and transform the healthcare industry.',
-                icon: '⚕️'
+                title: "HealthTech",
+                description: "Supporting innovative healthcare solutions that improve patient outcomes and transform the healthcare industry.",
+                icon: "⚕️"
               },
               {
-                title: 'CleanTech',
-                description: 'Funding sustainable technologies that address climate change and promote a greener future.',
-                icon: '🌱'
+                title: "CleanTech",
+                description: "Funding sustainable technologies that address climate change and promote a greener future.",
+                icon: "🌱"
               }
             ].map((item, index) => (
               <div 

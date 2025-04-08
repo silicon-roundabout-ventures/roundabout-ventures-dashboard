@@ -8,6 +8,7 @@ interface Particle {
   speedX: number;
   speedY: number;
   color: string;
+  opacity: number;
 }
 
 const ParticleBackground = () => {
@@ -35,16 +36,17 @@ const ParticleBackground = () => {
     // Initialize particles
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.min(window.innerWidth / 10, 100); // Adjust count based on screen size
+      const particleCount = Math.min(window.innerWidth / 10, 120); // Match the 120 value from GitHub
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
-          color: i % 3 === 0 ? '#00A0A0' : '#0F4C81'
+          size: Math.random() * 3 + 0.5,
+          speedX: (Math.random() - 0.5) * 0.9,
+          speedY: (Math.random() - 0.5) * 0.9,
+          color: '#a7a7a7', // Match the color from GitHub
+          opacity: Math.random() * 0.5 + 0.1
         });
       }
     };
@@ -71,10 +73,10 @@ const ParticleBackground = () => {
         // Draw the particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color;
+        ctx.fillStyle = `rgba(167, 167, 167, ${particle.opacity})`;
         ctx.fill();
         
-        // Connect nearby particles with lines
+        // Connect nearby particles with lines - using 130px distance as in GitHub
         connectParticles(particle, i);
       });
     };
@@ -88,10 +90,10 @@ const ParticleBackground = () => {
           Math.pow(particle.y - otherParticle.y, 2)
         );
         
-        if (distance < 100) {
+        if (distance < 130) { // Match the 130 distance from GitHub
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(15, 76, 129, ${0.15 * (1 - distance / 100)})`;
-          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = `rgba(167, 167, 167, ${0.4 * (1 - distance / 130)})`;
+          ctx.lineWidth = 1;
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(otherParticle.x, otherParticle.y);
           ctx.stroke();
@@ -122,7 +124,10 @@ const ParticleBackground = () => {
       <canvas 
         ref={canvasRef}
         className="absolute inset-0"
-        style={{ opacity: 0.7 }}
+        style={{ 
+          opacity: 0.9,
+          zIndex: 1
+        }}
       />
     </div>
   );

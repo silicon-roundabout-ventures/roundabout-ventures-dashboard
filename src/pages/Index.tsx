@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ParticleBackground from '../components/ParticleBackground';
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   return (
@@ -9,25 +10,28 @@ const Index = () => {
       <ParticleBackground />
       
       {/* Hero Section */}
-      <section className="flex-grow flex items-center pt-20">
+      <section className="flex-grow flex items-center pt-20 z-10 relative">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 animate-fade-in">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 animate-fade-in text-center">
               Silicon Roundabout Ventures
             </h1>
-            <p className="text-xl text-srv-gray mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              Early-stage venture capital fund investing in exceptional founders building innovative solutions across various industries.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <Link 
-                to="/portfolio" 
-                className="bg-srv-teal hover:bg-srv-teal/80 text-white font-medium py-3 px-8 rounded-md transition-colors"
-              >
-                View Portfolio
-              </Link>
+            
+            <div className="mt-6 mb-10 text-xl text-center animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <p className="text-white font-mono leading-relaxed">
+                Connecting (<span className="text-yellow-400">Capital</span>) &#123; <br />
+                &nbsp; <span className="text-pink-400">with</span> <br />
+                &nbsp;&nbsp;&nbsp; Next-Generation.<span className="text-yellow-400">Technologies</span> <br />
+                &nbsp; <span className="text-pink-400">in </span> Computer & Physical <br />
+                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <span className="text-yellow-400">Science</span> <br />
+                &#125;
+              </p>
+            </div>
+            
+            <div className="flex justify-center mt-10 animate-fade-in" style={{ animationDelay: '0.4s' }}>
               <Link 
                 to="/apply" 
-                className="bg-transparent hover:bg-srv-blue/20 text-white border border-srv-teal font-medium py-3 px-8 rounded-md transition-colors"
+                className="bg-white hover:bg-gray-200 text-srv-blue font-medium py-3 px-8 rounded-md transition-colors"
               >
                 Apply for Funding
               </Link>
@@ -36,44 +40,169 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Investment Focus Section */}
-      <section className="py-20 bg-gradient-to-b from-transparent to-srv-blue/10">
+      {/* Who We Are Section */}
+      <section className="py-16 bg-srv-dark/80 backdrop-blur-sm z-10 relative mt-12">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">Our Investment Focus</h2>
+          <h2 className="text-3xl font-bold text-white mb-6">&lt;Who we are/&gt;</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Deep Tech",
-                description: "Investing in technologies that push the boundaries of what's possible, from AI and machine learning to quantum computing.",
-                icon: "🧠"
-              },
-              {
-                title: "HealthTech",
-                description: "Supporting innovative healthcare solutions that improve patient outcomes and transform the healthcare industry.",
-                icon: "⚕️"
-              },
-              {
-                title: "CleanTech",
-                description: "Funding sustainable technologies that address climate change and promote a greener future.",
-                icon: "🌱"
-              }
-            ].map((item, index) => (
-              <div 
-                key={index} 
-                className="bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg shadow p-6 transform transition-all duration-300 hover:scale-105"
+          <p className="text-lg text-white mb-10">
+            We are a Community-Driven VC firm backing{" "}
+            <span className="text-yellow-400">Deep Tech and Big Data</span>{" "}
+            startups at{" "}
+            <span className="text-pink-400">pre-seed</span> and{" "}
+            <span className="text-pink-400">seed</span>,
+            leveraging our community of 15,000 founders and engineers and
+            our live pitching competitions that over the years featured
+            winners now worth over £6 Billion.
+          </p>
+        </div>
+      </section>
+      
+      {/* Investment Focus Section */}
+      <section className="py-16 bg-gradient-to-b from-transparent to-srv-blue/10 z-10 relative">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">&lt;Our Mission/&gt;</h2>
+          
+          <div className="max-w-4xl mx-auto text-lg text-white space-y-6">
+            <p>
+              <span className="text-yellow-400 mr-2">⚙️</span> 
+              We are building a new kind of financial institution at the
+              intersection of{" "}
+              <span className="text-pink-400">
+                Venture, Science and Community
+              </span>
+              . We provide investment capital, community connections and
+              hands-on support to seed founders.
+            </p>
+            
+            <p>
+              <span className="text-yellow-400 mr-2">💪</span> 
+              Our mission is to help technical founding teams building
+              solutions based on{" "}
+              <span className="text-pink-400">computer</span> or{" "}
+              <span className="text-pink-400">
+                physical sciences
+              </span>{" "}
+              that are solving large-scale global problems.
+            </p>
+            
+            <p>
+              <span className="text-yellow-400 mr-2">🚀</span> 
+              If you are a{" "}
+              <span className="text-yellow-400">
+                deep tech or big data
+              </span>{" "}
+              entrepreneur based in the UK or Europe, get in touch and{" "}
+              <Link to="/apply" className="text-white underline hover:text-srv-teal">
+                apply for funding
+              </Link>
+              . We'd like to see if we can help you.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      {/* What Makes Us Unique Section */}
+      <section className="py-16 bg-srv-dark/80 backdrop-blur-sm z-10 relative">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-white mb-8">&lt;What makes us unique/&gt;</h2>
+          
+          <ul className="text-lg text-white space-y-6 max-w-4xl mx-auto list-disc pl-6">
+            <li>
+              We run a 15k member strong tech meetup community,{" "}
+              <span className="text-yellow-400">
+                Silicon Roundabout
+              </span>
+              , which gives us direct access to 5000+ startups and has
+              already helped grow 2 billion-dollar companies
+            </li>
+            
+            <li>
+              We all have{" "}
+              <span className="text-yellow-400">
+                technical backgrounds
+              </span>
+              , helping us select and support founders
+            </li>
+            
+            <li>
+              We offer our portfolio companies access to our Proprietary
+              Ecosystem to help with{" "}
+              <span className="text-yellow-400">
+                specialist hiring and industry connections
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+      
+      {/* Next-Generation Technology Section */}
+      <section className="py-16 bg-gradient-to-b from-transparent to-srv-blue/10 z-10 relative">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">
+            &lt;We write 1st cheques in Next-Generation technology startups/&gt;
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+            <div className="text-center bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                &#91; <span className="text-red-500">Technical</span> &#93;
+              </h3>
+              <p className="text-srv-gray">
+                Leveraging in-house science and engineering expertise to challenge the status-quo
+              </p>
+            </div>
+            
+            <div className="text-center bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                &#123; <span className="text-red-500">Infrastructural</span> &#125;
+              </h3>
+              <p className="text-srv-gray">
+                They solve large scale global problems at a "picks and shovel" infrastructure level
+              </p>
+            </div>
+            
+            <div className="text-center bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                &#183; <span className="text-red-500">Defensible</span> &#183;
+              </h3>
+              <p className="text-srv-gray">
+                They build fundamental hardware or low level software tech with a strong IP moat against challengers
+              </p>
+            </div>
+            
+            <div className="text-center bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                &#47; <span className="text-red-500">Trend-Setting</span> &#47;
+              </h3>
+              <p className="text-srv-gray">
+                Disrupt internationally the way an industry operates (1B+ potential revenue in 10+ years)
+              </p>
+            </div>
+            
+            <div className="text-center bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+              <h3 className="text-xl font-semibold text-white mb-3">
+                &#60; <span className="text-red-500">Global Impact</span> &#62;
+              </h3>
+              <p className="text-srv-gray">
+                Focused on solving key infrastructural challenges in areas like Computing, Climate or Health, and Defence
+              </p>
+            </div>
+            
+            <div className="flex justify-center items-center">
+              <Link
+                to="/portfolio"
+                className="bg-srv-teal hover:bg-srv-teal/80 text-white font-medium py-3 px-8 rounded-md transition-colors"
               >
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-semibold text-white mb-3">{item.title}</h3>
-                <p className="text-srv-gray">{item.description}</p>
-              </div>
-            ))}
+                View Our Portfolio
+              </Link>
+            </div>
           </div>
         </div>
       </section>
       
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20 z-10 relative">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-srv-blue to-srv-teal rounded-lg shadow p-8 md:p-12 text-center">
             <h2 className="text-3xl font-bold text-white mb-6">Ready to Scale Your Startup?</h2>

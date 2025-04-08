@@ -54,14 +54,16 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         srv: {
-          dark: '#000000',
-          blue: '#333333',  // Changed from blue to dark gray
-          teal: '#FFCC00',  // Changed to yellow
-          light: '#FFFFFF', // White
-          gray: '#AAAAAA',
-          pink: '#FF7EF5',  // Added pink highlight color
-          yellow: '#FFCC00', // Added explicit yellow for highlights
-          red: '#D94738'     // Kept red
+          dark: '#191c22',          // Darkest background (VSCode style)
+          blue: '#81a1c1',          // Soft blue for accents
+          teal: '#88c0d0',          // Bright teal for primary highlights
+          light: '#e5e9f0',         // Light text
+          gray: '#7b88a1',          // Muted text
+          pink: '#b48ead',          // Pink highlight
+          yellow: '#ebcb8b',        // Yellow highlight
+          red: '#bf616a',           // Error/warning red
+          green: '#a3be8c',         // Success green
+          comment: '#4c566a'        // Comment text color
         }
       },
       fontFamily: {

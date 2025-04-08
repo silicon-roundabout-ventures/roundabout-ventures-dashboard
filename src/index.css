@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 222 17% 10%;      /* #191c22 */
+    --foreground: 219 14% 90%;      /* #e5e9f0 */
 
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 100%;
+    --card: 222 10% 13%;            /* #1e2127 */
+    --card-foreground: 219 14% 90%; /* #e5e9f0 */
 
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 222 17% 10%;         /* #191c22 */
+    --popover-foreground: 219 14% 90%; /* #e5e9f0 */
 
-    --primary: 60 100% 50%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 196 53% 73%;         /* #88c0d0 */
+    --primary-foreground: 222 17% 10%; /* #191c22 */
 
-    --secondary: 300 100% 73%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary: 286 34% 61%;       /* #b48ead */
+    --secondary-foreground: 222 17% 10%; /* #191c22 */
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
+    --muted: 220 13% 28%;           /* #434c5e */
+    --muted-foreground: 220 16% 36%; /* #4c566a */
 
-    --accent: 300 100% 73%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 286 34% 61%;          /* #b48ead */
+    --accent-foreground: 222 17% 10%; /* #191c22 */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 0%;
+    --destructive: 354 42% 56%;     /* #bf616a */
+    --destructive-foreground: 219 14% 90%; /* #e5e9f0 */
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 60 100% 50%;
+    --border: 220 16% 36%;          /* #4c566a */
+    --input: 220 13% 28%;           /* #434c5e */
+    --ring: 196 53% 73%;            /* #88c0d0 */
 
     --radius: 0.5rem;
   }
@@ -101,25 +101,25 @@
   display: inline-block;
   width: 10px;
   height: 24px;
-  background-color: #FF7EF5;
+  background-color: #b48ead;
   margin-left: 5px;
   animation: cursor-blink 1s step-end infinite;
 }
 
 .code-block {
-  @apply bg-black/50 p-4 rounded border border-white/10 font-mono;
+  @apply bg-[#1e2127]/80 p-4 rounded border border-[#4c566a]/30 font-mono;
 }
 
 .code-comment {
-  @apply text-gray-500;
+  @apply text-srv-comment;
 }
 
 .code-string {
-  @apply text-green-400;
+  @apply text-srv-green;
 }
 
 .code-keyword {
-  @apply text-blue-400;
+  @apply text-srv-blue;
 }
 
 .code-tag {
@@ -138,7 +138,7 @@
 
 .stealth-mode {
   @apply relative overflow-hidden;
-  background: linear-gradient(120deg, #333333, #000000);
+  background: linear-gradient(120deg, #272c36, #191c22);
 }
 
 .stealth-mode::before {
@@ -152,26 +152,26 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #191c22;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FFCC00;
+  background: #88c0d0;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #FF7EF5;
+  background: #b48ead;
 }
 
 /* Card styling */
 .glass-card {
-  @apply bg-black/70 backdrop-blur-sm border border-white/10 p-6 rounded-lg;
+  @apply bg-[#1e2127]/70 backdrop-blur-sm border border-[#4c566a]/20 p-6 rounded-lg;
 }
 
 /* Terminal-like elements */
 .terminal {
-  @apply bg-black/80 border border-srv-yellow/30 rounded-md p-4 font-mono text-white;
+  @apply bg-[#191c22]/90 border border-srv-teal/30 rounded-md p-4 font-mono text-white;
 }
 
 .terminal-header {
@@ -183,7 +183,7 @@
 }
 
 .terminal-circle-red {
-  @apply bg-red-500;
+  @apply bg-srv-red;
 }
 
 .terminal-circle-yellow {
@@ -191,12 +191,12 @@
 }
 
 .terminal-circle-green {
-  @apply bg-green-500;
+  @apply bg-srv-green;
 }
 
 .terminal-prompt::before {
   content: "$ ";
-  @apply text-srv-yellow;
+  @apply text-srv-teal;
 }
 
 .terminal-output {

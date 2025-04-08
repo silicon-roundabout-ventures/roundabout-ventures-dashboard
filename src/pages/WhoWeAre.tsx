@@ -14,7 +14,7 @@ const TeamMember = ({
   blog = null
 }) => (
   <div className="flex flex-col items-center">
-    <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-white/20 mb-4">
+    <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-[#4c566a]/40 mb-4">
       {imageSrc ? (
         <img 
           src={imageSrc} 
@@ -28,27 +28,27 @@ const TeamMember = ({
       )}
     </div>
     <h3 className="text-lg font-bold text-white mb-1">{name}</h3>
-    <p className="text-srv-yellow text-sm mb-2">{role}</p>
-    <p className="text-white/80 text-sm text-center max-w-xs mb-3">{description}</p>
+    <p className="text-srv-teal text-sm mb-2">{role}</p>
+    <p className="text-srv-gray text-sm text-center max-w-xs mb-3">{description}</p>
     
     <div className="flex space-x-3">
       {linkedin && (
-        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
           <Linkedin size={18} />
         </a>
       )}
       {twitter && (
-        <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+        <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
           <Twitter size={18} />
         </a>
       )}
       {github && (
-        <a href={github} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+        <a href={github} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
           <Github size={18} />
         </a>
       )}
       {blog && (
-        <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+        <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
           <span className="code-text">{'</>'}</span>
         </a>
       )}
@@ -64,6 +64,7 @@ const WhoWeAre = () => {
         name: "Francesco Perticarari",
         role: "General Partner",
         description: "Technical founder with expertise in deep tech and venture capital",
+        imageSrc: null, // Will show initial
         linkedin: "https://www.linkedin.com/in/fperticarari/",
         twitter: "https://twitter.com/francesco_srv",
         github: "https://github.com/fpert041",
@@ -75,18 +76,21 @@ const WhoWeAre = () => {
         name: "Olivia Nicoletti, PhD",
         role: "Nanophysicist and Tech Spinout Expert",
         description: "Ex Cambridge Enterprise",
+        imageSrc: null, // Will show initial
         linkedin: "https://www.linkedin.com/in/olivia-nicoletti-phd-6307724/"
       },
       {
         name: "Ralph King",
         role: "Exited CTO & Tech Whiz",
         description: "Building our VC superpowers",
+        imageSrc: null, // Will show initial
         linkedin: "https://www.linkedin.com/in/ralph-king/"
       },
       {
         name: "Maria Grazia Vigliotti, PhD",
         role: "AI, Blockchain & Cybersecurity Expert",
         description: "Angel investor & Entrepreneur",
+        imageSrc: null, // Will show initial
         linkedin: "https://www.linkedin.com/in/mgvigliotti/"
       }
     ]
@@ -102,8 +106,8 @@ const WhoWeAre = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          <div className="bg-black/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-white/10">
-            <p className="text-xl text-white mb-10">
+          <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
+            <p className="text-xl text-srv-light mb-10">
               We are a Community-Driven VC firm backing{" "}
               <span className="text-srv-yellow">Deep Tech and Big Data</span>{" "}
               startups at{" "}
@@ -117,7 +121,7 @@ const WhoWeAre = () => {
           
           <h2 className="text-3xl font-bold text-white mb-8">&lt;What makes us unique/&gt;</h2>
           
-          <ul className="text-lg text-white space-y-6 list-disc pl-6 mb-12">
+          <ul className="text-lg text-srv-light space-y-6 list-disc pl-6 mb-12">
             <li>
               We run a 15k member strong tech meetup community,{" "}
               <span className="text-srv-yellow">
@@ -146,9 +150,9 @@ const WhoWeAre = () => {
           
           <h2 className="text-3xl font-bold text-white mb-8">&lt;Our Mission/&gt;</h2>
           
-          <div className="max-w-4xl mx-auto text-lg text-white space-y-6 mb-12">
+          <div className="max-w-4xl mx-auto text-lg text-srv-light space-y-6 mb-12">
             <p>
-              <span className="text-srv-yellow mr-2">⚙️</span> 
+              <span className="text-srv-teal mr-2">⚙️</span> 
               We are building a new kind of financial institution at the
               intersection of{" "}
               <span className="text-srv-pink">
@@ -159,7 +163,7 @@ const WhoWeAre = () => {
             </p>
             
             <p>
-              <span className="text-srv-yellow mr-2">💪</span> 
+              <span className="text-srv-teal mr-2">💪</span> 
               Our mission is to help technical founding teams building
               solutions based on{" "}
               <span className="text-srv-pink">computer</span> or{" "}

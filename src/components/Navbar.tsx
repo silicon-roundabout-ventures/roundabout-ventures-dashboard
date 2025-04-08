@@ -23,10 +23,11 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'Who We Are', path: '/who-we-are' },
     { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Apply', path: '/apply' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Building in Public', path: '/building-in-public' },
+    { name: 'Community', path: '/community' },
+    { name: 'For Investors', path: '/for-investors' },
   ];
 
   return (
@@ -47,8 +48,8 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-srv-teal ${
-                  location.pathname === link.path ? 'text-srv-teal' : 'text-white'
+                className={`text-sm font-medium transition-colors hover:text-srv-yellow ${
+                  location.pathname === link.path ? 'text-srv-pink' : 'text-white'
                 }`}
               >
                 {link.name}
@@ -75,8 +76,8 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`text-base font-medium transition-colors hover:text-srv-teal ${
-                    location.pathname === link.path ? 'text-srv-teal' : 'text-white'
+                  className={`text-base font-medium transition-colors hover:text-srv-yellow ${
+                    location.pathname === link.path ? 'text-srv-pink' : 'text-white'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

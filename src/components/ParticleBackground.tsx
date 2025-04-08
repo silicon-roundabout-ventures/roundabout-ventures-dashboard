@@ -45,7 +45,7 @@ const ParticleBackground = () => {
           size: Math.random() * 3 + 0.5,
           speedX: (Math.random() - 0.5) * 0.9,
           speedY: (Math.random() - 0.5) * 0.9,
-          color: '#a7a7a7', // Match the color from GitHub
+          color: '#ffffff', // Updated to white
           opacity: Math.random() * 0.5 + 0.1
         });
       }
@@ -73,7 +73,7 @@ const ParticleBackground = () => {
         // Draw the particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(167, 167, 167, ${particle.opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
         ctx.fill();
         
         // Connect nearby particles with lines - using 130px distance as in GitHub

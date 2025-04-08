@@ -54,11 +54,14 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         srv: {
-          dark: '#0B1930',
-          blue: '#0F4C81',
-          teal: '#00A0A0',
-          light: '#F0F4F8',
-          gray: '#8E9196'
+          dark: '#000000',
+          blue: '#333333',  // Changed from blue to dark gray
+          teal: '#FFCC00',  // Changed to yellow
+          light: '#FFFFFF', // White
+          gray: '#AAAAAA',
+          pink: '#FF7EF5',  // Added pink highlight color
+          yellow: '#FFCC00', // Added explicit yellow for highlights
+          red: '#D94738'     // Kept red
         }
       },
       borderRadius: {

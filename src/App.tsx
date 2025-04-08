@@ -8,9 +8,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
-import Apply from "./pages/Apply";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+import WhoWeAre from "./pages/WhoWeAre";
+import BuildingInPublic from "./pages/BuildingInPublic";
+import Community from "./pages/Community";
+import ForInvestors from "./pages/ForInvestors";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,9 +28,10 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/apply" element={<Apply />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/who-we-are" element={<WhoWeAre />} />
+              <Route path="/building-in-public" element={<BuildingInPublic />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/for-investors" element={<ForInvestors />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 215 70% 10%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 215 70% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 215 70% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 180 100% 31%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 60 100% 50%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 210 100% 35%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 300 100% 73%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 215 30% 20%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 210 60% 25%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 300 100% 73%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 0%;
 
-    --border: 215 30% 20%;
-    --input: 215 30% 20%;
-    --ring: 180 100% 31%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 60 100% 50%;
 
     --radius: 0.5rem;
   }
@@ -78,7 +78,7 @@
 
 .stealth-mode {
   @apply relative overflow-hidden;
-  background: linear-gradient(120deg, #0F4C81, #00A0A0);
+  background: linear-gradient(120deg, #333333, #000000);
 }
 
 .stealth-mode::before {
@@ -92,14 +92,20 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B1930;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00A0A0;
+  background: #FFCC00;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0F4C81;
+  background: #FF7EF5;
+}
+
+/* Code-like text */
+.code-text {
+  font-family: 'JetBrains Mono', monospace;
+  @apply font-mono;
 }

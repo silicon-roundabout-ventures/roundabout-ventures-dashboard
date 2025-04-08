@@ -1,8 +1,97 @@
 
 import React from 'react';
+import { Github, Twitter, Linkedin } from 'lucide-react';
 import ParticleBackground from '../components/ParticleBackground';
 
+const TeamMember = ({ 
+  name, 
+  role, 
+  description,
+  imageSrc,
+  linkedin = null,
+  twitter = null,
+  github = null,
+  blog = null
+}) => (
+  <div className="flex flex-col items-center">
+    <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-white/20 mb-4">
+      {imageSrc ? (
+        <img 
+          src={imageSrc} 
+          alt={name} 
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <div className="w-full h-full bg-srv-dark flex items-center justify-center text-white">
+          {name.charAt(0)}
+        </div>
+      )}
+    </div>
+    <h3 className="text-lg font-bold text-white mb-1">{name}</h3>
+    <p className="text-srv-yellow text-sm mb-2">{role}</p>
+    <p className="text-white/80 text-sm text-center max-w-xs mb-3">{description}</p>
+    
+    <div className="flex space-x-3">
+      {linkedin && (
+        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+          <Linkedin size={18} />
+        </a>
+      )}
+      {twitter && (
+        <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+          <Twitter size={18} />
+        </a>
+      )}
+      {github && (
+        <a href={github} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+          <Github size={18} />
+        </a>
+      )}
+      {blog && (
+        <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-yellow transition-colors">
+          <span className="code-text">{'</>'}</span>
+        </a>
+      )}
+    </div>
+  </div>
+);
+
 const WhoWeAre = () => {
+  // Team data
+  const teamData = {
+    leads: [
+      {
+        name: "Francesco Perticarari",
+        role: "General Partner",
+        description: "Technical founder with expertise in deep tech and venture capital",
+        linkedin: "https://www.linkedin.com/in/fperticarari/",
+        twitter: "https://twitter.com/francesco_srv",
+        github: "https://github.com/fpert041",
+        blog: "https://blog.francescoperticarari.com"
+      }
+    ],
+    partners: [
+      {
+        name: "Olivia Nicoletti, PhD",
+        role: "Nanophysicist and Tech Spinout Expert",
+        description: "Ex Cambridge Enterprise",
+        linkedin: "https://www.linkedin.com/in/olivia-nicoletti-phd-6307724/"
+      },
+      {
+        name: "Ralph King",
+        role: "Exited CTO & Tech Whiz",
+        description: "Building our VC superpowers",
+        linkedin: "https://www.linkedin.com/in/ralph-king/"
+      },
+      {
+        name: "Maria Grazia Vigliotti, PhD",
+        role: "AI, Blockchain & Cybersecurity Expert",
+        description: "Angel investor & Entrepreneur",
+        linkedin: "https://www.linkedin.com/in/mgvigliotti/"
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
@@ -13,7 +102,7 @@ const WhoWeAre = () => {
         </div>
         
         <div className="max-w-4xl mx-auto">
-          <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
+          <div className="bg-black/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-white/10">
             <p className="text-xl text-white mb-10">
               We are a Community-Driven VC firm backing{" "}
               <span className="text-srv-yellow">Deep Tech and Big Data</span>{" "}
@@ -79,6 +168,27 @@ const WhoWeAre = () => {
               </span>{" "}
               that are solving large-scale global problems.
             </p>
+          </div>
+          
+          {/* Team Section */}
+          <h2 className="text-3xl font-bold text-white mb-10">&lt;Team/&gt;</h2>
+          
+          {/* General Partner */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 place-items-center">
+              {teamData.leads.map((member, index) => (
+                <TeamMember key={index} {...member} />
+              ))}
+            </div>
+          </div>
+
+          {/* Venture Partners */}
+          <h3 className="text-2xl font-bold text-white mb-8">Venture.Partners()</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 place-items-center mb-20">
+            {teamData.partners.map((member, index) => (
+              <TeamMember key={index} {...member} />
+            ))}
           </div>
         </div>
       </div>

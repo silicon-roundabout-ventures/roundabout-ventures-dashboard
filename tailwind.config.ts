@@ -64,6 +64,10 @@ export default {
           red: '#D94738'     // Kept red
         }
       },
+      fontFamily: {
+        mono: ['"JetBrains Mono"', 'monospace'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -85,13 +89,23 @@ export default {
         'pulse-slow': {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' }
+        },
+        'cursor-blink': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' }
+        },
+        'typing': {
+          from: { width: '0' },
+          to: { width: '100%' }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out',
-        'pulse-slow': 'pulse-slow 3s infinite'
+        'pulse-slow': 'pulse-slow 3s infinite',
+        'cursor-blink': 'cursor-blink 1s step-end infinite',
+        'typing': 'typing 3.5s steps(40, end)'
       }
     }
   },

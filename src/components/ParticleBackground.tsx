@@ -36,16 +36,16 @@ const ParticleBackground = () => {
     // Initialize particles
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.min(window.innerWidth / 10, 120); // Match the 120 value from GitHub
+      const particleCount = Math.min(window.innerWidth / 10, 120);
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 3 + 0.5,
+          size: Math.random() * 3 + 0.1, // Smaller particles for more subtle effect
           speedX: (Math.random() - 0.5) * 0.9,
           speedY: (Math.random() - 0.5) * 0.9,
-          color: '#ffffff', // Updated to white
+          color: '#ffffff',
           opacity: Math.random() * 0.5 + 0.1
         });
       }
@@ -76,7 +76,7 @@ const ParticleBackground = () => {
         ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
         ctx.fill();
         
-        // Connect nearby particles with lines - using 130px distance as in GitHub
+        // Connect nearby particles with lines
         connectParticles(particle, i);
       });
     };
@@ -90,7 +90,7 @@ const ParticleBackground = () => {
           Math.pow(particle.y - otherParticle.y, 2)
         );
         
-        if (distance < 130) { // Match the 130 distance from GitHub
+        if (distance < 130) {
           ctx.beginPath();
           ctx.strokeStyle = `rgba(167, 167, 167, ${0.4 * (1 - distance / 130)})`;
           ctx.lineWidth = 1;
@@ -125,7 +125,7 @@ const ParticleBackground = () => {
         ref={canvasRef}
         className="absolute inset-0"
         style={{ 
-          opacity: 0.9,
+          opacity: 0.8,
           zIndex: 1
         }}
       />

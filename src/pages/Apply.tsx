@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
 import AirtableService from '../services/AirtableService';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
 import { toast } from "sonner";
+import Layout from '../components/common/Layout';
 
-const Apply = () => {
+const ApplyContent = () => {
   const [formData, setFormData] = useState({
     companyName: '',
     founderName: '',
@@ -304,6 +305,14 @@ const Apply = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Apply = () => {
+  return (
+    <Layout title="Apply - Roundabout Ventures">
+      <ApplyContent />
+    </Layout>
   );
 };
 

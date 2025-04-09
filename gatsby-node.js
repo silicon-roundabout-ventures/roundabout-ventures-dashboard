@@ -8,6 +8,30 @@ exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
       alias: {
         "@": path.resolve(__dirname, "src"),
       },
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    },
+  })
+
+  // Configure TypeScript with JSX support
+  actions.setWebpackConfig({
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                presets: [
+                  ['@babel/preset-react', { runtime: 'automatic' }],
+                  '@babel/preset-typescript'
+                ],
+              },
+            },
+          ],
+          exclude: /node_modules/,
+        },
+      ],
     },
   })
 

@@ -383,7 +383,6 @@ function waitForResponse(response) {
 }
 class BaseLoader {
   constructor(loadComponent, matchPaths) {
-    this.inFlightNetworkRequests = new Map();
     // Map of pagePath -> Page. Where Page is an object with: {
     //   status: PageResourceStatus.Success || PageResourceStatus.Error,
     //   payload: PageResources, // undefined if PageResourceStatus.Error
@@ -414,6 +413,7 @@ class BaseLoader {
     this.loadComponent = loadComponent;
     (0,_find_path__WEBPACK_IMPORTED_MODULE_3__.setMatchPaths)(matchPaths);
   }
+  inFlightNetworkRequests = new Map();
   memoizedGet(url) {
     let inFlightPromise = this.inFlightNetworkRequests.get(url);
     if (!inFlightPromise) {
@@ -1295,7 +1295,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slice_server_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slice/server-slice */ "./.cache/slice/server-slice.js");
 /* harmony import */ var _slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./slice/inline-slice */ "./.cache/slice/inline-slice.js");
 /* harmony import */ var _slice_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./slice/context */ "./.cache/slice/context.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 "use client";
 
 
@@ -1320,13 +1320,19 @@ function Slice(props) {
       throw new SlicePropsError(slicesContext.renderEnvironment === `browser`, internalProps.sliceName, propErrors, props.__renderedByLocation);
     }
     if (slicesContext.renderEnvironment === `server`) {
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_server_slice__WEBPACK_IMPORTED_MODULE_1__.ServerSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_server_slice__WEBPACK_IMPORTED_MODULE_1__.ServerSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `browser`) {
       // in the browser, we'll just render the component as is
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `engines` || slicesContext.renderEnvironment === `dev-ssr`) {
       // if we're in SSR, we'll just render the component as is
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `slices`) {
       // we are not yet supporting nested slices
 
@@ -1437,12 +1443,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   InlineSlice: () => (/* binding */ InlineSlice)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1452,8 +1456,8 @@ const InlineSlice = ({
   children,
   ...sliceProps
 }) => {
-  const slicesMap = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context__WEBPACK_IMPORTED_MODULE_2__.SlicesMapContext);
-  const slicesResultsMap = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context__WEBPACK_IMPORTED_MODULE_2__.SlicesResultsContext);
+  const slicesMap = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_context__WEBPACK_IMPORTED_MODULE_1__.SlicesMapContext);
+  const slicesResultsMap = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_context__WEBPACK_IMPORTED_MODULE_1__.SlicesResultsContext);
   const concreteSliceName = slicesMap[sliceName];
   const slice = slicesResultsMap.get(concreteSliceName);
   if (!slice) {
@@ -1463,10 +1467,12 @@ const InlineSlice = ({
       throw new Error(`Slice "${concreteSliceName}" for "${sliceName}" slot not found`);
     }
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)(slice.component, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(slice.component, {
     sliceContext: slice.sliceContext,
-    data: slice.data
-  }, sliceProps), children);
+    data: slice.data,
+    ...sliceProps,
+    children: children
+  });
 };
 
 /***/ }),
@@ -1525,7 +1531,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var gatsby_core_utils_create_content_digest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gatsby-core-utils/create-content-digest */ "./node_modules/gatsby-core-utils/dist/create-content-digest.mjs");
 /* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
 /* harmony import */ var _server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./server-slice-renderer */ "./.cache/slice/server-slice-renderer.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1569,9 +1575,10 @@ const ServerSlice = ({
       sliceUsage.hasChildren = true;
     }
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__.ServerSliceRenderer, {
-    sliceId: sliceId
-  }, children);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__.ServerSliceRenderer, {
+    sliceId: sliceId,
+    children: children
+  });
 };
 
 /***/ }),
@@ -1594,7 +1601,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _context_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./context-utils */ "./.cache/context-utils.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1607,7 +1614,11 @@ function StaticQueryDataRenderer({
   render
 }) {
   const finalData = data ? data.data : staticQueryData[query] && staticQueryData[query].data;
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, finalData && render(finalData), !finalData && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", null, "Loading (StaticQuery)"));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
+    children: [finalData && render(finalData), !finalData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: "Loading (StaticQuery)"
+    })]
+  });
 }
 let warnedAboutStaticQuery = false;
 
@@ -1623,12 +1634,14 @@ const StaticQuery = props => {
     console.warn(`The <StaticQuery /> component is deprecated and will be removed in Gatsby v6. Use useStaticQuery instead. Refer to the migration guide for more information: https://gatsby.dev/migrating-4-to-5/#staticquery--is-deprecated`);
     warnedAboutStaticQuery = true;
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryContext.Consumer, null, staticQueryData => (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryDataRenderer, {
-    data: data,
-    query: query,
-    render: render || children,
-    staticQueryData: staticQueryData
-  }));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryContext.Consumer, {
+    children: staticQueryData => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryDataRenderer, {
+      data: data,
+      query: query,
+      render: render || children,
+      staticQueryData: staticQueryData
+    })
+  });
 };
 StaticQuery.propTypes = {
   data: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().object),
@@ -1739,6 +1752,130 @@ module.exports = _setPrototypeOf, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
+/***/ "./node_modules/camelcase/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/camelcase/index.js ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+const UPPERCASE = /[\p{Lu}]/u;
+const LOWERCASE = /[\p{Ll}]/u;
+const LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu;
+const IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u;
+const SEPARATORS = /[_.\- ]+/;
+
+const LEADING_SEPARATORS = new RegExp('^' + SEPARATORS.source);
+const SEPARATORS_AND_IDENTIFIER = new RegExp(SEPARATORS.source + IDENTIFIER.source, 'gu');
+const NUMBERS_AND_IDENTIFIER = new RegExp('\\d+' + IDENTIFIER.source, 'gu');
+
+const preserveCamelCase = (string, toLowerCase, toUpperCase) => {
+	let isLastCharLower = false;
+	let isLastCharUpper = false;
+	let isLastLastCharUpper = false;
+
+	for (let i = 0; i < string.length; i++) {
+		const character = string[i];
+
+		if (isLastCharLower && UPPERCASE.test(character)) {
+			string = string.slice(0, i) + '-' + string.slice(i);
+			isLastCharLower = false;
+			isLastLastCharUpper = isLastCharUpper;
+			isLastCharUpper = true;
+			i++;
+		} else if (isLastCharUpper && isLastLastCharUpper && LOWERCASE.test(character)) {
+			string = string.slice(0, i - 1) + '-' + string.slice(i - 1);
+			isLastLastCharUpper = isLastCharUpper;
+			isLastCharUpper = false;
+			isLastCharLower = true;
+		} else {
+			isLastCharLower = toLowerCase(character) === character && toUpperCase(character) !== character;
+			isLastLastCharUpper = isLastCharUpper;
+			isLastCharUpper = toUpperCase(character) === character && toLowerCase(character) !== character;
+		}
+	}
+
+	return string;
+};
+
+const preserveConsecutiveUppercase = (input, toLowerCase) => {
+	LEADING_CAPITAL.lastIndex = 0;
+
+	return input.replace(LEADING_CAPITAL, m1 => toLowerCase(m1));
+};
+
+const postProcess = (input, toUpperCase) => {
+	SEPARATORS_AND_IDENTIFIER.lastIndex = 0;
+	NUMBERS_AND_IDENTIFIER.lastIndex = 0;
+
+	return input.replace(SEPARATORS_AND_IDENTIFIER, (_, identifier) => toUpperCase(identifier))
+		.replace(NUMBERS_AND_IDENTIFIER, m => toUpperCase(m));
+};
+
+const camelCase = (input, options) => {
+	if (!(typeof input === 'string' || Array.isArray(input))) {
+		throw new TypeError('Expected the input to be `string | string[]`');
+	}
+
+	options = {
+		pascalCase: false,
+		preserveConsecutiveUppercase: false,
+		...options
+	};
+
+	if (Array.isArray(input)) {
+		input = input.map(x => x.trim())
+			.filter(x => x.length)
+			.join('-');
+	} else {
+		input = input.trim();
+	}
+
+	if (input.length === 0) {
+		return '';
+	}
+
+	const toLowerCase = options.locale === false ?
+		string => string.toLowerCase() :
+		string => string.toLocaleLowerCase(options.locale);
+	const toUpperCase = options.locale === false ?
+		string => string.toUpperCase() :
+		string => string.toLocaleUpperCase(options.locale);
+
+	if (input.length === 1) {
+		return options.pascalCase ? toUpperCase(input) : toLowerCase(input);
+	}
+
+	const hasUpperCase = input !== toLowerCase(input);
+
+	if (hasUpperCase) {
+		input = preserveCamelCase(input, toLowerCase, toUpperCase);
+	}
+
+	input = input.replace(LEADING_SEPARATORS, '');
+
+	if (options.preserveConsecutiveUppercase) {
+		input = preserveConsecutiveUppercase(input, toLowerCase);
+	} else {
+		input = toLowerCase(input);
+	}
+
+	if (options.pascalCase) {
+		input = toUpperCase(input.charAt(0)) + input.slice(1);
+	}
+
+	return postProcess(input, toUpperCase);
+};
+
+module.exports = camelCase;
+// TODO: Remove this for the next major release
+module.exports["default"] = camelCase;
+
+
+/***/ }),
+
 /***/ "./node_modules/gatsby-core-utils/dist/create-content-digest.mjs":
 /*!***********************************************************************!*\
   !*** ./node_modules/gatsby-core-utils/dist/create-content-digest.mjs ***!
@@ -1842,6 +1979,701 @@ const applyTrailingSlashOption = (input, option = `always`) => {
   return input;
 };
 exports.applyTrailingSlashOption = applyTrailingSlashOption;
+
+/***/ }),
+
+/***/ "./node_modules/gatsby-plugin-image/dist/gatsby-image.module.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/gatsby-plugin-image/dist/gatsby-image.module.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GatsbyImage: () => (/* binding */ X),
+/* harmony export */   MainImage: () => (/* binding */ D),
+/* harmony export */   Placeholder: () => (/* binding */ C),
+/* harmony export */   StaticImage: () => (/* binding */ Z),
+/* harmony export */   generateImageData: () => (/* binding */ b),
+/* harmony export */   getImage: () => (/* binding */ I),
+/* harmony export */   getImageData: () => (/* binding */ R),
+/* harmony export */   getLowResolutionImageURL: () => (/* binding */ y),
+/* harmony export */   getSrc: () => (/* binding */ W),
+/* harmony export */   getSrcSet: () => (/* binding */ j),
+/* harmony export */   withArtDirection: () => (/* binding */ _)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var camelcase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! camelcase */ "./node_modules/camelcase/index.js");
+/* harmony import */ var camelcase__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(camelcase__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+function n() {
+  return n = Object.assign ? Object.assign.bind() : function (e) {
+    for (var t = 1; t < arguments.length; t++) {
+      var a = arguments[t];
+      for (var i in a) Object.prototype.hasOwnProperty.call(a, i) && (e[i] = a[i]);
+    }
+    return e;
+  }, n.apply(this, arguments);
+}
+function o(e, t) {
+  if (null == e) return {};
+  var a,
+    i,
+    r = {},
+    n = Object.keys(e);
+  for (i = 0; i < n.length; i++) t.indexOf(a = n[i]) >= 0 || (r[a] = e[a]);
+  return r;
+}
+var s = [.25, .5, 1, 2],
+  l = [750, 1080, 1366, 1920],
+  u = [320, 654, 768, 1024, 1366, 1600, 1920, 2048, 2560, 3440, 3840, 4096],
+  d = 800,
+  c = 800,
+  h = 4 / 3,
+  g = function (e) {
+    return console.warn(e);
+  },
+  p = function (e, t) {
+    return e - t;
+  },
+  m = function (e, t) {
+    switch (t) {
+      case "constrained":
+        return "(min-width: " + e + "px) " + e + "px, 100vw";
+      case "fixed":
+        return e + "px";
+      case "fullWidth":
+        return "100vw";
+      default:
+        return;
+    }
+  },
+  f = function (e) {
+    return e.map(function (e) {
+      return e.src + " " + e.width + "w";
+    }).join(",\n");
+  };
+function v(e) {
+  var t = e.lastIndexOf(".");
+  if (-1 !== t) {
+    var a = e.slice(t + 1);
+    if ("jpeg" === a) return "jpg";
+    if (3 === a.length || 4 === a.length) return a;
+  }
+}
+function w(e) {
+  var t = e.layout,
+    i = void 0 === t ? "constrained" : t,
+    r = e.width,
+    o = e.height,
+    s = e.sourceMetadata,
+    l = e.breakpoints,
+    u = e.aspectRatio,
+    d = e.formats,
+    g = void 0 === d ? ["auto", "webp"] : d;
+  return g = g.map(function (e) {
+    return e.toLowerCase();
+  }), i = camelcase__WEBPACK_IMPORTED_MODULE_1___default()(i), r && o ? n({}, e, {
+    formats: g,
+    layout: i,
+    aspectRatio: r / o
+  }) : (s.width && s.height && !u && (u = s.width / s.height), "fullWidth" === i ? (r = r || s.width || l[l.length - 1], o = o || Math.round(r / (u || h))) : (r || (r = o && u ? o * u : s.width ? s.width : o ? Math.round(o / h) : c), u && !o ? o = Math.round(r / u) : u || (u = r / o)), n({}, e, {
+    width: r,
+    height: o,
+    aspectRatio: u,
+    layout: i,
+    formats: g
+  }));
+}
+function y(e, t) {
+  var a;
+  return void 0 === t && (t = 20), null == (a = (0, (e = w(e)).generateImageSource)(e.filename, t, Math.round(t / e.aspectRatio), e.sourceMetadata.format || "jpg", e.fit, e.options)) ? void 0 : a.src;
+}
+function b(e) {
+  var t,
+    a = (e = w(e)).pluginName,
+    i = e.sourceMetadata,
+    r = e.generateImageSource,
+    o = e.layout,
+    u = e.fit,
+    d = e.options,
+    h = e.width,
+    p = e.height,
+    y = e.filename,
+    b = e.reporter,
+    S = void 0 === b ? {
+      warn: g
+    } : b,
+    N = e.backgroundColor,
+    x = e.placeholderURL;
+  if (a || S.warn('[gatsby-plugin-image] "generateImageData" was not passed a plugin name'), "function" != typeof r) throw new Error("generateImageSource must be a function");
+  i && (i.width || i.height) ? i.format || (i.format = v(y)) : i = {
+    width: h,
+    height: p,
+    format: (null == (t = i) ? void 0 : t.format) || v(y) || "auto"
+  };
+  var I = new Set(e.formats);
+  (0 === I.size || I.has("auto") || I.has("")) && (I.delete("auto"), I.delete(""), I.add(i.format)), I.has("jpg") && I.has("png") && (S.warn("[" + a + "] Specifying both 'jpg' and 'png' formats is not supported. Using 'auto' instead"), I.delete("jpg" === i.format ? "png" : "jpg"));
+  var W = function (e) {
+      var t = e.filename,
+        a = e.layout,
+        i = void 0 === a ? "constrained" : a,
+        r = e.sourceMetadata,
+        o = e.reporter,
+        u = void 0 === o ? {
+          warn: g
+        } : o,
+        d = e.breakpoints,
+        h = void 0 === d ? l : d,
+        p = Object.entries({
+          width: e.width,
+          height: e.height
+        }).filter(function (e) {
+          var t = e[1];
+          return "number" == typeof t && t < 1;
+        });
+      if (p.length) throw new Error("Specified dimensions for images must be positive numbers (> 0). Problem dimensions you have are " + p.map(function (e) {
+        return e.join(": ");
+      }).join(", "));
+      return "fixed" === i ? function (e) {
+        var t = e.filename,
+          a = e.sourceMetadata,
+          i = e.width,
+          r = e.height,
+          n = e.fit,
+          o = void 0 === n ? "cover" : n,
+          l = e.outputPixelDensities,
+          u = e.reporter,
+          d = void 0 === u ? {
+            warn: g
+          } : u,
+          h = a.width / a.height,
+          p = k(void 0 === l ? s : l);
+        if (i && r) {
+          var m = M(a, {
+            width: i,
+            height: r,
+            fit: o
+          });
+          i = m.width, r = m.height, h = m.aspectRatio;
+        }
+        i ? r || (r = Math.round(i / h)) : i = r ? Math.round(r * h) : c;
+        var f = i;
+        if (a.width < i || a.height < r) {
+          var v = a.width < i ? "width" : "height";
+          d.warn("\nThe requested " + v + ' "' + ("width" === v ? i : r) + 'px" for the image ' + t + " was larger than the actual image " + v + " of " + a[v] + "px. If possible, replace the current image with a larger one."), "width" === v ? (i = a.width, r = Math.round(i / h)) : i = (r = a.height) * h;
+        }
+        return {
+          sizes: p.filter(function (e) {
+            return e >= 1;
+          }).map(function (e) {
+            return Math.round(e * i);
+          }).filter(function (e) {
+            return e <= a.width;
+          }),
+          aspectRatio: h,
+          presentationWidth: f,
+          presentationHeight: Math.round(f / h),
+          unscaledWidth: i
+        };
+      }(e) : "constrained" === i ? E(e) : "fullWidth" === i ? E(n({
+        breakpoints: h
+      }, e)) : (u.warn("No valid layout was provided for the image at " + t + ". Valid image layouts are fixed, fullWidth, and constrained. Found " + i), {
+        sizes: [r.width],
+        presentationWidth: r.width,
+        presentationHeight: r.height,
+        aspectRatio: r.width / r.height,
+        unscaledWidth: r.width
+      });
+    }(n({}, e, {
+      sourceMetadata: i
+    })),
+    j = {
+      sources: []
+    },
+    R = e.sizes;
+  R || (R = m(W.presentationWidth, o)), I.forEach(function (e) {
+    var t = W.sizes.map(function (t) {
+      var i = r(y, t, Math.round(t / W.aspectRatio), e, u, d);
+      if (null != i && i.width && i.height && i.src && i.format) return i;
+      S.warn("[" + a + "] The resolver for image " + y + " returned an invalid value.");
+    }).filter(Boolean);
+    if ("jpg" === e || "png" === e || "auto" === e) {
+      var i = t.find(function (e) {
+        return e.width === W.unscaledWidth;
+      }) || t[0];
+      i && (j.fallback = {
+        src: i.src,
+        srcSet: f(t),
+        sizes: R
+      });
+    } else {
+      var n;
+      null == (n = j.sources) || n.push({
+        srcSet: f(t),
+        sizes: R,
+        type: "image/" + e
+      });
+    }
+  });
+  var _ = {
+    images: j,
+    layout: o,
+    backgroundColor: N
+  };
+  switch (x && (_.placeholder = {
+    fallback: x
+  }), o) {
+    case "fixed":
+      _.width = W.presentationWidth, _.height = W.presentationHeight;
+      break;
+    case "fullWidth":
+      _.width = 1, _.height = 1 / W.aspectRatio;
+      break;
+    case "constrained":
+      _.width = e.width || W.presentationWidth || 1, _.height = (_.width || 1) / W.aspectRatio;
+  }
+  return _;
+}
+var k = function (e) {
+  return Array.from(new Set([1].concat(e))).sort(p);
+};
+function E(e) {
+  var t,
+    a = e.sourceMetadata,
+    i = e.width,
+    r = e.height,
+    n = e.fit,
+    o = void 0 === n ? "cover" : n,
+    l = e.outputPixelDensities,
+    u = e.breakpoints,
+    c = e.layout,
+    h = a.width / a.height,
+    g = k(void 0 === l ? s : l);
+  if (i && r) {
+    var m = M(a, {
+      width: i,
+      height: r,
+      fit: o
+    });
+    i = m.width, r = m.height, h = m.aspectRatio;
+  }
+  i = i && Math.min(i, a.width), r = r && Math.min(r, a.height), i || r || (r = (i = Math.min(d, a.width)) / h), i || (i = r * h);
+  var f = i;
+  return (a.width < i || a.height < r) && (i = a.width, r = a.height), i = Math.round(i), (null == u ? void 0 : u.length) > 0 ? (t = u.filter(function (e) {
+    return e <= a.width;
+  })).length < u.length && !t.includes(a.width) && t.push(a.width) : t = (t = g.map(function (e) {
+    return Math.round(e * i);
+  })).filter(function (e) {
+    return e <= a.width;
+  }), "constrained" !== c || t.includes(i) || t.push(i), {
+    sizes: t = t.sort(p),
+    aspectRatio: h,
+    presentationWidth: f,
+    presentationHeight: Math.round(f / h),
+    unscaledWidth: i
+  };
+}
+function M(e, t) {
+  var a = e.width / e.height,
+    i = t.width,
+    r = t.height;
+  switch (t.fit) {
+    case "fill":
+      i = t.width ? t.width : e.width, r = t.height ? t.height : e.height;
+      break;
+    case "inside":
+      var n = t.width ? t.width : Number.MAX_SAFE_INTEGER,
+        o = t.height ? t.height : Number.MAX_SAFE_INTEGER;
+      i = Math.min(n, Math.round(o * a)), r = Math.min(o, Math.round(n / a));
+      break;
+    case "outside":
+      var s = t.width ? t.width : 0,
+        l = t.height ? t.height : 0;
+      i = Math.max(s, Math.round(l * a)), r = Math.max(l, Math.round(s / a));
+      break;
+    default:
+      t.width && !t.height && (i = t.width, r = Math.round(t.width / a)), t.height && !t.width && (i = Math.round(t.height * a), r = t.height);
+  }
+  return {
+    width: i,
+    height: r,
+    aspectRatio: i / r
+  };
+}
+var S = ["baseUrl", "urlBuilder", "sourceWidth", "sourceHeight", "pluginName", "formats", "breakpoints", "options"],
+  N = ["images", "placeholder"];
+function x() {
+  return "undefined" != typeof GATSBY___IMAGE && GATSBY___IMAGE;
+}
+var I = function (e) {
+    var t;
+    return function (e) {
+      var t, a;
+      return Boolean(null == e || null == (t = e.images) || null == (a = t.fallback) ? void 0 : a.src);
+    }(e) ? e : function (e) {
+      return Boolean(null == e ? void 0 : e.gatsbyImageData);
+    }(e) ? e.gatsbyImageData : function (e) {
+      return Boolean(null == e ? void 0 : e.gatsbyImage);
+    }(e) ? e.gatsbyImage : null == e || null == (t = e.childImageSharp) ? void 0 : t.gatsbyImageData;
+  },
+  W = function (e) {
+    var t, a, i;
+    return null == (t = I(e)) || null == (a = t.images) || null == (i = a.fallback) ? void 0 : i.src;
+  },
+  j = function (e) {
+    var t, a, i;
+    return null == (t = I(e)) || null == (a = t.images) || null == (i = a.fallback) ? void 0 : i.srcSet;
+  };
+function R(e) {
+  var t,
+    a = e.baseUrl,
+    i = e.urlBuilder,
+    r = e.sourceWidth,
+    s = e.sourceHeight,
+    l = e.pluginName,
+    d = void 0 === l ? "getImageData" : l,
+    c = e.formats,
+    h = void 0 === c ? ["auto"] : c,
+    g = e.breakpoints,
+    p = e.options,
+    m = o(e, S);
+  return null != (t = g) && t.length || "fullWidth" !== m.layout && "FULL_WIDTH" !== m.layout || (g = u), b(n({}, m, {
+    pluginName: d,
+    generateImageSource: function (e, t, a, r) {
+      return {
+        width: t,
+        height: a,
+        format: r,
+        src: i({
+          baseUrl: e,
+          width: t,
+          height: a,
+          options: p,
+          format: r
+        })
+      };
+    },
+    filename: a,
+    formats: h,
+    breakpoints: g,
+    sourceMetadata: {
+      width: r,
+      height: s,
+      format: "auto"
+    }
+  }));
+}
+function _(e, t) {
+  var a,
+    i,
+    r,
+    s = e.images,
+    l = e.placeholder,
+    u = n({}, o(e, N), {
+      images: n({}, s, {
+        sources: []
+      }),
+      placeholder: l && n({}, l, {
+        sources: []
+      })
+    });
+  return t.forEach(function (t) {
+    var a,
+      i = t.media,
+      r = t.image;
+    i ? (r.layout !== e.layout && "development" === "development" && console.warn('[gatsby-plugin-image] Mismatched image layout: expected "' + e.layout + '" but received "' + r.layout + '". All art-directed images use the same layout as the default image'), (a = u.images.sources).push.apply(a, r.images.sources.map(function (e) {
+      return n({}, e, {
+        media: i
+      });
+    }).concat([{
+      media: i,
+      srcSet: r.images.fallback.srcSet
+    }])), u.placeholder && u.placeholder.sources.push({
+      media: i,
+      srcSet: r.placeholder.fallback
+    })) :  true && console.warn("[gatsby-plugin-image] All art-directed images passed to must have a value set for `media`. Skipping.");
+  }), (a = u.images.sources).push.apply(a, s.sources), null != l && l.sources && (null == (i = u.placeholder) || (r = i.sources).push.apply(r, l.sources)), u;
+}
+var A,
+  O = ["src", "srcSet", "loading", "alt", "shouldLoad"],
+  T = ["fallback", "sources", "shouldLoad"],
+  z = function (t) {
+    var a = t.src,
+      i = t.srcSet,
+      r = t.loading,
+      s = t.alt,
+      l = void 0 === s ? "" : s,
+      u = t.shouldLoad,
+      d = o(t, O);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", n({}, d, {
+      decoding: "async",
+      loading: r,
+      src: u ? a : void 0,
+      "data-src": u ? void 0 : a,
+      srcSet: u ? i : void 0,
+      "data-srcset": u ? void 0 : i,
+      alt: l
+    }));
+  },
+  L = function (t) {
+    var a = t.fallback,
+      i = t.sources,
+      r = void 0 === i ? [] : i,
+      s = t.shouldLoad,
+      l = void 0 === s || s,
+      u = o(t, T),
+      d = u.sizes || (null == a ? void 0 : a.sizes),
+      c = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(z, n({}, u, a, {
+        sizes: d,
+        shouldLoad: l
+      }));
+    return r.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("picture", null, r.map(function (t) {
+      var a = t.media,
+        i = t.srcSet,
+        r = t.type;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("source", {
+        key: a + "-" + r + "-" + i,
+        type: r,
+        media: a,
+        srcSet: l ? i : void 0,
+        "data-srcset": l ? void 0 : i,
+        sizes: d
+      });
+    }), c) : c;
+  };
+z.propTypes = {
+  src: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+  alt: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+  sizes: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+  srcSet: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+  shouldLoad: prop_types__WEBPACK_IMPORTED_MODULE_2__.bool
+}, L.displayName = "Picture", L.propTypes = {
+  alt: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+  shouldLoad: prop_types__WEBPACK_IMPORTED_MODULE_2__.bool,
+  fallback: prop_types__WEBPACK_IMPORTED_MODULE_2__.exact({
+    src: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+    srcSet: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+    sizes: prop_types__WEBPACK_IMPORTED_MODULE_2__.string
+  }),
+  sources: prop_types__WEBPACK_IMPORTED_MODULE_2__.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_2__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_2__.exact({
+    media: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+    sizes: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+    srcSet: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired
+  }), prop_types__WEBPACK_IMPORTED_MODULE_2__.exact({
+    media: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+    type: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired,
+    sizes: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+    srcSet: prop_types__WEBPACK_IMPORTED_MODULE_2__.string.isRequired
+  })]))
+};
+var q = ["fallback"],
+  C = function (t) {
+    var a = t.fallback,
+      i = o(t, q);
+    return a ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(L, n({}, i, {
+      fallback: {
+        src: a
+      },
+      "aria-hidden": !0,
+      alt: ""
+    })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", n({}, i));
+  };
+C.displayName = "Placeholder", C.propTypes = {
+  fallback: prop_types__WEBPACK_IMPORTED_MODULE_2__.string,
+  sources: null == (A = L.propTypes) ? void 0 : A.sources,
+  alt: function (e, t, a) {
+    return e[t] ? new Error("Invalid prop `" + t + "` supplied to `" + a + "`. Validation failed.") : null;
+  }
+};
+var D = function (t) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(L, n({}, t)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("noscript", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(L, n({}, t, {
+    shouldLoad: !0
+  }))));
+};
+D.displayName = "MainImage", D.propTypes = L.propTypes;
+var P = ["children"],
+  H = function () {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("script", {
+      type: "module",
+      dangerouslySetInnerHTML: {
+        __html: 'const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}'
+      }
+    });
+  },
+  F = function (t) {
+    var a = t.layout,
+      i = t.width,
+      r = t.height;
+    return "fullWidth" === a ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      "aria-hidden": !0,
+      style: {
+        paddingTop: r / i * 100 + "%"
+      }
+    }) : "constrained" === a ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      style: {
+        maxWidth: i,
+        display: "block"
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+      alt: "",
+      role: "presentation",
+      "aria-hidden": "true",
+      src: "data:image/svg+xml;charset=utf-8,%3Csvg%20height='" + r + "'%20width='" + i + "'%20xmlns='http://www.w3.org/2000/svg'%20version='1.1'%3E%3C/svg%3E",
+      style: {
+        maxWidth: "100%",
+        display: "block",
+        position: "static"
+      }
+    })) : null;
+  },
+  B = function (a) {
+    var i = a.children,
+      r = o(a, P);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(F, n({}, r)), i, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(H, null));
+  },
+  G = ["as", "className", "class", "style", "image", "loading", "imgClassName", "imgStyle", "backgroundColor", "objectFit", "objectPosition"],
+  V = ["style", "className"],
+  U = function (e) {
+    return e.replace(/\n/g, "");
+  },
+  X = function (t) {
+    var a = t.as,
+      i = void 0 === a ? "div" : a,
+      r = t.className,
+      s = t.class,
+      l = t.style,
+      u = t.image,
+      d = t.loading,
+      c = void 0 === d ? "lazy" : d,
+      h = t.imgClassName,
+      g = t.imgStyle,
+      p = t.backgroundColor,
+      m = t.objectFit,
+      f = t.objectPosition,
+      v = o(t, G);
+    if (!u) return console.warn("[gatsby-plugin-image] Missing image prop"), null;
+    s && (r = s), g = n({
+      objectFit: m,
+      objectPosition: f,
+      backgroundColor: p
+    }, g);
+    var w = u.width,
+      y = u.height,
+      b = u.layout,
+      k = u.images,
+      E = u.placeholder,
+      M = u.backgroundColor,
+      S = function (e, t, a) {
+        var i = {},
+          r = "gatsby-image-wrapper";
+        return x() || (i.position = "relative", i.overflow = "hidden"), "fixed" === a ? (i.width = e, i.height = t) : "constrained" === a && (x() || (i.display = "inline-block", i.verticalAlign = "top"), r = "gatsby-image-wrapper gatsby-image-wrapper-constrained"), {
+          className: r,
+          "data-gatsby-image-wrapper": "",
+          style: i
+        };
+      }(w, y, b),
+      N = S.style,
+      I = S.className,
+      W = o(S, V),
+      j = {
+        fallback: void 0,
+        sources: []
+      };
+    return k.fallback && (j.fallback = n({}, k.fallback, {
+      srcSet: k.fallback.srcSet ? U(k.fallback.srcSet) : void 0
+    })), k.sources && (j.sources = k.sources.map(function (e) {
+      return n({}, e, {
+        srcSet: U(e.srcSet)
+      });
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(i, n({}, W, {
+      style: n({}, N, l, {
+        backgroundColor: p
+      }),
+      className: I + (r ? " " + r : "")
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(B, {
+      layout: b,
+      width: w,
+      height: y
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(C, n({}, function (e, t, a, i, r, o, s, l) {
+      var u = {};
+      o && (u.backgroundColor = o, "fixed" === a ? (u.width = i, u.height = r, u.backgroundColor = o, u.position = "relative") : ("constrained" === a || "fullWidth" === a) && (u.position = "absolute", u.top = 0, u.left = 0, u.bottom = 0, u.right = 0)), s && (u.objectFit = s), l && (u.objectPosition = l);
+      var d = n({}, e, {
+        "aria-hidden": !0,
+        "data-placeholder-image": "",
+        style: n({
+          opacity: 1,
+          transition: "opacity 500ms linear"
+        }, u)
+      });
+      return x() || (d.style = {
+        height: "100%",
+        left: 0,
+        position: "absolute",
+        top: 0,
+        width: "100%"
+      }), d;
+    }(E, 0, b, w, y, M, m, f))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(D, n({
+      "data-gatsby-image-ssr": "",
+      className: h
+    }, v, function (e, t, a, i, r) {
+      return void 0 === r && (r = {}), x() || (r = n({
+        height: "100%",
+        left: 0,
+        position: "absolute",
+        top: 0,
+        transform: "translateZ(0)",
+        transition: "opacity 250ms linear",
+        width: "100%",
+        willChange: "opacity"
+      }, r)), n({}, a, {
+        loading: i,
+        shouldLoad: e,
+        "data-main-image": "",
+        style: n({}, r, {
+          opacity: 0
+        })
+      });
+    }("eager" === c, 0, j, c, g)))));
+  },
+  Y = ["src", "__imageData", "__error", "width", "height", "aspectRatio", "tracedSVGOptions", "placeholder", "formats", "quality", "transformOptions", "jpgOptions", "pngOptions", "webpOptions", "avifOptions", "blurredOptions", "breakpoints", "outputPixelDensities"],
+  Z = function (t) {
+    return function (a) {
+      var i = a.src,
+        r = a.__imageData,
+        s = a.__error,
+        l = o(a, Y);
+      return s && console.warn(s), r ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(t, n({
+        image: r
+      }, l)) : (console.warn("Image not loaded", i), s || "development" !== "development" || console.warn('Please ensure that "gatsby-plugin-image" is included in the plugins array in gatsby-config.js, and that your version of gatsby is at least 2.24.78'), null);
+    };
+  }(X),
+  J = function (e, t) {
+    return "fullWidth" !== e.layout || "width" !== t && "height" !== t || !e[t] ? prop_types__WEBPACK_IMPORTED_MODULE_2___default().number.apply((prop_types__WEBPACK_IMPORTED_MODULE_2___default()), [e, t].concat([].slice.call(arguments, 2))) : new Error('"' + t + '" ' + e[t] + " may not be passed when layout is fullWidth.");
+  },
+  K = new Set(["fixed", "fullWidth", "constrained"]),
+  Q = {
+    src: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string).isRequired,
+    alt: function (e, t, a) {
+      return e.alt || "" === e.alt ? prop_types__WEBPACK_IMPORTED_MODULE_2___default().string.apply((prop_types__WEBPACK_IMPORTED_MODULE_2___default()), [e, t, a].concat([].slice.call(arguments, 3))) : new Error('The "alt" prop is required in ' + a + '. If the image is purely presentational then pass an empty string: e.g. alt="". Learn more: https://a11y-style-guide.com/style-guide/section-media.html');
+    },
+    width: J,
+    height: J,
+    sizes: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().string),
+    layout: function (e) {
+      if (void 0 !== e.layout && !K.has(e.layout)) return new Error("Invalid value " + e.layout + '" provided for prop "layout". Defaulting to "constrained". Valid values are "fixed", "fullWidth" or "constrained".');
+    }
+  };
+Z.displayName = "StaticImage", Z.propTypes = Q;
+
 
 /***/ }),
 
@@ -2086,6 +2918,391 @@ function useScrollRestoration(identifier) {
     }
   };
 }
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/Icon.js":
+/*!****************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/Icon.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Icon)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./defaultAttributes.js */ "./node_modules/lucide-react/dist/esm/defaultAttributes.js");
+/* harmony import */ var _shared_src_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared/src/utils.js */ "./node_modules/lucide-react/dist/esm/shared/src/utils.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+
+
+const Icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(
+  ({
+    color = "currentColor",
+    size = 24,
+    strokeWidth = 2,
+    absoluteStrokeWidth,
+    className = "",
+    children,
+    iconNode,
+    ...rest
+  }, ref) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(
+      "svg",
+      {
+        ref,
+        ..._defaultAttributes_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+        width: size,
+        height: size,
+        stroke: color,
+        strokeWidth: absoluteStrokeWidth ? Number(strokeWidth) * 24 / Number(size) : strokeWidth,
+        className: (0,_shared_src_utils_js__WEBPACK_IMPORTED_MODULE_2__.mergeClasses)("lucide", className),
+        ...rest
+      },
+      [
+        ...iconNode.map(([tag, attrs]) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(tag, attrs)),
+        ...Array.isArray(children) ? children : [children]
+      ]
+    );
+  }
+);
+
+
+//# sourceMappingURL=Icon.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/createLucideIcon.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/createLucideIcon.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ createLucideIcon)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _shared_src_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared/src/utils.js */ "./node_modules/lucide-react/dist/esm/shared/src/utils.js");
+/* harmony import */ var _Icon_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Icon.js */ "./node_modules/lucide-react/dist/esm/Icon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+
+
+const createLucideIcon = (iconName, iconNode) => {
+  const Component = (0,react__WEBPACK_IMPORTED_MODULE_0__.forwardRef)(
+    ({ className, ...props }, ref) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icon_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      ref,
+      iconNode,
+      className: (0,_shared_src_utils_js__WEBPACK_IMPORTED_MODULE_2__.mergeClasses)(`lucide-${(0,_shared_src_utils_js__WEBPACK_IMPORTED_MODULE_2__.toKebabCase)(iconName)}`, className),
+      ...props
+    })
+  );
+  Component.displayName = `${iconName}`;
+  return Component;
+};
+
+
+//# sourceMappingURL=createLucideIcon.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/defaultAttributes.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/defaultAttributes.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ defaultAttributes)
+/* harmony export */ });
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+var defaultAttributes = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round",
+  strokeLinejoin: "round"
+};
+
+
+//# sourceMappingURL=defaultAttributes.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/github.js":
+/*!************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/github.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Github)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Github = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Github", [
+  [
+    "path",
+    {
+      d: "M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4",
+      key: "tonef"
+    }
+  ],
+  ["path", { d: "M9 18c-4.51 2-5-2-7-2", key: "9comsn" }]
+]);
+
+
+//# sourceMappingURL=github.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/linkedin.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/linkedin.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Linkedin)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Linkedin = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Linkedin", [
+  [
+    "path",
+    {
+      d: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z",
+      key: "c2jq9f"
+    }
+  ],
+  ["rect", { width: "4", height: "12", x: "2", y: "9", key: "mk3on5" }],
+  ["circle", { cx: "4", cy: "4", r: "2", key: "bt5ra8" }]
+]);
+
+
+//# sourceMappingURL=linkedin.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/mail.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/mail.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Mail)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Mail = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Mail", [
+  ["rect", { width: "20", height: "16", x: "2", y: "4", rx: "2", key: "18n3k1" }],
+  ["path", { d: "m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7", key: "1ocrg3" }]
+]);
+
+
+//# sourceMappingURL=mail.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/menu.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/menu.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Menu)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Menu = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Menu", [
+  ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }],
+  ["line", { x1: "4", x2: "20", y1: "6", y2: "6", key: "1owob3" }],
+  ["line", { x1: "4", x2: "20", y1: "18", y2: "18", key: "yk5zj1" }]
+]);
+
+
+//# sourceMappingURL=menu.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/twitter.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/twitter.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Twitter)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const Twitter = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("Twitter", [
+  [
+    "path",
+    {
+      d: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z",
+      key: "pff0z6"
+    }
+  ]
+]);
+
+
+//# sourceMappingURL=twitter.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/icons/x.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/icons/x.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ X)
+/* harmony export */ });
+/* harmony import */ var _createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../createLucideIcon.js */ "./node_modules/lucide-react/dist/esm/createLucideIcon.js");
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+
+const X = (0,_createLucideIcon_js__WEBPACK_IMPORTED_MODULE_0__["default"])("X", [
+  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+]);
+
+
+//# sourceMappingURL=x.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/lucide-react/dist/esm/shared/src/utils.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/lucide-react/dist/esm/shared/src/utils.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   mergeClasses: () => (/* binding */ mergeClasses),
+/* harmony export */   toKebabCase: () => (/* binding */ toKebabCase)
+/* harmony export */ });
+/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+const toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+const mergeClasses = (...classes) => classes.filter((className, index, array) => {
+  return Boolean(className) && className.trim() !== "" && array.indexOf(className) === index;
+}).join(" ").trim();
+
+
+//# sourceMappingURL=utils.js.map
+
 
 /***/ }),
 
@@ -3576,10 +4793,21 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./src/components/ClientOnly.tsx":
-/*!***************************************!*\
-  !*** ./src/components/ClientOnly.tsx ***!
-  \***************************************/
+/***/ "./public/page-data/sq/d/390148789.json":
+/*!**********************************************!*\
+  !*** ./public/page-data/sq/d/390148789.json ***!
+  \**********************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"data":{"logo":{"childImageSharp":{"gatsbyImageData":{"layout":"fixed","placeholder":{"fallback":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA/klEQVR42o3Rz0sCQRjG8c1VMPyR2CFRQg0CUw+eFIKyuil08KJJlJCmQohGdezirYP/8m7fNx4hZUEXPryzszPvvu+M4/D4vh9BDRnP85rEIi4Vz5DAMU4sOrseFh2ijzwJ3/HK+AFtvKGLGVaYIKZ9IRwEJYyS5JEYtyqRsqqYSxKPtt7j+1bYQxlLXOFGbvGElmJH4zrubbyuNqjlAsYYUM2CONL8h3xjiDledCzXyCIc1LK1lrMz0kVZTGiNa+s076r9tKK7cZb/KjzFDz7xpQuZ6mf2/dkq1aVZ21U7kqCW7a8NXUpdY2ulghLutLmg+QZJL/R+rhx/Ff4CbduPVI29blQAAAAASUVORK5CYII="},"images":{"fallback":{"src":"/static/5bb386833fae3be00cc3f5d17360d64a/c0480/srv_logo_dash.png","srcSet":"/static/5bb386833fae3be00cc3f5d17360d64a/c0480/srv_logo_dash.png 98w,\\n/static/5bb386833fae3be00cc3f5d17360d64a/6cb1f/srv_logo_dash.png 196w","sizes":"98px"},"sources":[{"srcSet":"/static/5bb386833fae3be00cc3f5d17360d64a/f900e/srv_logo_dash.webp 98w,\\n/static/5bb386833fae3be00cc3f5d17360d64a/22b4a/srv_logo_dash.webp 196w","type":"image/webp","sizes":"98px"}]},"width":98,"height":40}}}}}');
+
+/***/ }),
+
+/***/ "./src/components/common/ClientOnly.tsx":
+/*!**********************************************!*\
+  !*** ./src/components/common/ClientOnly.tsx ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3589,7 +4817,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 /**
@@ -3600,26 +4828,385 @@ const ClientOnly = ({
   children,
   fallback = null
 }) => {
-  const {
-    0: hasMounted,
-    1: setHasMounted
-  } = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [hasMounted, setHasMounted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setHasMounted(true);
   }, []);
   if (!hasMounted) {
-    return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_1__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, fallback);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: fallback
+    });
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_1__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, children);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    children: children
+  });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ClientOnly);
 
 /***/ }),
 
-/***/ "./src/components/ParticleBackground.tsx":
-/*!***********************************************!*\
-  !*** ./src/components/ParticleBackground.tsx ***!
-  \***********************************************/
+/***/ "./src/components/common/Footer.tsx":
+/*!******************************************!*\
+  !*** ./src/components/common/Footer.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var gatsby__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gatsby */ "./.cache/gatsby-browser-entry.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/twitter.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/linkedin.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/github.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/mail.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("footer", {
+    className: "bg-black border-t border-white/10 py-10",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "container mx-auto px-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "grid grid-cols-1 md:grid-cols-3 gap-8",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "text-xl font-bold text-white mb-4 font-mono",
+            children: "<Connect/>"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+            className: "text-srv-gray mb-4",
+            children: "Early-stage venture capital fund investing in deep tech and big data startups that shape the future of industry."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+            className: "flex space-x-4",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "https://twitter.com/siliconroundabt",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-srv-gray hover:text-srv-yellow transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                size: 20
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "https://www.linkedin.com/company/siliconroundabout/",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-srv-gray hover:text-srv-yellow transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                size: 20
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "https://github.com/SiliconRoundabout",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-srv-gray hover:text-srv-yellow transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_4__["default"], {
+                size: 20
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+              href: "mailto:info@siliconroundabout.ventures",
+              className: "text-srv-gray hover:text-srv-yellow transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                size: 20
+              })
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "text-lg font-bold text-white mb-4 font-mono",
+            children: "Links"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("ul", {
+            className: "space-y-2",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "Home"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/who-we-are",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "Who We Are"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/portfolio",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "Portfolio"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/building-in-public",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "Building in Public"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/community",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "Community"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+                to: "/for-investors",
+                className: "text-srv-gray hover:text-srv-yellow transition-colors",
+                children: "For Investors"
+              })
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+            className: "text-lg font-bold text-white mb-4 font-mono",
+            children: "Contact"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("address", {
+            className: "not-italic text-srv-gray",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              children: "London, UK"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+              className: "mt-2",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+                href: "mailto:info@siliconroundabout.ventures",
+                className: "hover:text-srv-yellow transition-colors",
+                children: "info@siliconroundabout.ventures"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              className: "mt-4 inline-block px-4 py-2 border border-srv-yellow/30 rounded text-srv-yellow",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+                href: "https://airtable.com/shrWqbcCtbPaXXfQ3",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: "Apply for Funding \u2192"
+              })
+            })]
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "mt-10 pt-8 border-t border-white/10 text-center text-srv-gray",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+          className: "font-mono",
+          children: ["/* \xA9 ", currentYear, " Silicon Roundabout Ventures. All rights reserved. */"]
+        })
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Footer);
+
+/***/ }),
+
+/***/ "./src/components/common/Layout.tsx":
+/*!******************************************!*\
+  !*** ./src/components/common/Layout.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navbar */ "./src/components/common/Navbar.tsx");
+/* harmony import */ var _Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Footer */ "./src/components/common/Footer.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+const Layout = ({
+  children,
+  title = "Roundabout Ventures",
+  location
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex flex-col min-h-screen",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Navbar__WEBPACK_IMPORTED_MODULE_0__["default"], {
+        location: location
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("main", {
+        className: "flex-grow",
+        children: children
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Footer__WEBPACK_IMPORTED_MODULE_1__["default"], {})]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Layout);
+
+/***/ }),
+
+/***/ "./src/components/common/Navbar.tsx":
+/*!******************************************!*\
+  !*** ./src/components/common/Navbar.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Navbar)
+/* harmony export */ });
+/* harmony import */ var _public_page_data_sq_d_390148789_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../public/page-data/sq/d/390148789.json */ "./public/page-data/sq/d/390148789.json");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var gatsby__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gatsby */ "./.cache/gatsby-browser-entry.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/linkedin.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/github.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/x.js");
+/* harmony import */ var lucide_react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lucide-react */ "./node_modules/lucide-react/dist/esm/icons/menu.js");
+/* harmony import */ var gatsby_plugin_image__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! gatsby-plugin-image */ "./node_modules/gatsby-plugin-image/dist/gatsby-image.module.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+function Navbar({
+  location
+}) {
+  const [isMenuOpen, setIsMenuOpen] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [hasScrolled, setHasScrolled] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+
+  // Query the logo image using GraphQL
+  const data = _public_page_data_sq_d_390148789_json__WEBPACK_IMPORTED_MODULE_0__.data;
+  const logoImage = (0,gatsby_plugin_image__WEBPACK_IMPORTED_MODULE_4__.getImage)(data.logo);
+
+  // Default pathname if location is not provided (useful for testing/development)
+  const pathname = (location === null || location === void 0 ? void 0 : location.pathname) || '/';
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    // Only run in browser environment
+    if (typeof window === 'undefined') return;
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 50) {
+        setHasScrolled(true);
+      } else {
+        setHasScrolled(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  const navLinks = [{
+    name: 'Home',
+    path: '/'
+  }, {
+    name: 'Who We Are',
+    path: '/whoweare'
+  }, {
+    name: 'Portfolio',
+    path: '/portfolio'
+  }, {
+    name: 'Building in Public',
+    path: '/buildinginpublic'
+  }, {
+    name: 'Community',
+    path: '/community'
+  }, {
+    name: 'For Investors',
+    path: '/forinvestors'
+  }];
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("header", {
+    className: `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${hasScrolled || isMenuOpen || pathname !== "/" ? "bg-black shadow-md py-2" : "bg-transparent py-4"}`,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "container mx-auto px-4 py-3",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "flex items-center justify-between",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_2__.Link, {
+          to: "/",
+          className: "flex items-center",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "h-10 w-auto",
+            children: logoImage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby_plugin_image__WEBPACK_IMPORTED_MODULE_4__.GatsbyImage, {
+              image: logoImage,
+              alt: "Silicon Roundabout Ventures",
+              className: "h-10 w-auto"
+            })
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("nav", {
+          className: "hidden md:flex space-x-8",
+          children: navLinks.map(link => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_2__.Link, {
+            to: link.path,
+            className: `nav-link text-sm ${pathname === link.path ? 'nav-link-active' : hasScrolled || isMenuOpen || pathname !== "/" ? 'text-srv-light' : 'text-white'}`,
+            children: link.name
+          }, link.name))
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "hidden md:flex items-center space-x-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            href: "https://www.linkedin.com/company/siliconroundabout-ventures",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            className: `hover:text-srv-teal transition-colors ${hasScrolled || isMenuOpen || pathname !== "/" ? 'text-srv-light' : 'text-white'}`,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+              size: 18
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            href: "https://github.com/silicon-roundabout-ventures",
+            target: "_blank",
+            rel: "noopener noreferrer",
+            className: `hover:text-srv-teal transition-colors ${hasScrolled || isMenuOpen || pathname !== "/" ? 'text-srv-light' : 'text-white'}`,
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+              size: 18
+            })
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          className: `md:hidden focus:outline-none transition-colors ${hasScrolled || isMenuOpen || pathname !== "/" ? 'text-srv-light' : 'text-white'}`,
+          onClick: toggleMenu,
+          children: isMenuOpen ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            size: 24
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            size: 24
+          })
+        })]
+      })
+    }), isMenuOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "md:hidden bg-[#191c22]/95 backdrop-blur-md",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "container mx-auto px-4 py-4",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("nav", {
+          className: "flex flex-col space-y-4",
+          children: [navLinks.map(link => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_2__.Link, {
+            to: link.path,
+            className: `nav-link text-base ${pathname === link.path ? 'nav-link-active' : 'text-white'}`,
+            onClick: toggleMenu,
+            children: link.name
+          }, link.name)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "flex items-center space-x-4 pt-4 border-t border-white/10",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+              href: "https://www.linkedin.com/company/siliconroundabout/",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-white hover:text-srv-teal transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_5__["default"], {
+                size: 18
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+              href: "https://github.com/SiliconRoundabout",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-white hover:text-srv-teal transition-colors",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(lucide_react__WEBPACK_IMPORTED_MODULE_6__["default"], {
+                size: 18
+              })
+            })]
+          })]
+        })
+      })
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/components/common/ParticleBackground.tsx":
+/*!******************************************************!*\
+  !*** ./src/components/common/ParticleBackground.tsx ***!
+  \******************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3629,8 +5216,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ClientOnly__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientOnly */ "./src/components/ClientOnly.tsx");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var _ClientOnly__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientOnly */ "./src/components/common/ClientOnly.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -3737,25 +5324,27 @@ const ParticleBackgroundContent = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "particles-container"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
-    ref: canvasRef,
-    className: "absolute inset-0",
-    style: {
-      opacity: 0.8,
-      zIndex: 1
-    }
-  }));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: "particles-container fixed inset-0 w-full h-full pointer-events-none",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("canvas", {
+      ref: canvasRef,
+      className: "absolute inset-0",
+      style: {
+        opacity: 0.8,
+        zIndex: -1
+      }
+    })
+  });
 };
 
 // Main component that uses ClientOnly to prevent SSR issues
 const ParticleBackground = () => {
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ClientOnly__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    fallback: (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ClientOnly__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    fallback: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "particles-container"
-    })
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(ParticleBackgroundContent, null));
+    }),
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(ParticleBackgroundContent, {})
+  });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ParticleBackground);
 
@@ -3773,40 +5362,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var gatsby__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gatsby */ "./.cache/gatsby-browser-entry.js");
-/* harmony import */ var _components_ParticleBackground__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ParticleBackground */ "./src/components/ParticleBackground.tsx");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var _components_common_ParticleBackground__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/common/ParticleBackground */ "./src/components/common/ParticleBackground.tsx");
+/* harmony import */ var _components_common_Layout__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/common/Layout */ "./src/components/common/Layout.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
+
+const ForInvestorsContent = () => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "min-h-screen pt-20 pb-16",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_common_ParticleBackground__WEBPACK_IMPORTED_MODULE_1__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "container mx-auto px-4 z-10 relative",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "mb-12 text-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+          className: "text-4xl font-bold text-white mb-4",
+          children: "For Investors"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          className: "text-lg text-srv-gray max-w-2xl mx-auto",
+          children: "Join us as a Limited Partner and be part of the next generation of technology investments."
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "max-w-4xl mx-auto",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+            className: "text-2xl font-bold text-white mb-6",
+            children: "<Join Our Fund/>"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+            className: "text-white mb-6",
+            children: "Silicon Roundabout Ventures offers a unique opportunity for investors to access high-quality deep tech and big data startups from the UK and Europe. Our community-driven approach allows us to source deals that others miss."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+            className: "text-xl font-bold text-white mt-8 mb-4",
+            children: "<Key Benefits/>"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+            className: "list-disc pl-6 mb-8 text-white space-y-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: "Access to pre-seed and seed stage deep tech investments"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: "Proprietary deal flow from our 15,000+ community"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: "Technical due diligence from experts who understand the technology"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: "Quarterly LP updates and annual LP meetings"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: "Co-investment opportunities in select portfolio companies"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "mt-8 text-center",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
+              to: "/apply",
+              className: "bg-white hover:bg-gray-200 text-srv-dark font-medium py-3 px-8 rounded-md transition-colors inline-block",
+              children: "Apply to Become an LP"
+            })
+          })]
+        })
+      })]
+    })]
+  });
+};
 const ForInvestors = () => {
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "min-h-screen pt-20 pb-16"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ParticleBackground__WEBPACK_IMPORTED_MODULE_1__["default"], null), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "container mx-auto px-4 z-10 relative"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "mb-12 text-center"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
-    className: "text-4xl font-bold text-white mb-4"
-  }, "For Investors"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-    className: "text-lg text-srv-gray max-w-2xl mx-auto"
-  }, "Join us as a Limited Partner and be part of the next generation of technology investments.")), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "max-w-4xl mx-auto"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("h2", {
-    className: "text-2xl font-bold text-white mb-6"
-  }, "<Join Our Fund/>"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
-    className: "text-white mb-6"
-  }, "Silicon Roundabout Ventures offers a unique opportunity for investors to access high-quality deep tech and big data startups from the UK and Europe. Our community-driven approach allows us to source deals that others miss."), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
-    className: "text-xl font-bold text-white mt-8 mb-4"
-  }, "<Key Benefits/>"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-    className: "list-disc pl-6 mb-8 text-white space-y-3"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", null, "Access to pre-seed and seed stage deep tech investments"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", null, "Proprietary deal flow from our 15,000+ community"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", null, "Technical due diligence from experts who understand the technology"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", null, "Quarterly LP updates and annual LP meetings"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", null, "Co-investment opportunities in select portfolio companies")), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "mt-8 text-center"
-  }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_0__.Link, {
-    to: "/apply",
-    className: "bg-white hover:bg-gray-200 text-srv-dark font-medium py-3 px-8 rounded-md transition-colors inline-block"
-  }, "Apply to Become an LP"))))));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_common_Layout__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    title: "For Investors - Roundabout Ventures",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(ForInvestorsContent, {})
+  });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ForInvestors);
 

@@ -34,16 +34,6 @@
             "jsxPragma": "React",
             "allExtensions": false
           }
-        },
-        {
-          "name": "/Users/fpert/Projects/roundabout-ventures-dashboard/node_modules/@emotion/babel-preset-css-prop/dist/emotion-babel-preset-css-prop.cjs.js",
-          "options": {
-            "sourceMap": true,
-            "autoLabel": "dev-only",
-            "plugins": [],
-            "labelFormat": "[local]",
-            "cssPropOptimization": true
-          }
         }
       ],
       "options": {
@@ -84,16 +74,6 @@
             "isTSX": false,
             "jsxPragma": "React",
             "allExtensions": false
-          }
-        },
-        {
-          "name": "/Users/fpert/Projects/roundabout-ventures-dashboard/node_modules/@emotion/babel-preset-css-prop/dist/emotion-babel-preset-css-prop.cjs.js",
-          "options": {
-            "sourceMap": true,
-            "autoLabel": "dev-only",
-            "plugins": [],
-            "labelFormat": "[local]",
-            "cssPropOptimization": true
           }
         }
       ],
@@ -136,16 +116,6 @@
             "jsxPragma": "React",
             "allExtensions": false
           }
-        },
-        {
-          "name": "/Users/fpert/Projects/roundabout-ventures-dashboard/node_modules/@emotion/babel-preset-css-prop/dist/emotion-babel-preset-css-prop.cjs.js",
-          "options": {
-            "sourceMap": true,
-            "autoLabel": "dev-only",
-            "plugins": [],
-            "labelFormat": "[local]",
-            "cssPropOptimization": true
-          }
         }
       ],
       "options": {
@@ -186,16 +156,6 @@
             "isTSX": false,
             "jsxPragma": "React",
             "allExtensions": false
-          }
-        },
-        {
-          "name": "/Users/fpert/Projects/roundabout-ventures-dashboard/node_modules/@emotion/babel-preset-css-prop/dist/emotion-babel-preset-css-prop.cjs.js",
-          "options": {
-            "sourceMap": true,
-            "autoLabel": "dev-only",
-            "plugins": [],
-            "labelFormat": "[local]",
-            "cssPropOptimization": true
           }
         }
       ],

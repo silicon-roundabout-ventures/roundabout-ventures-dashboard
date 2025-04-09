@@ -6,8 +6,15 @@ module.exports = {
     siteUrl: `https://roundabout.ventures`,
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    // Gatsby v5 has built-in Head API, so react-helmet is redundant
+    // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
+    
+    // Core image processing plugins
     `gatsby-plugin-image`,
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    
+    // Source filesystem for images and other static assets
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -15,9 +22,14 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    // Temporarily removed manifest plugin until we have proper icons
+    
+    // Styling plugins
+    `gatsby-plugin-postcss`,
+    
+    // TypeScript support
+    `gatsby-plugin-typescript`,
+    
+    // Uncomment when we have proper icons
     // {
     //   resolve: `gatsby-plugin-manifest`,
     //   options: {
@@ -27,15 +39,8 @@ module.exports = {
     //     background_color: `#191c22`,
     //     theme_color: `#88c0d0`,
     //     display: `minimal-ui`,
-    //     // Comment out the icon for now until we have a valid icon file
-    //     // icon: `public/favicon.ico`,
+    //     icon: `src/images/favicon.png`, // This path is relative to the root of the site.
     //   },
     // },
-    `gatsby-plugin-postcss`,
-    `gatsby-plugin-typescript`,
-    `gatsby-plugin-emotion`,
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 } 

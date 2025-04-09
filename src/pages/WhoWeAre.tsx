@@ -1,10 +1,21 @@
 import React from 'react';
 import { Linkedin, Twitter, Github } from 'lucide-react';
-import Layout from '../components/Layout';
-import ClientOnly from '../components/ClientOnly';
-import ParticleBackground from '../components/ParticleBackground';
+import Layout from '../components/common/Layout';
+import ClientOnly from '../components/common/ClientOnly';
+import ParticleBackground from '../components/common/ParticleBackground';
 
-const TeamMember = ({ 
+interface TeamMemberProps {
+  name: string;
+  role: string;
+  description: string;
+  imageSrc?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  github?: string | null;
+  blog?: string | null;
+}
+
+const TeamMember: React.FC<TeamMemberProps> = ({ 
   name, 
   role, 
   description,
@@ -14,7 +25,7 @@ const TeamMember = ({
   github = null,
   blog = null
 }) => (
-  <div className="flex flex-col items-center">
+  <div className="flex-col-center">
     <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-[#4c566a]/40 mb-4">
       {imageSrc ? (
         <img 
@@ -23,12 +34,12 @@ const TeamMember = ({
           className="w-full h-full object-cover"
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gray-800 text-3xl font-bold text-white">
+        <div className="w-full h-full flex-center bg-gray-800 text-3xl font-bold text-white">
           {name.charAt(0)}
         </div>
       )}
     </div>
-    <h3 className="text-lg font-bold text-white mb-1">{name}</h3>
+    <h3 className="heading-3 text-white mb-1">{name}</h3>
     <p className="text-srv-teal text-sm mb-2">{role}</p>
     <p className="text-srv-gray text-sm text-center max-w-xs mb-3">{description}</p>
     
@@ -57,9 +68,15 @@ const TeamMember = ({
   </div>
 );
 
+interface TeamData {
+  leads: TeamMemberProps[];
+  partners: TeamMemberProps[];
+  advisors?: TeamMemberProps[];
+}
+
 const WhoWeAre = () => {
   // Team data
-  const teamData = {
+  const teamData: TeamData = {
     leads: [
       {
         name: "Francesco Perticarari",
@@ -101,13 +118,13 @@ const WhoWeAre = () => {
     <Layout title="Who We Are | Roundabout Ventures">
       <div className="stealth-mode py-16">
         <div className="container mx-auto">
-          <h1 className="text-5xl font-bold text-white text-center mb-16">
+          <h1 className="heading-1 text-white text-center mb-16">
             &lt;who_we_are/&gt;
           </h1>
           
           <div className="max-w-4xl mx-auto">
             <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
-              <p className="text-xl text-srv-light mb-10">
+              <p className="body-large text-srv-light mb-10">
                 We are a Community-Driven VC firm backing{" "}
                 <span className="text-srv-yellow">Deep Tech and Big Data</span>{" "}
                 startups at{" "}
@@ -118,7 +135,7 @@ const WhoWeAre = () => {
               </p>
             </div>
             
-            <h2 className="text-3xl font-bold text-white mb-8">&lt;What makes us unique/&gt;</h2>
+            <h2 className="heading-2 text-white mb-8">&lt;What makes us unique/&gt;</h2>
             
             <ul className="text-lg text-srv-light space-y-6 list-disc pl-6 mb-12">
               <li>
@@ -147,7 +164,7 @@ const WhoWeAre = () => {
               </li>
             </ul>
             
-            <h2 className="text-3xl font-bold text-white mb-8">&lt;Our Mission/&gt;</h2>
+            <h2 className="heading-2 text-white mb-8">&lt;Our Mission/&gt;</h2>
             
             <div className="max-w-4xl mx-auto text-lg text-srv-light space-y-6 mb-12">
               <p>
@@ -174,11 +191,11 @@ const WhoWeAre = () => {
             </div>
             
             {/* Team Section */}
-            <h2 className="text-3xl font-bold text-white mb-10">&lt;Team/&gt;</h2>
+            <h2 className="heading-2 text-white mb-10">&lt;Team/&gt;</h2>
             
             {/* General Partner */}
             <div className="mb-12">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">General Partner</h3>
+              <h3 className="heading-3 text-white mb-6 text-center">General Partner</h3>
               <div className="grid place-items-center">
                 {teamData.leads.map((member, index) => (
                   <TeamMember key={index} {...member} />

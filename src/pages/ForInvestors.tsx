@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Button } from "@/components/ui/button";
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
+import Layout from '../components/common/Layout';
 
-const ForInvestors = () => {
+const ForInvestorsContent = () => {
   return (
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
@@ -44,6 +44,14 @@ const ForInvestors = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const ForInvestors = () => {
+  return (
+    <Layout title="For Investors - Roundabout Ventures">
+      <ForInvestorsContent />
+    </Layout>
   );
 };
 

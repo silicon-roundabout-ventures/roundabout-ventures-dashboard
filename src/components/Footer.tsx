@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'gatsby';
 import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 const Footer = () => {

@@ -71,3 +71,74 @@ Yes it is!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+# Roundabout Ventures Dashboard
+
+A Gatsby-based website for Roundabout Ventures, a Community-Driven VC firm backing Deep Tech and Big Data startups.
+
+## Overview
+
+This project was migrated from a Vite/React setup to Gatsby to take advantage of Gatsby's performance optimizations, SEO benefits, and plugin ecosystem.
+
+## Features
+
+- Modern design with a dark theme
+- Responsive layout
+- Optimized for performance with Gatsby
+- SEO-friendly structure
+
+## Technologies
+
+- **Gatsby** - React-based framework for fast websites
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn UI** - Component library
+- **React Query** - Data fetching library
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or later)
+- npm or yarn
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run develop
+```
+
+### Available Scripts
+
+- `npm run develop` - Start the development server
+- `npm run build` - Build the production site
+- `npm run serve` - Serve the production build locally
+- `npm run clean` - Clean the Gatsby cache
+
+## Project Structure
+
+```
+/
+├── src/
+│   ├── components/     # Reusable components
+│   ├── images/         # Static images
+│   ├── pages/          # Page components (auto-routed by Gatsby)
+│   ├── services/       # API and service logic
+│   ├── types/          # TypeScript type definitions
+│   ├── hooks/          # Custom React hooks
+│   └── lib/            # Utility functions
+├── static/             # Static assets copied to public directory
+├── gatsby-config.js    # Gatsby configuration
+├── gatsby-browser.js   # Gatsby browser APIs
+├── gatsby-ssr.js       # Gatsby server-side rendering APIs
+├── gatsby-node.js      # Gatsby Node.js APIs
+└── tailwind.config.ts  # Tailwind CSS configuration
+```
+
+## Migration to Gatsby
+
+This project was successfully migrated from Vite/React to Gatsby. For details on the migration process, see [GATSBY-MIGRATION.md](./GATSBY-MIGRATION.md).

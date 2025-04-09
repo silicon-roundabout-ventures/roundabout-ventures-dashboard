@@ -1,5 +1,5 @@
-
 import React, { useEffect, useRef } from 'react';
+import ClientOnly from './ClientOnly';
 
 interface Particle {
   x: number;
@@ -11,10 +11,15 @@ interface Particle {
   opacity: number;
 }
 
-const ParticleBackground = () => {
+// The actual particle background implementation
+const ParticleBackgroundContent = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   useEffect(() => {
+    // Check if we're in a browser environment
+    const isBrowser = typeof window !== 'undefined';
+    if (!isBrowser) return;
+    
     const canvas = canvasRef.current;
     if (!canvas) return;
     
@@ -130,6 +135,15 @@ const ParticleBackground = () => {
         }}
       />
     </div>
+  );
+};
+
+// Main component that uses ClientOnly to prevent SSR issues
+const ParticleBackground = () => {
+  return (
+    <ClientOnly fallback={<div className="particles-container" />}>
+      <ParticleBackgroundContent />
+    </ClientOnly>
   );
 };
 

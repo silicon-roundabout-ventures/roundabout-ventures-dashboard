@@ -1,5 +1,3 @@
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
-
-createRoot(document.getElementById("root")!).render(<App />);
+// This file is not needed in Gatsby
+// The entry point is handled by Gatsby's own system
+// Content from here has been moved to gatsby-browser.js and Layout.tsx

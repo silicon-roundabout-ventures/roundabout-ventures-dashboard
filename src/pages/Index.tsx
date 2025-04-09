@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import { Button } from "../components/ui/button";
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
 import { ArrowRight } from 'lucide-react';
-import { Helmet } from "react-helmet";
-import Layout from "../components/Layout";
+import Layout from "../components/common/Layout";
 
 // Actual content component
 const IndexContent = () => {
@@ -15,7 +14,7 @@ const IndexContent = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center justify-center min-h-[90vh] text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
-            &lt;roundabout.ventures/&gt;
+            &lt;Silicon Roundabout Ventures/&gt;
           </h1>
           
           <p className="text-xl md:text-2xl mb-8 text-white max-w-3xl">
@@ -89,10 +88,10 @@ const IndexPage = () => {
 export default IndexPage;
 export { IndexContent };
 
-// Add SEO metadata for this page
+// Add SEO metadata for this page using Gatsby's built-in Head API
 export const Head = () => (
-  <Helmet>
+  <>
     <title>Roundabout Ventures</title>
     <meta name="description" content="Community-Driven VC firm backing Deep Tech and Big Data startups" />
-  </Helmet>
+  </>
 );

@@ -1,8 +1,9 @@
 
 import React from 'react';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
+import Layout from '../components/common/Layout';
 
-const About = () => {
+const AboutContent = () => {
   return (
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
@@ -92,6 +93,14 @@ const About = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const About = () => {
+  return (
+    <Layout title="About - Roundabout Ventures">
+      <AboutContent />
+    </Layout>
   );
 };
 

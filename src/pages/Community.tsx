@@ -1,8 +1,9 @@
 
 import React from 'react';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
+import Layout from '../components/common/Layout';
 
-const Community = () => {
+const CommunityContent = () => {
   return (
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
@@ -36,6 +37,14 @@ const Community = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Community = () => {
+  return (
+    <Layout title="Community - Roundabout Ventures">
+      <CommunityContent />
+    </Layout>
   );
 };
 

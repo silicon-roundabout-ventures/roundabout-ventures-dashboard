@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
 import { toast } from "sonner";
+import Layout from '../components/common/Layout';
 
-const Contact = () => {
+const ContactContent = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -176,6 +177,14 @@ const Contact = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Contact = () => {
+  return (
+    <Layout title="Contact - Roundabout Ventures">
+      <ContactContent />
+    </Layout>
   );
 };
 

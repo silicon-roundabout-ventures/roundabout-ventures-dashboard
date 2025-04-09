@@ -4,10 +4,9 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx,js,jsx}",
+    // Exclude Gatsby-generated type definitions to prevent infinite loops
+    "!./src/gatsby-types.d.ts",
   ],
   prefix: "",
   theme: {
@@ -55,10 +54,10 @@ export default {
         },
         srv: {
           dark: '#191c22',          // Darkest background (VSCode style)
-          blue: '#81a1c1',          // Soft blue for accents
+          blue: '#5e81ac',          // Soft blue for accents (aligned with CSS variables)
           teal: '#88c0d0',          // Bright teal for primary highlights
           light: '#e5e9f0',         // Light text
-          gray: '#7b88a1',          // Muted text
+          gray: '#434c5e',          // Muted text (aligned with CSS variables)
           pink: '#b48ead',          // Pink highlight
           yellow: '#ebcb8b',        // Yellow highlight
           red: '#bf616a',           // Error/warning red

@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
-import { Link } from "gatsby";
-import Layout from "../components/Layout";
+import { Link, PageProps } from "gatsby";
+import Layout from "../components/common/Layout";
 
-const NotFound = ({ location }) => {
+interface NotFoundProps {
+  location: {
+    pathname: string;
+  };
+}
+
+const NotFound = ({ location }: PageProps) => {
   useEffect(() => {
     // Only log in browser environment
     if (typeof window !== 'undefined') {

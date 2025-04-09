@@ -4,10 +4,11 @@ import AirtableService, { PortfolioCompany, FundStatistics } from '../services/A
 import PortfolioCard from '../components/dashboard/PortfolioCard';
 import StatisticCard from '../components/dashboard/StatisticCard';
 import ChartComponent from '../components/dashboard/ChartComponent';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
 import { toast } from "sonner";
+import Layout from '../components/common/Layout';
 
-const Portfolio = () => {
+const PortfolioContent = () => {
   const [companies, setCompanies] = useState<PortfolioCompany[]>([]);
   const [statistics, setStatistics] = useState<FundStatistics | null>(null);
   const [loading, setLoading] = useState(true);
@@ -89,7 +90,7 @@ const Portfolio = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               <StatisticCard
                 title="Total Investments"
-                value={`$${(statistics?.totalInvestments / 1000000).toFixed(1)}M`}
+                value={statistics?.totalInvestments ? `$${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '$0M'}
                 icon={<span className="text-srv-teal text-xl">💰</span>}
                 change="+23% from last year"
                 trend="up"
@@ -101,7 +102,7 @@ const Portfolio = () => {
               />
               <StatisticCard
                 title="Average Investment"
-                value={`$${(statistics?.averageInvestment / 1000000).toFixed(2)}M`}
+                value={statistics?.averageInvestment ? `$${(statistics.averageInvestment / 1000000).toFixed(2)}M` : '$0M'}
                 icon={<span className="text-srv-teal text-xl">📊</span>}
               />
               <StatisticCard
@@ -169,6 +170,14 @@ const Portfolio = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const Portfolio = () => {
+  return (
+    <Layout title="Portfolio - Roundabout Ventures">
+      <PortfolioContent />
+    </Layout>
   );
 };
 

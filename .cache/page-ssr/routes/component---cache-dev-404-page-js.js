@@ -56,13 +56,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var gatsby__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gatsby */ "./.cache/gatsby-browser-entry.js");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
 
 class Dev404Page extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static propTypes = {
+    data: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object),
+    custom404: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().element),
+    location: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object)
+  };
   constructor(props) {
     super(props);
     const {
@@ -145,71 +150,117 @@ class Dev404Page extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
     } else {
       newFilePath = `src/pages${pathname}.js`;
     }
-    return this.state.showCustom404 ? this.props.custom404 : (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", null, "Gatsby.js development 404 page"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, "There's not a page or function yet at", ` `, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", null, pathname)), this.props.custom404 ? (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      onClick: this.showCustom404
-    }, "Preview custom 404 page")) : (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, `A custom 404 page wasn't detected - if you would like to add one, create a component in your site directory at `, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", null, "src/pages/404.js"), "."), newFilePath && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", null, "Create a page at this url"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, "Create a React.js component like the following in your site directory at", ` `, "\"", (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", null, newFilePath), "\"", ` `, "and then refresh to show the new page component you created."), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("pre", {
-      style: {
-        border: `1px solid lightgray`,
-        padding: `8px`,
-        maxWidth: `80ch`,
-        background: `#f3f3f3`
-      }
-    }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
-      dangerouslySetInnerHTML: {
-        __html: `import * as React from "react"
+    return this.state.showCustom404 ? this.props.custom404 : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+        children: "Gatsby.js development 404 page"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+        children: ["There's not a page or function yet at", ` `, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+          children: pathname
+        })]
+      }), this.props.custom404 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+          onClick: this.showCustom404,
+          children: "Preview custom 404 page"
+        })
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+        children: [`A custom 404 page wasn't detected - if you would like to add one, create a component in your site directory at `, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+          children: "src/pages/404.js"
+        }), "."]
+      }), newFilePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+          children: "Create a page at this url"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["Create a React.js component like the following in your site directory at", ` `, "\"", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+            children: newFilePath
+          }), "\"", ` `, "and then refresh to show the new page component you created."]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("pre", {
+          style: {
+            border: `1px solid lightgray`,
+            padding: `8px`,
+            maxWidth: `80ch`,
+            background: `#f3f3f3`
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+            dangerouslySetInnerHTML: {
+              __html: `import * as React from "react"
 
 export default function Component () {
   return "Hello world"
 }`
-      }
-    }))), newAPIPath && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", null, "Create an API function at this url"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, "Create a javascript file like the following in your site directory at", ` `, "\"", (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", null, newAPIPath), "\"", ` `, "and refresh to execute the new API function you created."), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("pre", {
-      style: {
-        border: `1px solid lightgray`,
-        padding: `8px`,
-        maxWidth: `80ch`,
-        background: `#f3f3f3`
-      }
-    }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
-      dangerouslySetInnerHTML: {
-        __html: `
+            }
+          })
+        })]
+      }), newAPIPath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+          children: "Create an API function at this url"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+          children: ["Create a javascript file like the following in your site directory at", ` `, "\"", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+            children: newAPIPath
+          }), "\"", ` `, "and refresh to execute the new API function you created."]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("pre", {
+          style: {
+            border: `1px solid lightgray`,
+            padding: `8px`,
+            maxWidth: `80ch`,
+            background: `#f3f3f3`
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("code", {
+            dangerouslySetInnerHTML: {
+              __html: `
 export default function API (req, res) {
   res.json({ hello: "world" })
 }`
-      }
-    }))), this.state.initPagePaths.length > 0 && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", null, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", null), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", null, "If you were trying to reach another page or function, perhaps you can find it below."), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", null, "Functions (", this.props.data.allSiteFunction.nodes.length, ")"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", null, this.props.data.allSiteFunction.nodes.map(node => {
-      const functionRoute = `/api/${node.functionRoute}`;
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-        key: functionRoute
-      }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-        href: functionRoute
-      }, functionRoute));
-    })), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", null, "Pages (", this.state.pagePaths.length != this.state.initPagePaths.length ? `${this.state.pagePaths.length}/${this.state.initPagePaths.length}` : this.state.initPagePaths.length, ")"), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("form", {
-      onSubmit: this.handlePagePathSearch
-    }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", null, "Search:", (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-      type: "text",
-      id: "search",
-      placeholder: "Search pages...",
-      value: this.state.pagePathSearchTerms,
-      onChange: this.handleSearchTermChange
-    })), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-      type: "submit",
-      value: "Submit"
-    })), (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", null, this.state.pagePaths.map((pagePath, index) => index < 100 && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-      key: pagePath
-    }, (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_1__.Link, {
-      to: pagePath
-    }, pagePath))), this.state.pagePaths.length > 100 && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      style: {
-        fontWeight: `bold`
-      }
-    }, "... and ", this.state.pagePaths.length - 100, " more."))));
+            }
+          })
+        })]
+      }), this.state.initPagePaths.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+          children: "If you were trying to reach another page or function, perhaps you can find it below."
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h2", {
+          children: ["Functions (", this.props.data.allSiteFunction.nodes.length, ")"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+          children: this.props.data.allSiteFunction.nodes.map(node => {
+            const functionRoute = `/api/${node.functionRoute}`;
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+                href: functionRoute,
+                children: functionRoute
+              })
+            }, functionRoute);
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h2", {
+          children: ["Pages (", this.state.pagePaths.length != this.state.initPagePaths.length ? `${this.state.pagePaths.length}/${this.state.initPagePaths.length}` : this.state.initPagePaths.length, ")"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
+          onSubmit: this.handlePagePathSearch,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("label", {
+            children: ["Search:", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              type: "text",
+              id: "search",
+              placeholder: "Search pages...",
+              value: this.state.pagePathSearchTerms,
+              onChange: this.handleSearchTermChange
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            type: "submit",
+            value: "Submit"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+          children: [this.state.pagePaths.map((pagePath, index) => index < 100 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(gatsby__WEBPACK_IMPORTED_MODULE_1__.Link, {
+              to: pagePath,
+              children: pagePath
+            })
+          }, pagePath)), this.state.pagePaths.length > 100 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+            style: {
+              fontWeight: `bold`
+            },
+            children: ["... and ", this.state.pagePaths.length - 100, " more."]
+          })]
+        })]
+      })]
+    });
   }
 }
-Dev404Page.propTypes = {
-  data: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object),
-  custom404: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().element),
-  location: (prop_types__WEBPACK_IMPORTED_MODULE_4___default().object)
-};
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dev404Page);
 
 // ESLint is complaining about the backslash in regex
@@ -563,7 +614,6 @@ function waitForResponse(response) {
 }
 class BaseLoader {
   constructor(loadComponent, matchPaths) {
-    this.inFlightNetworkRequests = new Map();
     // Map of pagePath -> Page. Where Page is an object with: {
     //   status: PageResourceStatus.Success || PageResourceStatus.Error,
     //   payload: PageResources, // undefined if PageResourceStatus.Error
@@ -594,6 +644,7 @@ class BaseLoader {
     this.loadComponent = loadComponent;
     (0,_find_path__WEBPACK_IMPORTED_MODULE_3__.setMatchPaths)(matchPaths);
   }
+  inFlightNetworkRequests = new Map();
   memoizedGet(url) {
     let inFlightPromise = this.inFlightNetworkRequests.get(url);
     if (!inFlightPromise) {
@@ -1475,7 +1526,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slice_server_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./slice/server-slice */ "./.cache/slice/server-slice.js");
 /* harmony import */ var _slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./slice/inline-slice */ "./.cache/slice/inline-slice.js");
 /* harmony import */ var _slice_context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./slice/context */ "./.cache/slice/context.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 "use client";
 
 
@@ -1500,13 +1551,19 @@ function Slice(props) {
       throw new SlicePropsError(slicesContext.renderEnvironment === `browser`, internalProps.sliceName, propErrors, props.__renderedByLocation);
     }
     if (slicesContext.renderEnvironment === `server`) {
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_server_slice__WEBPACK_IMPORTED_MODULE_1__.ServerSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_server_slice__WEBPACK_IMPORTED_MODULE_1__.ServerSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `browser`) {
       // in the browser, we'll just render the component as is
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `engines` || slicesContext.renderEnvironment === `dev-ssr`) {
       // if we're in SSR, we'll just render the component as is
-      return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, internalProps);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_slice_inline_slice__WEBPACK_IMPORTED_MODULE_2__.InlineSlice, {
+        ...internalProps
+      });
     } else if (slicesContext.renderEnvironment === `slices`) {
       // we are not yet supporting nested slices
 
@@ -1617,12 +1674,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   InlineSlice: () => (/* binding */ InlineSlice)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1632,8 +1687,8 @@ const InlineSlice = ({
   children,
   ...sliceProps
 }) => {
-  const slicesMap = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context__WEBPACK_IMPORTED_MODULE_2__.SlicesMapContext);
-  const slicesResultsMap = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context__WEBPACK_IMPORTED_MODULE_2__.SlicesResultsContext);
+  const slicesMap = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_context__WEBPACK_IMPORTED_MODULE_1__.SlicesMapContext);
+  const slicesResultsMap = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_context__WEBPACK_IMPORTED_MODULE_1__.SlicesResultsContext);
   const concreteSliceName = slicesMap[sliceName];
   const slice = slicesResultsMap.get(concreteSliceName);
   if (!slice) {
@@ -1643,10 +1698,12 @@ const InlineSlice = ({
       throw new Error(`Slice "${concreteSliceName}" for "${sliceName}" slot not found`);
     }
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_3__.jsx)(slice.component, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(slice.component, {
     sliceContext: slice.sliceContext,
-    data: slice.data
-  }, sliceProps), children);
+    data: slice.data,
+    ...sliceProps,
+    children: children
+  });
 };
 
 /***/ }),
@@ -1705,7 +1762,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var gatsby_core_utils_create_content_digest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gatsby-core-utils/create-content-digest */ "./node_modules/gatsby-core-utils/dist/create-content-digest.mjs");
 /* harmony import */ var _context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./context */ "./.cache/slice/context.js");
 /* harmony import */ var _server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./server-slice-renderer */ "./.cache/slice/server-slice-renderer.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1749,9 +1806,10 @@ const ServerSlice = ({
       sliceUsage.hasChildren = true;
     }
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_4__.jsx)(_server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__.ServerSliceRenderer, {
-    sliceId: sliceId
-  }, children);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_server_slice_renderer__WEBPACK_IMPORTED_MODULE_3__.ServerSliceRenderer, {
+    sliceId: sliceId,
+    children: children
+  });
 };
 
 /***/ }),
@@ -1774,7 +1832,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _context_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./context-utils */ "./.cache/context-utils.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-react.development.esm.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -1787,7 +1845,11 @@ function StaticQueryDataRenderer({
   render
 }) {
   const finalData = data ? data.data : staticQueryData[query] && staticQueryData[query].data;
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, finalData && render(finalData), !finalData && (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", null, "Loading (StaticQuery)"));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), {
+    children: [finalData && render(finalData), !finalData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: "Loading (StaticQuery)"
+    })]
+  });
 }
 let warnedAboutStaticQuery = false;
 
@@ -1803,12 +1865,14 @@ const StaticQuery = props => {
     console.warn(`The <StaticQuery /> component is deprecated and will be removed in Gatsby v6. Use useStaticQuery instead. Refer to the migration guide for more information: https://gatsby.dev/migrating-4-to-5/#staticquery--is-deprecated`);
     warnedAboutStaticQuery = true;
   }
-  return (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryContext.Consumer, null, staticQueryData => (0,_emotion_react__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryDataRenderer, {
-    data: data,
-    query: query,
-    render: render || children,
-    staticQueryData: staticQueryData
-  }));
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryContext.Consumer, {
+    children: staticQueryData => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(StaticQueryDataRenderer, {
+      data: data,
+      query: query,
+      render: render || children,
+      staticQueryData: staticQueryData
+    })
+  });
 };
 StaticQuery.propTypes = {
   data: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().object),

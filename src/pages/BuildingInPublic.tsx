@@ -1,9 +1,10 @@
 
 import React, { useEffect } from 'react';
-import ParticleBackground from '../components/ParticleBackground';
+import ParticleBackground from '../components/common/ParticleBackground';
 import { Button } from "@/components/ui/button";
+import Layout from '../components/common/Layout';
 
-const BuildingInPublic = () => {
+const BuildingInPublicContent = () => {
   useEffect(() => {
     // Create Substack feed widget config
     window.SubstackFeedWidget = {
@@ -91,6 +92,14 @@ const BuildingInPublic = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const BuildingInPublic = () => {
+  return (
+    <Layout title="Building in Public - Roundabout Ventures">
+      <BuildingInPublicContent />
+    </Layout>
   );
 };
 

@@ -13,11 +13,11 @@ node_modules
 # Build outputs
 dist
 dist-ssr
-public
 
-# Gatsby specific
-.cache
-/.cache
+# Gatsby
+.cache/
+public/
+static/
 
 # Editor directories and files
 .vscode/*

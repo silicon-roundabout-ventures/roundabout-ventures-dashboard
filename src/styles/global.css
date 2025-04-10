@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import component classes */
+@import './components.css';
+
 /**
  * Base styles and CSS variables
  * These define the color scheme and basic styling for the application

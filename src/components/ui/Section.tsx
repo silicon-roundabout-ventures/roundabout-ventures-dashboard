@@ -18,11 +18,11 @@ export const Section: React.FC<SectionProps> = ({
     background === 'glass' ? 'bg-black/30 backdrop-blur-sm' : '';
   
   return (
-    <div className={`section-container ${bgClass} ${className}`}>
+    <div className={`py-20 ${bgClass} ${className}`}>
       <div className="container mx-auto px-4">
-        <div className="inner-container">
+        <div className="max-w-5xl mx-auto">
           {title && (
-            <h2 className="heading-2">
+            <h2 className="text-3xl font-bold text-white mb-10 font-mono">
               &lt;{title}/&gt;
             </h2>
           )}

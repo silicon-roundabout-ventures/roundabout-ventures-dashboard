@@ -5,12 +5,12 @@ import Layout from '../components/common/Layout';
 
 const ForInvestorsContent = () => {
   return (
-    <div className="min-h-screen pt-20 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       <ParticleBackground />
       
       <div className="container mx-auto px-4 z-10 relative">
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">For Investors</h1>
+        <div className="mb-16 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-mono">&lt;For Investors/&gt;</h1>
           <p className="text-lg text-srv-gray max-w-2xl mx-auto">
             Join us as a Limited Partner and be part of the next generation of technology investments.
           </p>

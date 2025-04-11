@@ -5,13 +5,13 @@ import Layout from '../components/common/Layout';
 
 const AboutContent = () => {
   return (
-    <div className="min-h-screen pt-20 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       <ParticleBackground />
       
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-12 text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">About Silicon Roundabout Ventures</h1>
+          <div className="mb-16 text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-mono">&lt;About Us/&gt;</h1>
             <p className="text-srv-gray">
               We are an early-stage venture capital fund based in London, UK.
             </p>

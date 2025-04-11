@@ -88,9 +88,9 @@ export default function Navbar({ location }: NavbarProps) {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`nav-link text-sm ${
+                className={`text-sm transition-colors duration-200 hover:text-srv-teal ${
                   pathname === link.path 
-                    ? 'nav-link-active' 
+                    ? 'text-srv-teal font-medium' 
                     : hasScrolled || isMenuOpen || pathname !== "/" 
                       ? 'text-srv-light' 
                       : 'text-white'
@@ -146,9 +146,9 @@ export default function Navbar({ location }: NavbarProps) {
                 <Link
                   key={link.name}
                   to={link.path}
-                  className={`nav-link text-base ${
+                  className={`text-base transition-colors duration-200 hover:text-srv-teal ${
                     pathname === link.path 
-                      ? 'nav-link-active' 
+                      ? 'text-srv-teal font-medium' 
                       : 'text-white'
                   }`}
                   onClick={toggleMenu}

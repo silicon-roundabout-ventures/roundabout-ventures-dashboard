@@ -52,13 +52,13 @@ const ContactContent = () => {
   };
   
   return (
-    <div className="min-h-screen pt-20 pb-16">
+    <div className="min-h-screen pt-28 pb-16">
       <ParticleBackground />
       
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-12 text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">Contact Us</h1>
+          <div className="mb-16 text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-mono">&lt;Contact Us/&gt;</h1>
             <p className="text-srv-gray">
               Have a question or want to learn more about Silicon Roundabout Ventures? Get in touch with us.
             </p>

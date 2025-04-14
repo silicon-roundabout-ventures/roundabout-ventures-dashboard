@@ -13,7 +13,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, title = "Roundabout Ventures", location }) => {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-srv-dark">
         <Navbar location={location} />
         <main className="flex-grow">
           {children}

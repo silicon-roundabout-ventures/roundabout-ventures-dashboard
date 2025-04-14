@@ -41,17 +41,18 @@ const ParticleBackgroundContent = () => {
     // Initialize particles
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.min(window.innerWidth / 10, 120);
+      const particleCount = Math.min(window.innerWidth / 9, 150); // Increased particle count
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 3 + 0.1, // Smaller particles for more subtle effect
+          size: Math.random() * 3.5 + 0.5, // Larger particles for more visibility
           speedX: (Math.random() - 0.5) * 0.9,
           speedY: (Math.random() - 0.5) * 0.9,
-          color: '#ffffff',
-          opacity: Math.random() * 0.5 + 0.1
+          // Use code editor theme colors for particles with slightly higher intensity
+          color: Math.random() > 0.7 ? '#61AFEF' : Math.random() > 0.5 ? '#56B6C2' : Math.random() > 0.3 ? '#C678DD' : '#546E7A',
+          opacity: Math.random() * 0.5 + 0.2 // Higher opacity for better visibility
         });
       }
     };
@@ -130,7 +131,7 @@ const ParticleBackgroundContent = () => {
         ref={canvasRef}
         className="absolute inset-0"
         style={{ 
-          opacity: 0.8,
+          opacity: 1, // Full opacity for the canvas
           zIndex: -1
         }}
       />

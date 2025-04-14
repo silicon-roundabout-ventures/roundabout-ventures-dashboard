@@ -6,48 +6,51 @@
 /* Import component classes */
 @import './components.css';
 
+/* Use a Safari-optimized web development IDE-style font stack */
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap');
+
 /**
  * Base styles and CSS variables
  * These define the color scheme and basic styling for the application
  */
 @layer base {
   :root {
-    /* Main colors */
-    --background: #191c22;
-    --foreground: #e5e9f0;
+    /* Main colors - VS Code Minimal Dark theme */
+    --background: #000000; /* Pitch black background */
+    --foreground: #DCDFE4; /* Light foreground text */
 
     /* Card styles */
-    --card: #1e2127;
-    --card-foreground: #e5e9f0;
+    --card: #1E1E1E; /* Editor background color */
+    --card-foreground: #DCDFE4;
 
     /* Popover styles */
-    --popover: #191c22;
-    --popover-foreground: #e5e9f0;
+    --popover: #252526; /* Dropdown/popup background */
+    --popover-foreground: #DCDFE4;
 
     /* Primary colors */
-    --primary: #88c0d0;
-    --primary-foreground: #191c22;
+    --primary: #56B6C2; /* Terminal cyan */
+    --primary-foreground: #000000;
 
     /* Secondary colors */
-    --secondary: #b48ead;
-    --secondary-foreground: #191c22;
+    --secondary: #C678DD; /* Terminal magenta */
+    --secondary-foreground: #000000;
 
     /* Muted colors */
-    --muted: #434c5e;
-    --muted-foreground: #4c566a;
+    --muted: #383838; /* Input background */
+    --muted-foreground: #BBBBBB; /* Muted text */
 
     /* Accent colors */
-    --accent: #b48ead;
-    --accent-foreground: #191c22;
+    --accent: #61AFEF; /* Terminal blue */
+    --accent-foreground: #000000;
 
     /* Destructive colors */
-    --destructive: #bf616a;
-    --destructive-foreground: #e5e9f0;
+    --destructive: #E06C75; /* Terminal red */
+    --destructive-foreground: #DCDFE4;
 
     /* Other UI elements */
-    --border: #4c566a;
-    --input: #434c5e;
-    --ring: #88c0d0;
+    --border: #383B3D; /* Border color */
+    --input: #383838; /* Input background */
+    --ring: #56B6C2; /* Focus ring color */
 
     /* Border radius */
     --radius: 0.5rem;
@@ -69,11 +72,11 @@
   }
   
   .btn-primary {
-    @apply bg-srv-teal text-srv-dark hover:bg-srv-blue;
+    @apply bg-srv-teal text-black hover:bg-srv-blue;
   }
   
   .btn-secondary {
-    @apply bg-srv-pink text-white hover:bg-opacity-90;
+    @apply bg-srv-pink text-black hover:bg-opacity-90;
   }
   
   /* Card styles */

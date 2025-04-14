@@ -11,6 +11,7 @@ import { Hero, HeroHeading } from '../components/ui/Hero';
 import { Container, InnerContainer } from '../components/ui/Container';
 import { IconCircle } from '../components/ui/IconCircle';
 import { FeatureCard } from '../components/ui/FeatureCard';
+import { CircularImage } from '../components/ui/CircularImage';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 // Content component to separate from layout
@@ -20,17 +21,17 @@ const IndexContent = () => {
     query {
       communityImage1: file(relativePath: { eq: "community/community-franpitch-square.jpg" }) {
         childImageSharp {
-          gatsbyImageData(width: 120, height: 120, layout: FIXED, quality: 100)
+          gatsbyImageData(width: 160, height: 160, layout: CONSTRAINED, quality: 100)
         }
       }
       communityImage2: file(relativePath: { eq: "community/community-meetup-square.jpg" }) {
         childImageSharp {
-          gatsbyImageData(width: 120, height: 120, layout: FIXED, quality: 100)
+          gatsbyImageData(width: 160, height: 160, layout: CONSTRAINED, quality: 100)
         }
       }
       communityImage3: file(relativePath: { eq: "community/community-womanpitch-square.jpg" }) {
         childImageSharp {
-          gatsbyImageData(width: 120, height: 120, layout: FIXED, quality: 100)
+          gatsbyImageData(width: 160, height: 160, layout: CONSTRAINED, quality: 100)
         }
       }
     }
@@ -47,13 +48,13 @@ const IndexContent = () => {
           </h1>
           
           <div className="font-mono text-xl md:text-2xl mb-8 text-white">
-            <span>Connecting (</span>
-            <span className="text-srv-yellow">Capital</span>) &#123;
-            {" "}<span className="text-srv-pink">with</span>{" "}
-            Next-Generation.<span className="text-srv-yellow">Technologies</span>
-            {" "}<span className="text-srv-pink">in</span> Computer & Physical{" "}
-            <span className="text-srv-yellow">Science</span>
-            {" "}&#125;
+            <span>Investing(</span>
+            <span className="text-srv-yellow">First</span>)
+            {" "}<span className="text-srv-pink">in</span>{" "}
+            &#123;{" "}Frontier_Technology.<span className="text-srv-yellow">Founders</span>{" "}&#125;
+            {" "}<span className="text-srv-pink">building</span> the future Computing & Physical{" "}
+            <span className="text-srv-yellow">Infrastructure</span>
+            {" "}
           </div>
         
           <div className="flex flex-wrap gap-4 justify-center">
@@ -82,43 +83,37 @@ const IndexContent = () => {
           <span className="text-srv-pink">seed</span>,
           leveraging our community of 15,000 founders and engineers and
           our live pitching competitions that over the years featured
-          winners now worth over £6 Billion.
+          winners now worth over £7 Billion.
+        </p>
+        <p className="text-xl text-white mb-12">
+          Our main focus is on spotting fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span> who obsess over society's biggest problems and are "in it" for the long haul.
         </p>
         
         <div className="flex flex-wrap justify-around gap-10 mb-16">
-          <IconCircle>
-            <div className="rounded-full overflow-hidden w-[120px] h-[120px]">
-              {data.communityImage1?.childImageSharp?.gatsbyImageData && (
-                <GatsbyImage 
-                  image={data.communityImage1.childImageSharp.gatsbyImageData} 
-                  alt="Community member presenting" 
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
-          </IconCircle>
-          <IconCircle>
-            <div className="rounded-full overflow-hidden w-[120px] h-[120px]">
-              {data.communityImage2?.childImageSharp?.gatsbyImageData && (
-                <GatsbyImage 
-                  image={data.communityImage2.childImageSharp.gatsbyImageData} 
-                  alt="Community meetup" 
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
-          </IconCircle>
-          <IconCircle>
-            <div className="rounded-full overflow-hidden w-[120px] h-[120px]">
-              {data.communityImage3?.childImageSharp?.gatsbyImageData && (
-                <GatsbyImage 
-                  image={data.communityImage3.childImageSharp.gatsbyImageData} 
-                  alt="Community presenter pitching" 
-                  className="w-full h-full object-cover"
-                />
-              )}
-            </div>
-          </IconCircle>
+          {/* Community images using our specialized CircularImage component */}
+          {data.communityImage1?.childImageSharp?.gatsbyImageData && (
+            <CircularImage 
+              image={data.communityImage1.childImageSharp.gatsbyImageData} 
+              alt="Community member presenting" 
+              size={180} 
+            />
+          )}
+          
+          {data.communityImage2?.childImageSharp?.gatsbyImageData && (
+            <CircularImage 
+              image={data.communityImage2.childImageSharp.gatsbyImageData} 
+              alt="Community meetup" 
+              size={180} 
+            />
+          )}
+          
+          {data.communityImage3?.childImageSharp?.gatsbyImageData && (
+            <CircularImage 
+              image={data.communityImage3.childImageSharp.gatsbyImageData} 
+              alt="Community presenter pitching" 
+              size={180} 
+            />
+          )}
         </div>
         
         <div className="text-center">
@@ -137,18 +132,20 @@ const IndexContent = () => {
             <div className="text-srv-yellow text-2xl mb-4">⚙️</div>
             <p className="text-white text-lg">
               We are building a new kind of financial institution at the intersection of{" "}
-              <span className="text-srv-pink">Venture, Science and Community</span>. 
-              We provide investment capital, community connections and hands-on support to seed founders.
+              <span className="text-srv-pink">Venture Capital</span>,{" "}
+              <span className="text-srv-pink">Science</span> and{" "}
+              <span className="text-srv-pink">Community</span>. 
+              We provide super-early investment capital, community connections, and a "always one whatsapp away" partnership.
             </p>
           </GlassCard>
           
           <GlassCard>
             <div className="text-srv-yellow text-2xl mb-4">💪</div>
             <p className="text-white text-lg">
-              Our mission is to help technical founding teams building solutions based on{" "}
-              <span className="text-srv-pink">computer</span> or{" "}
-              <span className="text-srv-pink">physical sciences</span>{" "}
-              that are solving large-scale global problems.
+              Our mission is to build a search function to spot <span className="text-srv-pink">unusually exceptional</span> technical founders building enterprises primarily in{" "}
+              <span className="text-srv-pink">Computing</span>,{" "}
+              <span className="text-srv-pink">Defence</span> or{" "}
+              <span className="text-srv-pink">Energy</span>, which can capture and help shape exceptionally disruptive growth trends.
             </p>
           </GlassCard>
         </div>
@@ -158,9 +155,9 @@ const IndexContent = () => {
             &lt;We write 1st cheques in Next-Generation technology startups/&gt;
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 text-srv-yellow md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FeatureCard 
-              title={<>[ <span className="text-srv-pink">Technical</span> ]</>}
+              title={<>[ <span className="text-srv-pink">Deeply Technical</span> ]</>}
               description="Leveraging in-house science and engineering expertise to challenge the status-quo"
             />
             

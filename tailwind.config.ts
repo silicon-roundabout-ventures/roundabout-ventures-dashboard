@@ -53,20 +53,22 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         srv: {
-          dark: '#191c22',          // Darkest background (VSCode style)
-          blue: '#5e81ac',          // Soft blue for accents (aligned with CSS variables)
-          teal: '#88c0d0',          // Bright teal for primary highlights
-          light: '#e5e9f0',         // Light text
-          gray: '#434c5e',          // Muted text (aligned with CSS variables)
-          pink: '#b48ead',          // Pink highlight
-          yellow: '#ebcb8b',        // Yellow highlight
-          red: '#bf616a',           // Error/warning red
-          green: '#a3be8c',         // Success green
-          comment: '#4c566a'        // Comment text color
+          dark: '#000000',          // Pitch black background (VS Code Minimal Dark style)
+          darkAlt: '#1E1E1E',       // Secondary dark (editor background)
+          panel: '#252526',         // Panel/widget background
+          blue: '#61AFEF',          // Terminal blue - for code-like accents
+          teal: '#56B6C2',          // Terminal cyan - for highlights
+          light: '#DCDFE4',         // Light text (foreground)
+          gray: '#BBBBBB',          // Muted text for less important elements
+          pink: '#C678DD',          // Terminal magenta - for code highlights
+          yellow: '#E5C07B',        // Terminal yellow - for code highlights
+          red: '#E06C75',           // Terminal red - for errors/warnings
+          green: '#98C379',         // Terminal green - for success elements
+          comment: '#546E7A'        // Comment text color as in VS Code theme
         }
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', 'monospace'],
+        mono: ['"Source Code Pro"', 'Menlo', 'SF Mono', 'Monaco', 'monospace'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {

@@ -17,38 +17,49 @@ const StatisticCard: React.FC<StatisticCardProps> = ({
   trend = 'neutral' 
 }) => {
   return (
-    <div className="dashboard-card bg-gradient-to-br from-srv-dark to-srv-blue/90 rounded-lg shadow p-6">
+    <div className="border-2 border-white/20 rounded-lg p-6 bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-white/30 hover:shadow-md">
       <div className="flex justify-between items-start">
         <div>
-          <h3 className="text-srv-gray font-medium text-sm mb-1">{title}</h3>
-          <p className="text-white text-2xl font-bold">{value}</p>
+          <h3 className="text-white/90 font-medium text-sm mb-1 flex items-center">
+            {title.includes('Total Investments') && '💰 '}
+            {title.includes('Portfolio') && '💼 '}
+            {title.includes('Average') && '📈 '}
+            {title.includes('Median') && '📉 '}
+            {title.includes('Return') && '⭐ '}
+            {title.includes('Fund') && '🌐 '}
+            {title}
+          </h3>
+          <p className="text-white text-2xl font-medium">{value}</p>
         </div>
         {icon && (
-          <div className="bg-srv-teal/10 p-2 rounded-full">
+          <div className="border-2 border-white/20 p-2 rounded-full">
             {icon}
           </div>
         )}
       </div>
       
       {change && (
-        <div className="mt-4 flex items-center">
+        <div className="mt-4 flex items-center border-t-2 border-white/10 pt-3">
           <span 
-            className={`text-xs font-medium mr-1 ${
-              trend === 'up' ? 'text-green-400' : 
-              trend === 'down' ? 'text-red-400' : 
-              'text-srv-gray'
+            className={`text-xs font-medium mr-1 flex items-center ${
+              trend === 'up' ? 'text-emerald-400' : 
+              trend === 'down' ? 'text-pink-400' : 
+              'text-white/80'
             }`}
           >
+            {trend === 'up' && '📈 '}
+            {trend === 'down' && '📉 '}
+            {trend === 'neutral' && '⏰ '}
             {change}
           </span>
           {trend === 'up' && (
-            <svg className="w-3 h-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 10l7-7m0 0l7 7m-7-7v18" />
             </svg>
           )}
           {trend === 'down' && (
-            <svg className="w-3 h-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <svg className="w-3 h-3 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
           )}
         </div>

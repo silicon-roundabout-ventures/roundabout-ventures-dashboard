@@ -75,19 +75,33 @@ const IndexContent = () => {
       
       {/* Who We Are Section */}
       <Section background="dark" title="Who we are">
-        <p className="text-xl text-white mb-12">
-          We are a Community-Driven VC firm backing{" "}
-          <span className="text-srv-yellow">Deep Tech and Big Data</span>{" "}
-          startups at{" "}
-          <span className="text-srv-pink">pre-seed</span> and{" "}
-          <span className="text-srv-pink">seed</span>,
-          leveraging our community of 15,000 founders and engineers and
-          our live pitching competitions that over the years featured
-          winners now worth over £7 Billion.
-        </p>
-        <p className="text-xl text-white mb-12">
-          Our main focus is on spotting fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span> who obsess over society's biggest problems and are "in it" for the long haul.
-        </p>
+        <div className="flex flex-col space-y-6 mb-12">
+          <div className="flex items-start">
+            <span className="text-srv-teal text-2xl mr-3 mt-1">⚛️</span>
+            <p className="text-xl text-white">
+              We are a Community-Driven VC firm backing{" "}
+              <span className="text-srv-yellow">Deep Tech</span>{" "}
+              startups at{" "}
+              <span className="text-srv-pink">pre-seed</span> and{" "}
+              <span className="text-srv-pink">seed</span> stages.
+            </p>
+          </div>
+          
+          <div className="flex items-start">
+            <span className="text-srv-teal text-2xl mr-3 mt-1">👥</span>
+            <p className="text-xl text-white">
+              Leveraging our community of 15,000 founders and engineers and
+              live pitching competitions featuring winners now worth over £7 Billion.
+            </p>
+          </div>
+          
+          <div className="flex items-start">
+            <span className="text-srv-teal text-2xl mr-3 mt-1">⚗️</span>
+            <p className="text-xl text-white">
+              We spot fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
+            </p>
+          </div>
+        </div>
         
         <div className="flex flex-wrap justify-around gap-10 mb-16">
           {/* Community images using our specialized CircularImage component */}
@@ -129,24 +143,59 @@ const IndexContent = () => {
       <Section title="Our Mission">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <GlassCard>
-            <div className="text-srv-yellow text-2xl mb-4">⚙️</div>
-            <p className="text-white text-lg">
-              We are building a new kind of financial institution at the intersection of{" "}
-              <span className="text-srv-pink">Venture Capital</span>,{" "}
-              <span className="text-srv-pink">Science</span> and{" "}
-              <span className="text-srv-pink">Community</span>. 
-              We provide super-early investment capital, community connections, and a "always one whatsapp away" partnership.
-            </p>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💎</span>
+                <p className="text-white">
+                  Building a new kind of financial institution at the intersection of{" "}
+                  <span className="text-srv-pink">Venture Capital</span>,{" "}
+                  <span className="text-srv-pink">Science</span> and{" "}
+                  <span className="text-srv-pink">Community</span>.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💸</span>
+                <p className="text-white">
+                  Providing super-early investment capital to deeply technical founders.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">📲</span>
+                <p className="text-white">
+                  We let our founders build but always keep one WhatsApp away, —24/7.
+                </p>
+              </div>
+            </div>
           </GlassCard>
           
           <GlassCard>
-            <div className="text-srv-yellow text-2xl mb-4">💪</div>
-            <p className="text-white text-lg">
-              Our mission is to build a search function to spot <span className="text-srv-pink">unusually exceptional</span> technical founders building enterprises primarily in{" "}
-              <span className="text-srv-pink">Computing</span>,{" "}
-              <span className="text-srv-pink">Defence</span> or{" "}
-              <span className="text-srv-pink">Energy</span>, which can capture and help shape exceptionally disruptive growth trends.
-            </p>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">🔍</span>
+                <p className="text-white">
+                  We see this VC firm as a search function to spot <span className="text-srv-pink">unusually exceptional</span> technical founders from all over Europe.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💻</span>
+                <p className="text-white">
+                  Focusing on enterprises in{" "}
+                  <span className="text-srv-pink">Computing</span>,{" "}
+                  <span className="text-srv-pink">Defence</span> and{" "}
+                  <span className="text-srv-pink">Energy</span>.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">🚀</span>
+                <p className="text-white">
+                  Capturing and shaping exceptionally disruptive technolgy growth trends.
+                </p>
+              </div>
+            </div>
           </GlassCard>
         </div>
         

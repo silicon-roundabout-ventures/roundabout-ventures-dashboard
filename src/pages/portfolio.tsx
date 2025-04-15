@@ -75,8 +75,8 @@ const PortfolioContent = () => {
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
-          <p className="text-srv-gray max-w-2xl mx-auto">
-            We invest in exceptional founders building innovative solutions across various industries.
+          <p className="text-white/90 max-w-2xl mx-auto">
+            We back exceptional founders creating innovative solutions across industries.
           </p>
         </div>
         
@@ -91,7 +91,7 @@ const PortfolioContent = () => {
               <StatisticCard
                 title="Total Investments"
                 value={statistics?.totalInvestments ? `£${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '£0M'}
-                icon={<span className="text-srv-teal text-xl">💰</span>}
+                icon={<span className="text-srv-teal text-xl">💸</span>}
                 change={statistics?.investmentsLast12Months ? `£${(statistics.investmentsLast12Months / 1000000).toFixed(1)}M in last 12m` : 'No data for last 12m'}
                 trend="neutral"
               />
@@ -130,18 +130,18 @@ const PortfolioContent = () => {
             {/* Portfolio Section */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-white">Portfolio Companies</h2>
+                <h2 className="text-2xl font-bold text-white flex items-center"><span className="mr-2">🏢</span>Portfolio Companies</h2>
                 
                 {/* Filter Dropdown */}
-                <div>
+                <div className="relative">
                   <select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
-                    className="bg-srv-blue/20 text-white border border-srv-blue/30 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-srv-teal"
+                    className="appearance-none bg-black/40 text-white border-2 border-white/20 rounded-md px-4 py-2 pr-10 focus:outline-none focus:border-srv-teal/60 focus:ring-0 hover:border-white/30 transition-colors cursor-pointer"
                   >
-                    <option value="all">All Companies</option>
-                    <option value="announced">Announced Only</option>
-                    <option value="stealth">Stealth Only</option>
+                    <option value="all">🔍 All Companies</option>
+                    <option value="announced">🚀 Announced Only</option>
+                    <option value="stealth">🔒 Stealth Only</option>
                     <optgroup label="By Industry">
                       {industries.map((industry) => (
                         <option key={industry} value={industry}>
@@ -150,11 +150,14 @@ const PortfolioContent = () => {
                       ))}
                     </optgroup>
                   </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white/60">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                  </div>
                 </div>
               </div>
               
               {/* Portfolio Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {filteredCompanies.length > 0 ? (
                   filteredCompanies.map((company) => (
                     <PortfolioCard key={company.id} company={company} />

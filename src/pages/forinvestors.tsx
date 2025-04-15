@@ -28,13 +28,13 @@ const ForInvestorsContent = () => {
             </p>
 
             <h3 className="text-xl font-bold text-white mt-8 mb-4">&lt;Key Benefits/&gt;</h3>
-            <ul className="list-disc pl-6 mb-8 text-white space-y-3">
-              <li>Access to some of the most transformative pre-seed and seed stage deeptech startups in Europe</li>
-              <li>Proprietary deal flow from our 15,000+ community</li>
-              <li>Technical team and agile soloGP approach</li>
-              <li>Quarterly LP updates and community meetings</li>
-              <li>Community of fellow angels and LPs looking for outsized growth: We got backing by 50+ active angel investors plus the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</li> 
-              <li>Co-investment opportunities in select portfolio companies</li>
+            <ul className="list-none mb-8 text-white space-y-4">
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">⚛️</span> <span>Access to some of the most transformative pre-seed/seed deeptech startups in Europe</span></li>
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💼</span> <span>Proprietary deal flow from our 15,000+ community</span></li>
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">🛠️</span> <span>Technical team and agile soloGP approach</span></li>
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">📈</span> <span>Quarterly LP updates and community meetings</span></li>
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Community of fellow angels and LPs looking for outsized growth: We got backing by 50+ active angel investors plus the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li> 
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💰</span> <span>Co-investment opportunities in select portfolio companies</span></li>
             </ul>
             
             <div className="mt-8 text-center mb-12">

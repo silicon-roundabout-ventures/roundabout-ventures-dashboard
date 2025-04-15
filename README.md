@@ -19,7 +19,7 @@ The Silicon Roundabout Ventures Dashboard is a Gatsby-based web application that
 - **Dynamic Portfolio**: Real-time data fetching from Airtable
 - **Fund Statistics Dashboard**: Visualizations of key fund metrics
 - **Application Forms**: Integrated forms for startups and investors
-- **Blog Integration**: Connected to Substack for Building in Public updates
+- **Blog Integration**: Connected to Substack for Building in Public updates through RSS feed integration
 - **Airtable Integration**: Flexible data retrieval and transformation
 
 ## 🛠 Technology Stack
@@ -45,6 +45,19 @@ The integration includes:
 - Fallback to mock data if API is not available
 - Error handling for API connection issues
 - Fund statistics calculation from raw data
+
+## 📝 Building in Public: Blog & Substack Integration
+
+The "Building in Public" section of the dashboard features a modern blog that automatically pulls content from Silicon Roundabout Ventures' Substack publication:
+
+- **RSS Feed Integration**: Automatically fetches the latest posts from the firm's Substack using its RSS feed
+- **Content Transformation**: Converts Substack's HTML content to properly styled, responsive components
+- **Image Optimization**: Handles Substack images through Gatsby's image optimization pipeline
+- **Article Previews**: Displays post excerpts with "Read More" functionality to drive traffic to full articles
+- **Mobile Responsive**: Adapts to all screen sizes while maintaining readability
+- **Caching**: Implements caching mechanisms to reduce API calls and improve performance
+
+This integration allows the team to write and publish content on Substack while automatically maintaining a consistent look and feel on the main website, eliminating duplicate content management.
 
 ## 📊 Fund Statistics
 

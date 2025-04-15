@@ -11,7 +11,7 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 interface TeamMemberProps {
   name: string;
   role: string;
-  description: string;
+  description: string | React.ReactNode;
   image?: any; // Updated to handle Gatsby image data
   imageSrc?: string | null;
   linkedin?: string | null;
@@ -62,7 +62,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({
     )}
     <h3 className="text-2xl font-bold text-white mb-1 text-center">{name}</h3>
     <p className="text-srv-teal text-sm mb-2 text-center">{role}</p>
-    <p className="text-srv-gray text-sm text-center max-w-xs mb-3">{description}</p>
+    <p className="text-srv-gray text-sm text-center max-w-2xl mb-3">{description}</p>
     
     <div className="flex space-x-3 justify-center">
       {linkedin && (
@@ -128,7 +128,10 @@ const WhoWeAre = () => {
       {
         name: "Francesco Perticarari",
         role: "General Partner",
-        description: "Technical founder with expertise in deep tech and venture capital",
+        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days.<br/><br/>
+        In 2023 I launched Silicon Roundabout Ventures as a soloGP fund in the UK from which I'm now investing from. We focus on writing first cheques in pre-seed and angel rounds (which we sometimes lead). I closed the fund at just over its £5m target and got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br/><br/>
+        My mission? To build Europe's first community-driven and truly pan-European VC firm built by technical folks exclusively for deeptech pre-seed and seed founders.<br/><br/>
+        Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
         image: data.francescoImage, // Using Gatsby image
         linkedin: "https://www.linkedin.com/in/fperticarari/",
         twitter: "https://twitter.com/francesco_srv",
@@ -236,7 +239,7 @@ const WhoWeAre = () => {
             {/* General Partner */}
             <div className="mb-12">
               <h3 className="text-2xl font-bold text-white mb-6 text-center">General Partner</h3>
-              <div className="grid place-items-center">
+              <div className="max-w-3xl mx-auto w-full">
                 {teamData.leads.map((member, index) => (
                   <TeamMember key={index} {...member} />
                 ))}

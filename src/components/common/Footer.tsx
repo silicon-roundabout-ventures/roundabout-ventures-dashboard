@@ -24,9 +24,6 @@ const Footer = () => {
               <a href="https://github.com/SiliconRoundabout" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
                 <Github size={20} />
               </a>
-              <a href="mailto:info@siliconroundabout.ventures" className="text-srv-gray hover:text-srv-yellow transition-colors">
-                <Mail size={20} />
-              </a>
             </div>
           </div>
           
@@ -34,11 +31,11 @@ const Footer = () => {
             <h3 className="text-lg font-bold text-white mb-4 font-mono">Links</h3>
             <ul className="space-y-2">
               <li><Link to="/" className="text-srv-gray hover:text-srv-yellow transition-colors">Home</Link></li>
-              <li><Link to="/who-we-are" className="text-srv-gray hover:text-srv-yellow transition-colors">Who We Are</Link></li>
+              <li><Link to="/whoweare" className="text-srv-gray hover:text-srv-yellow transition-colors">Who We Are</Link></li>
               <li><Link to="/portfolio" className="text-srv-gray hover:text-srv-yellow transition-colors">Portfolio</Link></li>
-              <li><Link to="/building-in-public" className="text-srv-gray hover:text-srv-yellow transition-colors">Building in Public</Link></li>
+              <li><Link to="/buildinginpublic" className="text-srv-gray hover:text-srv-yellow transition-colors">Building in Public</Link></li>
               <li><Link to="/community" className="text-srv-gray hover:text-srv-yellow transition-colors">Community</Link></li>
-              <li><Link to="/for-investors" className="text-srv-gray hover:text-srv-yellow transition-colors">For Investors</Link></li>
+              <li><Link to="/forinvestors" className="text-srv-gray hover:text-srv-yellow transition-colors">For Investors</Link></li>
             </ul>
           </div>
           
@@ -47,14 +44,12 @@ const Footer = () => {
             <address className="not-italic text-srv-gray">
               <p>London, UK</p>
               <p className="mt-2">
-                <a href="mailto:info@siliconroundabout.ventures" className="hover:text-srv-yellow transition-colors">
-                  info@siliconroundabout.ventures
-                </a>
+                hello [at] siliconroundabout [dot] ventures
               </p>
               <div className="mt-4 inline-block px-4 py-2 border border-srv-yellow/30 rounded text-srv-yellow">
-                <a href="https://airtable.com/shrWqbcCtbPaXXfQ3" target="_blank" rel="noopener noreferrer">
+                <Link to="/apply">
                   Apply for Funding →
-                </a>
+                </Link>
               </div>
             </address>
           </div>

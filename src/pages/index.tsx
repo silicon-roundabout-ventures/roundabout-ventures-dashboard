@@ -59,8 +59,8 @@ const IndexContent = () => {
         
           <div className="flex flex-wrap gap-4 justify-center">
             <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
-              <Link to="/portfolio">
-                Our Portfolio <ArrowRight className="ml-2 h-4 w-4" />
+              <Link to="/apply">
+                Apply For Funding <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             

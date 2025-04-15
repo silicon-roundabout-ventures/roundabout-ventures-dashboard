@@ -74,7 +74,7 @@ const PortfolioContent = () => {
       
       <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-mono">&lt;Our Portfolio/&gt;</h1>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
           <p className="text-srv-gray max-w-2xl mx-auto">
             We invest in exceptional founders building innovative solutions across various industries.
           </p>
@@ -90,27 +90,27 @@ const PortfolioContent = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               <StatisticCard
                 title="Total Investments"
-                value={statistics?.totalInvestments ? `$${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '$0M'}
+                value={statistics?.totalInvestments ? `£${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '£0M'}
                 icon={<span className="text-srv-teal text-xl">💰</span>}
-                change="+23% from last year"
-                trend="up"
+                change={statistics?.investmentsLast12Months ? `£${(statistics.investmentsLast12Months / 1000000).toFixed(1)}M in last 12m` : 'No data for last 12m'}
+                trend="neutral"
               />
               <StatisticCard
                 title="Portfolio Companies"
                 value={statistics?.totalCompanies || 0}
                 icon={<span className="text-srv-teal text-xl">🏢</span>}
+                change={statistics?.companiesLast12Months ? `+${statistics.companiesLast12Months} in last 12m` : 'No new companies'}
+                trend={statistics?.companiesLast12Months && statistics.companiesLast12Months > 0 ? 'up' : 'neutral'}
               />
               <StatisticCard
                 title="Average Investment"
-                value={statistics?.averageInvestment ? `$${(statistics.averageInvestment / 1000000).toFixed(2)}M` : '$0M'}
+                value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000000).toFixed(2)}M` : '£0M'}
                 icon={<span className="text-srv-teal text-xl">📊</span>}
               />
               <StatisticCard
-                title="Success Rate"
-                value="85%"
-                icon={<span className="text-srv-teal text-xl">🚀</span>}
-                change="+5% from previous fund"
-                trend="up"
+                title="Median Valuation"
+                value={statistics?.medianValuation ? `£${(statistics.medianValuation / 1000000).toFixed(1)}M` : '£0M'}
+                icon={<span className="text-srv-teal text-xl">📈</span>}
               />
             </div>
             

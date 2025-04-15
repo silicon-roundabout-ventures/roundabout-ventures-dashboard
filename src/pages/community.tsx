@@ -10,7 +10,7 @@ const CommunityContent = () => {
       
       <div className="container mx-auto px-4 z-10 relative">
         <div className="mb-16 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 font-mono">&lt;Community/&gt;</h1>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Community/&gt;</h1>
           <p className="text-lg text-srv-gray max-w-2xl mx-auto">
             Join our vibrant community of founders, engineers, and investors passionate about deep tech and innovation.
           </p>

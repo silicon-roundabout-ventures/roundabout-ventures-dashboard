@@ -52,6 +52,7 @@
     "embla-carousel-react": "^8.3.0",
     "gatsby": "^5.14.3",
     "gatsby-plugin-alias-imports": "^1.0.5",
+    "gatsby-plugin-gatsby-cloud": "^5.14.0",
     "gatsby-plugin-image": "^3.14.0",
     "gatsby-plugin-manifest": "^5.14.0",
     "gatsby-plugin-postcss": "^6.14.0",

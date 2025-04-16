@@ -232,6 +232,9 @@ interface PortfolioProps {
     allAirtable?: {
       nodes: any[];
     }
+    allMockPortfolioData?: {
+      nodes: any[];
+    }
   }
 }
 
@@ -239,10 +242,16 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
   const [filter, setFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
   
-  // Process Airtable data
-  const companies = data?.allAirtable?.nodes ? 
-    processAirtableData(data.allAirtable.nodes) : 
-    [];
+  // Process data from Airtable OR from MockPortfolioData if Airtable is empty
+  const airtableNodes = data.allAirtable?.nodes || [];
+  const mockNodes = data.allMockPortfolioData?.nodes || [];
+  
+  // Determine which dataset to use - prefer Airtable if available
+  const sourceNodes = airtableNodes.length > 0 ? airtableNodes : mockNodes;
+  console.log(`Using ${airtableNodes.length > 0 ? 'Airtable' : 'mock'} data with ${sourceNodes.length} nodes`);
+  
+  // Process data into our format - this handles missing or empty data gracefully
+  const companies = processAirtableData(sourceNodes);
   
   // Calculate statistics
   const statistics = calculateStatistics(companies);
@@ -438,6 +447,7 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
 
 export const query = graphql`
   query PortfolioPageQuery {
+    # Query real Airtable data
     allAirtable(filter: {table: {eq: "Startups"}}) {
       nodes {
         id
@@ -463,6 +473,28 @@ export const query = graphql`
               }
             }
           }
+        }
+      }
+    }
+    # Query fallback mock data when Airtable is not available
+    allMockPortfolioData {
+      nodes {
+        id
+        recordId
+        table
+        data {
+          Name
+          Deal_Name
+          Notes
+          One_Line_Summary
+          Sector
+          Stage
+          Announced
+          Close_Date
+          Company
+          Fund
+          Total_Invested
+          Entry_Valuation
         }
       }
     }

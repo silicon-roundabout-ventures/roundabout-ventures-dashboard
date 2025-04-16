@@ -90,7 +90,7 @@ const CommunityContent = () => {
 
           <div className="flex justify-center mb-16">
               <Link 
-                to="/buildinpublic" 
+                to="/buildinginpublic" 
                 className="px-8 py-4 bg-srv-yellow hover:bg-srv-yellow/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
               >
                 Hear about new events through our Build in Public blog

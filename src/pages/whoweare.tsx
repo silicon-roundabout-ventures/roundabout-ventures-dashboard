@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { Linkedin, Github, Globe } from 'lucide-react';
 import { XLogo } from '../components/icons/XLogo';
 import Layout from '../components/common/Layout';
@@ -7,6 +7,8 @@ import ParticleBackground from '../components/common/ParticleBackground';
 import { CircularImage } from '../components/ui/CircularImage';
 import { graphql, useStaticQuery } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { Link } from 'gatsby';
+import Timeline from '../components/about/Timeline';
 
 interface TeamMemberProps {
   name: string;
@@ -213,23 +215,23 @@ const WhoWeAre = () => {
                   Silicon Roundabout
                 </span>
                 , which gives us direct access to 5000+ startups and has
-                already helped grow 2 billion-dollar companies
+                already helped grow 2 billion-dollar companies.
               </li>
               
               <li>
-                We all have{" "}
+                We are a lean soloGP fund and key people all have{" "}
                 <span className="text-srv-yellow">
                   technical backgrounds
                 </span>
-                , helping us select and support founders
+                , helping us understand and connect with deeply technical founders.
               </li>
               
               <li>
-                We offer our portfolio companies access to our Proprietary
-                Ecosystem to help with{" "}
+                We offer our portfolio companies access to our proprietary
+                community ecosystem to help with{" "}
                 <span className="text-srv-yellow">
-                  specialist hiring and industry connections
-                </span>
+                  industry connections
+                </span>.
               </li>
             </ul>
             
@@ -256,6 +258,74 @@ const WhoWeAre = () => {
                   </div>
                 ))}
               </div>
+            </div>
+            
+            {/* Our Story Timeline Section */}
+            <h2 className="text-3xl font-bold text-white mb-10 font-mono">&lt;Our Story/&gt;</h2>
+            
+            <Timeline 
+              items={[
+                {
+                  year: '2011',
+                  title: 'Silicon Roundabout Begins',
+                  description: 'First Silicon Roundabout meetup of engineers, scientists, builders and founders near the Old Street Roundabout in London.'
+                },
+                {
+                  year: '2016',
+                  title: 'First Pitching Event',
+                  description: 'First main show and tell pitching event for the community.'
+                },
+                {
+                  year: '2017',
+                  title: 'DeepTech Focus',
+                  description: 'Community focus specialises on deeptech, from advanced software to hardware and science startups.'
+                },
+                {
+                  year: '2019',
+                  title: 'First Investment',
+                  description: "Francesco's first angel cheque into a community startup."
+                },
+                {
+                  year: '2020',
+                  title: 'Going Hybrid',
+                  description: 'Community goes hybrid because of Covid forcing it online and its doors suddenly open to the whole of Europe.'
+                },
+                {
+                  year: '2022',
+                  title: 'Fund Vision',
+                  description: "Francesco drops his engineering career and pursuits to focus entirely on investing and launching 'a deeptech fund as a business soul for our community'.",
+                },
+                {
+                  year: '2023',
+                  title: 'Our Fund Launches',
+                  description: 'Silicon Roundabout Ventures starts operations with a warehoused investment and a first closing in December 2022.',
+                  highlight: true
+                },
+                {
+                  year: '2024',
+                  title: 'Fund 1 Closes',
+                  description: 'Silicon Roundabout Ventures fund 1 closes just above its £5m target and its first investment, Anaphite, closes its Series A follow on round.'
+                },
+                {
+                  year: 'Now',
+                  title: 'Building the Future',
+                  description: 'We continue our journey building a new kind of financial institution at the intersection of Venture Capital, Science and Community!',
+                  highlight: true
+                }
+              ]}
+              className="mb-16"
+            />
+            
+            <div className="flex justify-center mb-16">
+              <Link 
+                to="/buildinpublic" 
+                className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
+              >
+                Check out our Build in Public blog
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>

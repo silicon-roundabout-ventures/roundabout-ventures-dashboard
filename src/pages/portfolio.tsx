@@ -7,6 +7,9 @@ import ChartComponent from '../components/dashboard/ChartComponent';
 import ParticleBackground from '../components/common/ParticleBackground';
 import { toast } from "sonner";
 import Layout from '../components/common/Layout';
+import { Button } from '../components/ui/button';
+import { Link } from 'gatsby';
+import { ArrowRight } from 'lucide-react';
 
 const PortfolioContent = () => {
   const [companies, setCompanies] = useState<PortfolioCompany[]>([]);
@@ -194,6 +197,21 @@ const PortfolioContent = () => {
                     <p className="text-srv-gray">No companies found matching the selected filter.</p>
                   </div>
                 )}
+              </div>
+              
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-4 justify-center mt-16 mb-10">
+                <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
+                  <Link to="/apply">
+                    Apply For Funding <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                
+                <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
+                  <Link to="/forinvestors">
+                    LP Enquiries <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
               </div>
             </div>
           </>

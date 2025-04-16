@@ -13,6 +13,9 @@ import { IconCircle } from '../components/ui/IconCircle';
 import { FeatureCard } from '../components/ui/FeatureCard';
 import { CircularImage } from '../components/ui/CircularImage';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import ImageSlider from '../components/common/ImageSlider';
+import TypedAnimationWrapper from '../components/ui/TypedAnimationWrapper';
+import ScrollChevrons from '../components/ui/ScrollChevrons';
 
 // Content component to separate from layout
 const IndexContent = () => {
@@ -42,19 +45,24 @@ const IndexContent = () => {
       
       {/* Hero Section */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col items-center justify-center min-h-[90vh] text-center">
+        <div className="flex flex-col items-center justify-center min-h-[100vh] text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
             &lt;Silicon Roundabout Ventures/&gt;
           </h1>
           
-          <div className="font-mono text-xl md:text-2xl mb-8 text-white">
-            <span>Investing(</span>
-            <span className="text-srv-yellow">First</span>)
-            {" "}<span className="text-srv-pink">in</span>{" "}
-            &#123;{" "}Frontier_Technology.<span className="text-srv-yellow">Founders</span>{" "}&#125;
-            {" "}<span className="text-srv-pink">building</span> the future Computing & Physical{" "}
-            <span className="text-srv-yellow">Infrastructure</span>
-            {" "}
+          <div className="font-mono text-xl md:text-2xl mb-12 text-white">
+            {/* Professional typing animation using Typed.js */}
+            <TypedAnimationWrapper
+              strings={[
+                'Investing(<span class="text-srv-yellow">First</span>) <span class="text-srv-pink">in</span> { Frontier_Technology.<span class="text-srv-yellow">Founders</span> } <span class="text-srv-pink">building</span> the future Computing &amp; Physical <span class="text-srv-yellow">Infrastructure</span>'
+              ]}
+              typeSpeed={40}
+              startDelay={800}
+              showCursor={true}
+              cursorChar="|"
+              className="font-mono"
+              loop={false}
+            />
           </div>
         
           <div className="flex flex-wrap gap-4 justify-center">
@@ -70,76 +78,99 @@ const IndexContent = () => {
               </Link>
             </Button>
           </div>
+          
+          {/* Animated scroll chevrons */}
+          <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+            <ScrollChevrons targetId="who-we-are" />
+          </div>
         </div>
       </div>
       
-      {/* Who We Are Section */}
-      <Section background="dark" title="Who we are">
-        <div className="flex flex-col space-y-6 mb-12">
-          <div className="flex items-start">
-            <span className="text-srv-teal text-2xl mr-3 mt-1">⚛️</span>
-            <p className="text-xl text-white">
-              We are a Community-Driven VC firm backing{" "}
-              <span className="text-srv-yellow">Deep Tech</span>{" "}
-              startups at{" "}
-              <span className="text-srv-pink">pre-seed</span> and{" "}
-              <span className="text-srv-pink">seed</span> stages.
-            </p>
-          </div>
-          
-          <div className="flex items-start">
-            <span className="text-srv-teal text-2xl mr-3 mt-1">👥</span>
-            <p className="text-xl text-white">
-              Leveraging our community of 15,000 founders and engineers and
-              live pitching competitions featuring winners now worth over £7 Billion.
-            </p>
-          </div>
-          
-          <div className="flex items-start">
-            <span className="text-srv-teal text-2xl mr-3 mt-1">⚗️</span>
-            <p className="text-xl text-white">
-              We spot fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
-            </p>
-          </div>
-        </div>
+      {/* Who We Are Section with Tech Image Slider */}
+      <div id="who-we-are" className="relative">
+        {/* Technology image slider background */}
+        <ImageSlider 
+          imagePathPattern="community\/technologies"
+          transitionSpeed={4000}
+          overlayOpacity={70}
+        />
         
-        <div className="flex flex-wrap justify-around gap-10 mb-16">
-          {/* Community images using our specialized CircularImage component */}
-          {data.communityImage1?.childImageSharp?.gatsbyImageData && (
-            <CircularImage 
-              image={data.communityImage1.childImageSharp.gatsbyImageData} 
-              alt="Community member presenting" 
-              size={180} 
-            />
-          )}
-          
-          {data.communityImage2?.childImageSharp?.gatsbyImageData && (
-            <CircularImage 
-              image={data.communityImage2.childImageSharp.gatsbyImageData} 
-              alt="Community meetup" 
-              size={180} 
-            />
-          )}
-          
-          {data.communityImage3?.childImageSharp?.gatsbyImageData && (
-            <CircularImage 
-              image={data.communityImage3.childImageSharp.gatsbyImageData} 
-              alt="Community presenter pitching" 
-              size={180} 
-            />
-          )}
+        {/* Content overlay */}
+        <div className="relative z-20 py-24">
+          <Section background="transparent" title="Who we are">
+            <div className="flex flex-col space-y-6 mb-12">
+              <div className="flex items-start">
+                <span className="text-srv-teal text-2xl mr-3 mt-1">⚛️</span>
+                <p className="text-xl text-white">
+                  We are a Community-Driven VC firm backing{" "}
+                  <span className="text-srv-yellow">Deep Tech</span>{" "}
+                  startups at{" "}
+                  <span className="text-srv-pink">pre-seed</span> and{" "}
+                  <span className="text-srv-pink">seed</span> stages.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-teal text-2xl mr-3 mt-1">👥</span>
+                <p className="text-xl text-white">
+                  Leveraging our community of 15,000 founders and engineers and
+                  live pitching competitions featuring winners now worth over £7 Billion.
+                </p>
+              </div>
+              
+              <div className="flex items-start">
+                <span className="text-srv-teal text-2xl mr-3 mt-1">🔬️</span>
+                <p className="text-xl text-white">
+                  We spot fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap justify-around gap-10 mb-16">
+              {/* Community images using our specialized CircularImage component */}
+              {data.communityImage1?.childImageSharp?.gatsbyImageData && (
+                <CircularImage 
+                  image={data.communityImage1.childImageSharp.gatsbyImageData} 
+                  alt="Community member presenting" 
+                  size={180} 
+                />
+              )}
+              
+              {data.communityImage2?.childImageSharp?.gatsbyImageData && (
+                <CircularImage 
+                  image={data.communityImage2.childImageSharp.gatsbyImageData} 
+                  alt="Community meetup" 
+                  size={180} 
+                />
+              )}
+              
+              {data.communityImage3?.childImageSharp?.gatsbyImageData && (
+                <CircularImage 
+                  image={data.communityImage3.childImageSharp.gatsbyImageData} 
+                  alt="Community presenter pitching" 
+                  size={180} 
+                />
+              )}
+            </div>
+            
+            <div className="text-center">
+              <Link to="/whoweare">
+                <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
+                  Learn More About Us
+                </Button>
+              </Link>
+            </div>
+            
+            {/* Add scroll chevrons at the bottom of the Who We Are section */}
+            <div className="flex justify-center mt-10 mb-6">
+              <ScrollChevrons targetId="our-mission" />
+            </div>
+          </Section>
         </div>
-        
-        <div className="text-center">
-          <Link to="/whoweare">
-            <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
-              Learn More About Us
-            </Button>
-          </Link>
-        </div>
-      </Section>
-      
+      </div>
+     
       {/* Our Mission Section */}
+      <div id="our-mission"></div>
       <Section title="Our Mission">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <GlassCard>

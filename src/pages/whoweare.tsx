@@ -188,9 +188,9 @@ const WhoWeAre = () => {
                 stages.
               </p>
               <p className="text-xl text-srv-light">
-                We founders who are sub-0.1% of the population type of{" "}
+                We back founders who are "sub-0.1% of the population" type of{" "}
                 <span className="text-srv-yellow">exceptional</span>,{" "}
-                obsessively building novel approaches that will matter in the long-term in critical areas like{" "}
+                obsessively building novel technology companies for the long term in critical areas like{" "}
                 <span className="text-srv-pink">
                   Computing
                 </span>
@@ -318,8 +318,8 @@ const WhoWeAre = () => {
             
             <div className="flex justify-center mb-16">
               <Link 
-                to="/buildinpublic" 
-                className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
+                to="/buildinginpublic" 
+                className="px-8 py-4 bg-srv-yellow hover:bg-srv-yellow/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
               >
                 Check out our Build in Public blog
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">

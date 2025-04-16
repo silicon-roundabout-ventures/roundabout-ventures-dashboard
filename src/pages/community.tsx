@@ -1,45 +1,10 @@
-
 import React from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+import { graphql, Link, useStaticQuery } from 'gatsby';
 import ParticleBackground from '../components/common/ParticleBackground';
 import Layout from '../components/common/Layout';
+import ImageSlider from '../components/common/ImageSlider';
 
 const CommunityContent = () => {
-  // Query for all event images
-  const data = useStaticQuery(graphql`
-    query {
-      allFile(filter: {relativePath: {regex: "/community\\/events/"}}, sort: {name: ASC}) {
-        edges {
-          node {
-            relativePath
-            childImageSharp {
-              gatsbyImageData(width: 1200, quality: 90, placeholder: BLURRED)
-            }
-          }
-        }
-      }
-    }
-  `);
-  
-  // Extract image data from query results
-  const eventImages = data.allFile.edges.map(({ node }: any) => 
-    node.childImageSharp ? getImage(node) : null
-  ).filter(Boolean);
-  
-  // State for the current image in the slider
-  const [currentImage, setCurrentImage] = React.useState(0);
-  
-  // Set up auto-rotation for slider
-  React.useEffect(() => {
-    if (eventImages.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % eventImages.length);
-    }, 5000); // Change image every 5 seconds
-    
-    return () => clearInterval(interval);
-  }, [eventImages.length]);
 
   return (
     <div className="min-h-screen pt-20 pb-16">
@@ -48,46 +13,12 @@ const CommunityContent = () => {
       {/* Hero Section with Background Image */}
       <div className="relative mb-16">
         <div className="w-full h-[50vh] overflow-hidden rounded-lg relative">
-          {/* Slider Images */}
-          {eventImages.map((image: any, index: number) => (
-            <div 
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                currentImage === index ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              {image && (
-                <GatsbyImage
-                  image={image}
-                  alt={`Community event ${index + 1}`}
-                  className="w-full h-full"
-                  objectFit="cover"
-                  objectPosition="center"
-                />
-              )}
-            </div>
-          ))}
-          
-          {/* Navigation Dots */}
-          {eventImages.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
-              {eventImages.map((_: any, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImage(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    currentImage === index 
-                      ? 'bg-srv-teal w-4' 
-                      : 'bg-white/50 hover:bg-white/80'
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
-          
-          {/* Overlay with gradient */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent z-10" />
+          {/* Use the reusable ImageSlider component */}
+          <ImageSlider 
+            imagePathPattern="community\/events"
+            transitionSpeed={4000}
+            overlayOpacity={50}
+          />
           
           {/* Text content */}
           <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
@@ -132,7 +63,7 @@ const CommunityContent = () => {
                 />
             </div>
             <br />
-            <h3 className="text-xl font-bold text-white mb-6">Community Events:</h3>
+            <h3 className="text-xl font-bold text-white mb-8">Community Events:</h3>
             <div className="h-[400px] overflow-hidden rounded-lg relative">
               <div className="absolute inset-x-0 top-0 flex justify-center pt-6 z-10 pointer-events-none">
                 <div className="animate-pulse-slow text-srv-teal bg-black/70 px-6 py-3 rounded-lg backdrop-blur-sm">Loading community events...</div>
@@ -156,6 +87,19 @@ const CommunityContent = () => {
               />
             </div>
           </div>
+
+          <div className="flex justify-center mb-16">
+              <Link 
+                to="/buildinpublic" 
+                className="px-8 py-4 bg-srv-yellow hover:bg-srv-yellow/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
+              >
+                Hear about new events through our Build in Public blog
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
+            </div>
+
         </div>
       </div>
     </div>

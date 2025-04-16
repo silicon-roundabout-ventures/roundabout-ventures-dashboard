@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import Layout from '../components/common/Layout';  
 import { Button } from '../components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import ClientOnly from '../components/common/ClientOnly';
 
 // Process Airtable data into our format
 const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
@@ -329,32 +330,34 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
         ) : (
           <>
             {/* Statistics Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-              <StatisticCard
-                title="Total Investments"
-                value={statistics?.totalInvestments ? `£${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '£0M'}
-                icon={<span className="text-srv-teal text-xl">💸</span>}
-                change={statistics?.investmentsLast12Months ? `£${(statistics.investmentsLast12Months / 1000000).toFixed(1)}M in last 12m` : 'No data for last 12m'}
-                trend="neutral"
-              />
-              <StatisticCard
-                title="Portfolio Companies"
-                value={statistics?.totalCompanies || 0}
-                icon={<span className="text-srv-teal text-xl">🏢</span>}
-                change={statistics?.companiesLast12Months ? `+${statistics.companiesLast12Months} in last 12m` : 'No new companies'}
-                trend={statistics?.companiesLast12Months && statistics.companiesLast12Months > 0 ? 'up' : 'neutral'}
-              />
-              <StatisticCard
-                title="Average Investment"
-                value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000).toFixed(0)}k` : '£0k'}
-                icon={<span className="text-srv-teal text-xl">📊</span>}
-              />
-              <StatisticCard
-                title="Median Valuation"
-                value={statistics?.medianValuation ? `£${(statistics.medianValuation / 1000000).toFixed(1)}M` : '£0M'}
-                icon={<span className="text-srv-teal text-xl">📈</span>}
-              />
-            </div>
+            <ClientOnly fallback={<div className="h-24 bg-muted animate-pulse rounded-lg"></div>}>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                <StatisticCard
+                  title="Total Investments"
+                  value={statistics?.totalInvestments ? `£${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '£0M'}
+                  icon={<span className="text-srv-teal text-xl">💸</span>}
+                  change={statistics?.investmentsLast12Months ? `£${(statistics.investmentsLast12Months / 1000000).toFixed(1)}M in last 12m` : 'No data for last 12m'}
+                  trend="neutral"
+                />
+                <StatisticCard
+                  title="Portfolio Companies"
+                  value={statistics?.totalCompanies || 0}
+                  icon={<span className="text-srv-teal text-xl">🏢</span>}
+                  change={statistics?.companiesLast12Months ? `+${statistics.companiesLast12Months} in last 12m` : 'No new companies'}
+                  trend={statistics?.companiesLast12Months && statistics.companiesLast12Months > 0 ? 'up' : 'neutral'}
+                />
+                <StatisticCard
+                  title="Average Investment"
+                  value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000).toFixed(0)}k` : '£0k'}
+                  icon={<span className="text-srv-teal text-xl">📊</span>}
+                />
+                <StatisticCard
+                  title="Median Valuation"
+                  value={statistics?.medianValuation ? `£${(statistics.medianValuation / 1000000).toFixed(1)}M` : '£0M'}
+                  icon={<span className="text-srv-teal text-xl">📈</span>}
+                />
+              </div>
+            </ClientOnly>
             
             {/* Charts Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
@@ -410,17 +413,19 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
               </div>
               
               {/* Portfolio Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {filteredCompanies.length > 0 ? (
-                  filteredCompanies.map((company) => (
-                    <PortfolioCard key={company.id} company={company} />
-                  ))
-                ) : (
-                  <div className="col-span-full text-center py-12">
-                    <p className="text-srv-gray">No companies found matching the selected filter.</p>
-                  </div>
-                )}
-              </div>
+              <ClientOnly fallback={<div className="h-60 bg-muted animate-pulse rounded-lg"></div>}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                  {filteredCompanies.length > 0 ? (
+                    filteredCompanies.map((company) => (
+                      <PortfolioCard key={company.id} company={company} />
+                    ))
+                  ) : (
+                    <div className="col-span-full text-center py-12">
+                      <p className="text-srv-gray">No companies found matching the selected filter.</p>
+                    </div>
+                  )}
+                </div>
+              </ClientOnly>
               
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 justify-center mt-16 mb-10">

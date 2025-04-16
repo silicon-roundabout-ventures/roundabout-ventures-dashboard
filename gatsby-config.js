@@ -15,14 +15,40 @@ module.exports = {
     author: `@roundaboutvc`,
     siteUrl: `https://roundabout.ventures`,
   },
+  // Gatsby configuration for optimal SSR and hydration
+  flags: {
+    DEV_SSR: false, // Disable SSR in development to prevent hydration mismatches
+    FAST_DEV: true,
+    PRESERVE_FILE_DOWNLOAD_CACHE: true,
+    DETECT_NODE_MUTATIONS: true, // Help identify DOM mutations that may cause hydration issues
+    PARALLEL_SOURCING: true, // Improve build performance
+  },
+  jsxRuntime: "automatic",
   plugins: [
+    // Netlify adapter for Gatsby - must be first in the plugins array
+    {
+      resolve: "gatsby-adapter-netlify",
+      options: {
+        excludeDatastoreFromBundle: true,
+        imageCDN: true
+      }
+    },
+    
     // Gatsby v5 has built-in Head API, so react-helmet is redundant
     // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
     
     // Core image processing plugins
     `gatsby-plugin-image`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
+    // Configure gatsby-plugin-sharp with error handling for Netlify
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        failOnError: false, // Prevents build failures on image processing errors
+        defaultQuality: 80, // Good balance between quality and size
+        stripMetadata: true, // Reduces image size
+      }
+    },
     
     // Source filesystem for images and other static assets
     {
@@ -39,15 +65,20 @@ module.exports = {
     // TypeScript support
     `gatsby-plugin-typescript`,
     
-    // Airtable source plugin - fetches data at build time, keeping API keys secure
-    // Only include if environment variables are available
-    ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID ? [
-      {
-        resolve: `gatsby-source-airtable`,
-        options: {
-          apiKey: process.env.AIRTABLE_API_KEY,
-          concurrency: 5,
-          tables: [
+    // Airtable source plugin - optimized for Netlify compatibility
+    {
+      resolve: `gatsby-source-airtable`,
+      options: {
+        apiKey: process.env.AIRTABLE_API_KEY || '',
+        concurrency: 3, // Reduced from 5 to prevent rate limiting
+        requestTimeout: 30000, // 30 seconds timeout for Netlify builds
+        // Configure error handling for Netlify builds
+        errorHandling: 'skip',
+        separateNodeType: true, // Avoid node type conflicts
+        queryName: 'AIRTABLE',
+        tables: [
+          // Only process if environment variables are available
+          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID ? [
             {
               baseId: process.env.AIRTABLE_BASE_ID,
               tableName: `Startups`,
@@ -96,10 +127,10 @@ module.exports = {
                 return record;
               }
             }
-          ]
-        }
+          ] : [])
+        ]
       }
-    ] : []),
+    },
     
     // Create nodes with mock data when Airtable is not available
     {

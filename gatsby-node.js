@@ -1,5 +1,31 @@
 const path = require("path")
 
+// Add explicit schema typing for Airtable data
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
+  const typeDefs = `
+    type Airtable implements Node {
+      data: AirtableData
+      table: String
+      recordId: String
+    }
+    type AirtableData {
+      name: String
+      description: String
+      sector: [String]
+      website: String
+      stage: String
+      announced: String
+      close_date: String
+      logo: AirtableDataLogo
+    }
+    type AirtableDataLogo {
+      localFiles: [File] @link
+    }
+  `
+  createTypes(typeDefs)
+}
+
 // Setup path aliases and handle browser-only modules
 exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
   // Set up path aliases

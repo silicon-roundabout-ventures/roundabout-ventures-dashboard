@@ -8,12 +8,15 @@ export interface PortfolioCompany {
   id: string;
   name: string;          // Deal Name in Airtable
   description: string;   // Notes in Airtable
+  oneLiner?: string;     // One Line Summary or One Liner in Airtable
   logo: string;          // Will need to be constructed from other fields
+  photo?: string;        // Company Photo in Airtable (larger image for modals)
   website: string;       // domain from Company in Airtable
   industry: string[];    // Sector in Airtable
   stage: string;         // Stage in Airtable
   investmentDate: string; // Close Date in Airtable
   announced: boolean;     // Announced in Airtable
+  fund?: string | number; // Numeral (from fund) in Airtable
   dealValue?: number;     // Deal Value in Airtable (optional)
   netMoic?: number;       // NET MOIC in Airtable (optional)
   totalInvested?: number; // Total Invested in Airtable (optional)
@@ -275,27 +278,73 @@ class AirtableService {
           fields['Deal Date'] || 
           '';
         
+        // Extract the one liner - SIMPLIFYING: Using One Line Summary as the primary field
+        let oneLiner = '';
+        
+        if (isAnnounced) {
+          // Try to find the One Line Summary field first
+          if (fields['One Line Summary'] && typeof fields['One Line Summary'] === 'string') {
+            oneLiner = fields['One Line Summary'];
+            console.log(`Using One Line Summary for ${companyName}: "${oneLiner}"`);
+          } 
+          // Fallback options if One Line Summary doesn't exist
+          else if (fields['One Liner'] && typeof fields['One Liner'] === 'string') {
+            oneLiner = fields['One Liner'];
+            console.log(`Using One Liner fallback: "${oneLiner}"`);
+          }
+          else if (fields['Tagline'] && typeof fields['Tagline'] === 'string') {
+            oneLiner = fields['Tagline'];
+            console.log(`Using Tagline fallback: "${oneLiner}"`);
+          }
+          // Last resort - use a short version of description
+          else if (fields['Summary'] && typeof fields['Summary'] === 'string') {
+            oneLiner = fields['Summary'].substring(0, 100) + (fields['Summary'].length > 100 ? '...' : '');
+            console.log(`Using truncated Summary: "${oneLiner}"`);
+          }
+          else if (fields['Description'] && typeof fields['Description'] === 'string') {
+            oneLiner = fields['Description'].substring(0, 100) + (fields['Description'].length > 100 ? '...' : '');
+            console.log(`Using truncated Description: "${oneLiner}"`);
+          }
+          else {
+            oneLiner = 'No description available';
+            console.log(`No description available for ${companyName}`);
+          }
+        } 
+        // For stealth companies
+        else {
+          oneLiner = fields['Public One Liner'] || 
+                   fields['SHARING: One Liner'] || 
+                   `Stealth ${sectors[0]} company`;
+          console.log(`Using stealth one liner for ${companyName}: "${oneLiner}"`);
+        }
+
         // SECURITY ENHANCEMENT: For stealth companies, use a sanitized/public description
         let description = '';
         if (isAnnounced) {
-          // Full description for announced companies
-          description = fields['Summary'] || 
-                        fields['One Line Summary'] || 
-                        fields['Description'] || 
-                        fields['Notes'] || 
-                        fields['One Liner'] ||
-                        fields['GP Portfolio Notes'] || 
-                        'Information about this company is currently not available.';
+          // Full description for announced companies - prioritize Summary as requested
+          if (typeof fields['Summary'] === 'string' && fields['Summary'].trim() !== '') {
+            description = fields['Summary'];
+            console.log(`Using Summary field for description`);
+          } else {
+            description = fields['Description'] || 
+                          fields['Notes'] || 
+                          fields['GP Portfolio Notes'] || 
+                          'Information about this company is currently not available.';
+            console.log(`Using fallback field for description`);
+          }
         } else {
           // For stealth companies, use only approved public descriptions
           description = fields['Public Description'] || 
                         fields['SHARING: Description'] || 
                         fields['External Description'] ||
                         `A stealth company developing innovative solutions in the ${sectors[0]} space.`;
+          console.log(`Using stealth description`);
         }
 
         // SECURITY ENHANCEMENT: For stealth companies, don't use actual logo to prevent identification
         let logo = '';
+        let photo = '';
+        
         if (isAnnounced) {
           // Use actual logo only for announced companies
           if (fields['Logo'] && fields['Logo'][0] && fields['Logo'][0].url) {
@@ -310,10 +359,23 @@ class AirtableService {
               .toUpperCase();
             logo = `https://placehold.co/200x200?text=${initials}`;
           }
+          
+          // Extract photo for modal (larger image)
+          if (fields['Photo'] && fields['Photo'][0] && fields['Photo'][0].url) {
+            photo = fields['Photo'][0].url;
+          } else if (fields['Company Photo'] && fields['Company Photo'][0] && fields['Company Photo'][0].url) {
+            photo = fields['Company Photo'][0].url;
+          } else if (fields['Featured Image'] && fields['Featured Image'][0] && fields['Featured Image'][0].url) {
+            photo = fields['Featured Image'][0].url;
+          } else {
+            // If no photo is available, use the logo as photo
+            photo = logo;
+          }
         } else {
           // For stealth companies, use a generic placeholder or sector icon
           // Don't use actual company initials to prevent identification
           logo = `https://placehold.co/200x200?text=S`; // S for Stealth
+          photo = logo; // Same for photo
         }
 
         // Get stage information, trying different possible field names
@@ -323,18 +385,41 @@ class AirtableService {
           fields['Round'] || 
           'Seed';
 
+        // Extract the fund information
+        let fund = null;
+        if (fields['Numeral (from fund)']) {
+          // Get the raw fund value
+          const rawFund = fields['Numeral (from fund)'];
+          
+          // Clean up the fund value - if it contains "Fund" text, extract just the number
+          if (typeof rawFund === 'string') {
+            // Remove 'Fund' text and extract just the numeric part
+            const cleanedStr = rawFund.replace(/fund/i, '').trim();
+            const match = cleanedStr.match(/\d+/);
+            fund = match ? match[0] : cleanedStr;
+          } else {
+            // For non-string values (like numbers), use as is
+            fund = rawFund;
+          }
+          
+          console.log(`Fund for ${companyName}: ${fund} (raw: ${rawFund})`);
+        }
+        
         // UPDATED: Per client request, include financial metrics for all companies
         // Financial data without company identification doesn't reveal identity
         const company = {
           id: record.id,
           name: companyName, // Still using display name / stealth name for non-announced
           description: description, // Still using sanitized description
+          oneLiner: oneLiner, // New one liner field for cards
           logo: logo, // Still using generic logo for stealth
+          photo: photo, // New photo field for modals
           website: isAnnounced ? website : '', // Still no website for stealth companies
           industry: sectors, // Now using actual sectors for all
           stage: stage, // Using actual stage information
           investmentDate: closeDate, // Using actual dates
           announced: isAnnounced,
+          fund: fund, // New field for fund information
           // UPDATED: Include financial data for all companies
           dealValue: fields['Deal Value'] || fields['Investment Amount'],
           netMoic: fields['NET MOIC'] || fields['MOIC'],
@@ -343,6 +428,8 @@ class AirtableService {
         };
         
         console.log(`Processed company: ${company.name}, announced: ${company.announced}, industry: ${company.industry.join(', ')}`);
+        console.log(`  One liner: ${company.oneLiner}`);
+        console.log(`  Description start: ${company.description?.substring(0, 50)}...`);
         return company;
       });
 

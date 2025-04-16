@@ -46,6 +46,27 @@ The integration includes:
 - Error handling for API connection issues
 - Fund statistics calculation from raw data
 
+## 🔄 External Service Integrations
+
+### Forms & Calendars via iframes
+
+The dashboard uses iframes to integrate several external services, prioritizing flexibility and maintainability:
+
+- **Lu.ma Calendar Embeds**: Community and investor events are displayed through embedded Lu.ma calendars, allowing real-time event updates without redeployment.
+
+- **Application Forms**: Both startup application and LP inquiry forms are embedded through iframes:
+  - **Airtable Forms**: For startup applications
+  - **Google Forms**: For LP inquiries
+
+#### Benefits of iframe Integration
+
+- **Rapid Updates**: Form fields can be modified without code changes or redeployment
+- **Simplified Maintenance**: Form processing logic handled by established services
+- **Consistent Experience**: Users stay within the dashboard environment (no external redirects)
+- **Flexibility**: Easy to switch form providers or update form content
+
+All iframe content includes custom loading indicators with the dashboard's branded styling for a seamless user experience.
+
 ## 📝 Building in Public: Blog & Substack Integration
 
 The "Building in Public" section of the dashboard features a modern blog that automatically pulls content from Silicon Roundabout Ventures' Substack publication:

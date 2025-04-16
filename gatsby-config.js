@@ -132,15 +132,16 @@ module.exports = {
       }
     },
     
-    // Create nodes with mock data when Airtable is not available
+    // Cache control headers for better performance
     {
-      resolve: 'gatsby-plugin-gatsby-cloud',
+      resolve: 'gatsby-plugin-netlify',
       options: {
         headers: {
           '/*': [
             'Cache-Control: public, max-age=0, must-revalidate'
           ]
-        }
+        },
+        mergeSecurityHeaders: true,
       }
     },
     

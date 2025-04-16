@@ -1,12 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { PortfolioCompany } from "../../services/AirtableService"
 
 interface AirtablePortfolioDataProps {
-  onDataLoaded: (companies: PortfolioCompany[]) => void;
+  onDataLoaded?: (companies: PortfolioCompany[]) => void;
 }
 
 const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoaded }) => {
+  // Fetch Airtable data at build time using GraphQL
   const data = useStaticQuery(graphql`
     query {
       allAirtable(filter: {table: {eq: "Startups"}}) {
@@ -36,13 +37,39 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
           }
         }
       }
+      allMockPortfolioData {
+        nodes {
+          id
+          recordId
+          table
+          data {
+            Name
+            Deal_Name
+            Notes
+            One_Line_Summary
+            Sector
+            Stage
+            Announced
+            Close_Date
+            Company
+            Fund
+            Total_Invested
+            Entry_Valuation
+          }
+        }
+      }
     }
   `)
 
-  React.useEffect(() => {
-    if (data?.allAirtable?.nodes) {
-      // Transform Airtable data to portfolio company format
-      const companies: PortfolioCompany[] = data.allAirtable.nodes.map((node: any) => {
+  useEffect(() => {
+    // Determine which dataset to use - prefer Airtable if available
+    const airtableNodes = data?.allAirtable?.nodes || [];
+    const mockNodes = data?.allMockPortfolioData?.nodes || [];
+    const sourceNodes = airtableNodes.length > 0 ? airtableNodes : mockNodes;
+    
+    if (sourceNodes.length > 0) {
+      // Transform data to portfolio company format
+      const companies: PortfolioCompany[] = sourceNodes.map((node: any) => {
         // Get company name - prioritize Deal_Name, fallback to constructing from other fields
         const companyName = node.data.Deal_Name || 
                            (node.data.Company ? String(node.data.Company).split('.')[0] : null) || 
@@ -116,8 +143,10 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         };
       });
       
-      // Pass data to parent component
-      onDataLoaded(companies);
+      // Call the callback to pass the data to the parent component
+      if (onDataLoaded) {
+        onDataLoaded(companies);
+      }
     }
   }, [data, onDataLoaded]);
 

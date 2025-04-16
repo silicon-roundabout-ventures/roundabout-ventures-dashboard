@@ -55,18 +55,34 @@ const PortfolioContent = () => {
     }));
   };
   
-  // Filter companies based on selected filter
-  const filteredCompanies = companies.filter(company => {
-    if (filter === 'all') return true;
-    if (filter === 'announced') return company.announced;
-    if (filter === 'stealth') return !company.announced;
-    return company.industry.includes(filter);
-  });
+  // Get unique funds for filter dropdown
+  const funds = companies
+    .filter(company => company.fund !== undefined && company.fund !== null)
+    .map(company => String(company.fund)) // Get fund as string
+    .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
+    .sort(); // Sort funds
   
   // Get unique industries for filter dropdown
   const industries = Array.from(
     new Set(companies.flatMap(company => company.industry))
   );
+  
+  // Filter companies based on selected filter
+  const filteredCompanies = companies.filter(company => {
+    if (filter === 'all') return true;
+    if (filter === 'announced') return company.announced;
+    if (filter === 'stealth') return !company.announced;
+    
+    // Check if the filter is a fund (format: "fund:X")
+    if (filter.startsWith('fund:')) {
+      const fundNumber = filter.split(':')[1];
+      return company.fund !== undefined && company.fund !== null && 
+             String(company.fund) === fundNumber;
+    }
+    
+    // Otherwise filter by industry
+    return company.industry.includes(filter);
+  });
 
   return (
     <div className="min-h-screen pt-28 pb-16">
@@ -104,7 +120,7 @@ const PortfolioContent = () => {
               />
               <StatisticCard
                 title="Average Investment"
-                value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000000).toFixed(2)}M` : '£0M'}
+                value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000).toFixed(0)}k` : '£0k'}
                 icon={<span className="text-srv-teal text-xl">📊</span>}
               />
               <StatisticCard
@@ -132,7 +148,7 @@ const PortfolioContent = () => {
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-white flex items-center"><span className="mr-2">🏢</span>Portfolio Companies</h2>
                 
-                {/* Filter Dropdown */}
+                {/* Filter Dropdown & Dropdown display*/}
                 <div className="relative">
                   <select
                     value={filter}
@@ -142,6 +158,17 @@ const PortfolioContent = () => {
                     <option value="all">🔍 All Companies</option>
                     <option value="announced">🚀 Announced Only</option>
                     <option value="stealth">🔒 Stealth Only</option>
+                    
+                    {funds.length > 0 && (
+                      <optgroup label="By Fund">
+                        {funds.map((fund) => (
+                          <option key={`fund-${fund}`} value={`fund:${fund}`}>
+                            {fund}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    
                     <optgroup label="By Industry">
                       {industries.map((industry) => (
                         <option key={industry} value={industry}>

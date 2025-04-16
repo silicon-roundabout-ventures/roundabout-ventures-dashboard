@@ -41,68 +41,67 @@ const TeamMember: React.FC<TeamMemberProps> = ({
   };
   
   return (
-    <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg border border-white/10 hover:border-white/20 transition duration-300 w-full max-w-md mx-auto">
-      <div className="p-4 sm:p-6">
-        <div className="flex flex-col items-center text-center mb-4">
-          {image && (
-            <CircularImage 
-              image={image.childImageSharp.gatsbyImageData}
-              alt={name}
-              size={120}
-              className="mb-4"
+    <div className="flex-col-center">
+      {image && (
+        <CircularImage 
+          image={image.childImageSharp.gatsbyImageData}
+          alt={name}
+          size={120}
+          className="mb-4"
+        />
+      )}
+      {!image && (
+        <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-[#4c566a]/40 mb-4">
+          {imageSrc ? (
+            <img 
+              src={imageSrc} 
+              alt={name} 
+              className="w-full h-full object-cover"
             />
-          )}
-          {imageSrc && (
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-4">
-              <img 
-                src={imageSrc}
-                alt={name}
-                className="w-full h-full object-cover"
-              />
+          ) : (
+            <div className="w-full h-full flex-center bg-gray-800 text-3xl font-bold text-white">
+              {name.charAt(0)}
             </div>
           )}
-          <h3 className="text-xl font-bold text-white">{name}</h3>
-          <p className="text-srv-yellow mt-1">{role}</p>
         </div>
-        
-        <div className={`text-sm text-srv-gray overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
-          {description}
-        </div>
-        
-        {typeof description === 'string' && description.length > 100 && (
-          <button 
-            onClick={toggleDetails}
-            className="mt-2 text-srv-teal text-sm hover:underline focus:outline-none"
-            aria-expanded={showDetails}
-          >
-            {showDetails ? 'Show less' : 'Read more'}
-          </button>
+      )}
+      <h3 className="heading-3 text-white mb-1">{name}</h3>
+      <p className="text-srv-teal text-sm mb-2">{role}</p>
+      
+      <div className={`text-srv-gray text-sm text-center max-w-xs mb-3 overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
+        {description}
+      </div>
+      
+      {typeof description === 'string' && description.length > 100 && (
+        <button 
+          onClick={toggleDetails}
+          className="mt-2 text-srv-teal text-sm hover:underline focus:outline-none mb-3"
+          aria-expanded={showDetails}
+        >
+          {showDetails ? 'Show less' : 'Read more'}
+        </button>
+      )}
+      
+      <div className="flex space-x-3">
+        {linkedin && (
+          <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
+            <Linkedin size={18} />
+          </a>
         )}
-        
-        {/* Social links */}
-        {(linkedin || twitter || github || blog) && (
-          <div className="flex justify-center mt-4 space-x-4">
-            {linkedin && (
-              <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s LinkedIn profile`}>
-                <Linkedin size={20} />
-              </a>
-            )}
-            {twitter && (
-              <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s Twitter profile`}>
-                <XLogo size={20} />
-              </a>
-            )}
-            {github && (
-              <a href={github} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s GitHub profile`}>
-                <Github size={20} />
-              </a>
-            )}
-            {blog && (
-              <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s Blog`}>
-                <Globe size={20} />
-              </a>
-            )}
-          </div>
+        {twitter && (
+          <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
+            <XLogo size={18} />
+          </a>
+        )}
+        {github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
+            <Github size={18} />
+          </a>
+        )}
+        {blog && (
+          <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
+            <Globe size={18} />
+          </a>
         )}
       </div>
     </div>

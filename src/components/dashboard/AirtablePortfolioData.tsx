@@ -13,14 +13,16 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         nodes {
           id
           data {
-            name
-            description
-            sector
-            website
-            stage
-            announced
-            close_date
-            logo {
+            Name
+            Deal_Name
+            Notes
+            One_Line_Summary
+            Sector
+            Stage
+            Announced
+            Close_Date
+            Company
+            Logo {
               localFiles {
                 publicURL
                 childImageSharp {
@@ -38,20 +40,66 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
     if (data?.allAirtable?.nodes) {
       // Transform Airtable data to portfolio company format
       const companies: PortfolioCompany[] = data.allAirtable.nodes.map((node: any) => {
-        const logoFile = node.data.logo?.localFiles?.[0];
+        // Get company name - prioritize Deal_Name, fallback to constructing from other fields
+        const companyName = node.data.Deal_Name || 
+                           (node.data.Company ? String(node.data.Company).split('.')[0] : null) || 
+                           'Unnamed Company';
+        
+        // Get logo if available
+        const logoFile = node.data.Logo?.localFiles?.[0];
         const logoUrl = logoFile ? (logoFile.publicURL || logoFile.childImageSharp?.gatsbyImageData) : null;
         
-        const companyName = node.data.name || 'Unnamed Company';
+        // Format website from Company field (domain)
+        let website = '';
+        if (node.data.Company) {
+          // If Company is a domain like example.com, format it as a proper URL
+          const domain = String(node.data.Company).trim();
+          if (domain && !domain.startsWith('http')) {
+            website = `https://${domain}`;
+          } else {
+            website = domain;
+          }
+        }
+        
+        // Determine if company is announced
+        const isAnnounced = node.data.Announced === 'Yes';
+        
+        // Get sectors as an array
+        const sectors = Array.isArray(node.data.Sector) ? node.data.Sector : 
+                       node.data.Sector ? [node.data.Sector] : [];
+        
+        // Generate description text from Notes or One_Line_Summary
+        let description = '';
+        if (isAnnounced) {
+          description = node.data.Notes || node.data.One_Line_Summary || 
+                      (sectors.length > 0 ? `${sectors.join(', ')} company` : 'Technology company');
+        } else {
+          // For stealth companies, mask the description
+          description = 'Information about this company is not yet public.';
+        }
+        
+        // Get investment date
+        const investmentDate = node.data.Close_Date || '';
+        
+        // Format company name for stealth companies
+        const displayName = isAnnounced ? 
+                           companyName : 
+                           `Stealth ${sectors[0] || 'Technology'} Company`;
+        
+        // Create first letter for placeholder logo
+        const firstLetter = displayName.charAt(0);
+        
         return {
           id: node.id,
-          name: companyName,
-          description: node.data.description || '',
-          logo: logoUrl || `https://placehold.co/200x200?text=${companyName.charAt(0) || 'C'}`,
-          website: node.data.website || '',
-          industry: Array.isArray(node.data.sector) ? node.data.sector : node.data.sector ? [node.data.sector] : [],
-          stage: node.data.stage || 'Seed',
-          investmentDate: node.data.close_date || '',
-          announced: node.data.announced === 'Yes' || node.data.announced === true
+          name: displayName,
+          description: description,
+          logo: logoUrl || `https://placehold.co/200x200?text=${firstLetter}`,
+          website: website,
+          industry: sectors,
+          stage: node.data.Stage || 'Seed',
+          investmentDate: investmentDate,
+          announced: isAnnounced,
+          oneLiner: node.data.One_Line_Summary || ''
         };
       });
       

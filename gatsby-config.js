@@ -53,22 +53,19 @@ module.exports = {
               tableView: `Portfolio`, // Use the specific Portfolio view
               // Process and sanitize data during build to protect stealth companies
               transform: (record) => {
-                // Debug: Log the full record fields
-                console.log('Record fields:', JSON.stringify(record.fields));
+                // For debugging, log some fields but not the entire record (which can be huge)
+                const companyName = record.fields['Name'] || record.fields['name'] || 'Unknown';
+                const sectorValue = record.fields['Sector'] || record.fields['sector'] || 'Tech';
+                console.log(`Processing company: ${companyName}, Sector: ${sectorValue}`);
                 
-                // Try to get the announced value from multiple possible field names
-                let announced = null;
-                if ('Announced' in record.fields) announced = record.fields['Announced'];
-                else if ('announced' in record.fields) announced = record.fields['announced'];
-                else if ('isAnnounced' in record.fields) announced = record.fields['isAnnounced'];
-                else if ('IsAnnounced' in record.fields) announced = record.fields['IsAnnounced'];
+                // CRITICAL: For Airtable, most fields will use original capitalization
+                // Try to get the announced value - use the exact field name from Airtable
+                const announced = record.fields['Announced'];
+                console.log(`Company ${companyName} announced value:`, announced);
                 
-                // More thorough check
-                console.log(`Company ${record.fields['Name'] || record.fields['name'] || 'Unknown'} announced value:`, announced);
-                
-                // Default to treating companies as announced unless explicitly marked as not announced
-                // This is safer for initial development until we're sure of the data format
-                const isAnnounced = !(announced === false || announced === 'No' || announced === 'no' || announced === 'false');
+                // Explicitly check for stealth companies
+                // Consider a company announced by default (for safety in development)
+                const isAnnounced = announced !== 'No' && announced !== false;
                 
                 console.log(`Company ${record.fields['Name'] || record.fields['name'] || 'Unknown'} is announced: ${isAnnounced}`);
                 

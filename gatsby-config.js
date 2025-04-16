@@ -65,67 +65,26 @@ module.exports = {
     // TypeScript support
     `gatsby-plugin-typescript`,
     
-    // Airtable source plugin - optimized for Netlify compatibility
+    // Airtable source plugin with simplified configuration for Netlify compatibility
     {
       resolve: `gatsby-source-airtable`,
       options: {
-        apiKey: process.env.AIRTABLE_API_KEY || '',
-        concurrency: 3, // Reduced from 5 to prevent rate limiting
-        requestTimeout: 30000, // 30 seconds timeout for Netlify builds
+        // Make sure to trim any whitespace from the API key
+        apiKey: process.env.AIRTABLE_API_KEY ? process.env.AIRTABLE_API_KEY.trim() : '',
+        concurrency: 1, // Set to 1 to avoid rate limiting on Netlify
+        requestTimeout: 60000, // 60 seconds timeout for Netlify builds
         // Configure error handling for Netlify builds
         errorHandling: 'skip',
         separateNodeType: true, // Avoid node type conflicts
         queryName: 'AIRTABLE',
         tables: [
-          // Only process if environment variables are available
-          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID ? [
+          // Only process if environment variables are available and non-empty
+          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_API_KEY.trim() !== '' && 
+             process.env.AIRTABLE_BASE_ID && process.env.AIRTABLE_BASE_ID.trim() !== '' ? [
             {
-              baseId: process.env.AIRTABLE_BASE_ID,
+              baseId: process.env.AIRTABLE_BASE_ID.trim(),
               tableName: `Startups`,
-              tableView: `Portfolio`, // Use the specific Portfolio view
-              // Process and sanitize data during build to protect stealth companies
-              transform: (record) => {
-                // For debugging, log some fields but not the entire record (which can be huge)
-                const companyName = record.fields['Name'] || record.fields['name'] || 'Unknown';
-                const sectorValue = record.fields['Sector'] || record.fields['sector'] || 'Tech';
-                console.log(`Processing company: ${companyName}, Sector: ${sectorValue}`);
-                
-                // CRITICAL: For Airtable, most fields will use original capitalization
-                // Try to get the announced value - use the exact field name from Airtable
-                const announced = record.fields['Announced'];
-                console.log(`Company ${companyName} announced value:`, announced);
-                
-                // Explicitly check for stealth companies
-                // Consider a company announced by default (for safety in development)
-                const isAnnounced = announced !== 'No' && announced !== false;
-                
-                console.log(`Company ${record.fields['Name'] || record.fields['name'] || 'Unknown'} is announced: ${isAnnounced}`);
-                
-                // If company is not announced (stealth), mask its data
-                if (!isAnnounced) {
-                  const sector = record.fields['Sector'] || record.fields['sector'] || 'Tech';
-                  return {
-                    ...record,
-                    fields: {
-                      ...record.fields,
-                      // Use lowercase field names for consistency with our schema
-                      "name": `Stealth ${sector} Company`,
-                      "description": "Information about this company is currently not available.",
-                      "website": "",
-                      "logo": null,
-                      "sector": record.get('Sector'), // Keep sector for filtering
-                      "stage": record.get('Stage') || "Seed", // Keep stage for statistics
-                      "announced": false,
-                      // Keep these fields for internal use
-                      "close_date": record.get('Close_Date'),
-                      "fund": record.get('Fund')
-                    }
-                  };
-                }
-                
-                // For announced companies, return all data
-                return record;
-              }
+              tableView: `Portfolio` // Use the specific Portfolio view
             }
           ] : [])
         ]

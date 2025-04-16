@@ -22,6 +22,9 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
             Announced
             Close_Date
             Company
+            Fund
+            Total_Invested
+            Entry_Valuation
             Logo {
               localFiles {
                 publicURL
@@ -49,15 +52,22 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         const logoFile = node.data.Logo?.localFiles?.[0];
         const logoUrl = logoFile ? (logoFile.publicURL || logoFile.childImageSharp?.gatsbyImageData) : null;
         
-        // Format website from Company field (domain)
+        // Format website from Company field (domain) - handle array or string
         let website = '';
         if (node.data.Company) {
+          // Company could be an array in Airtable
+          const companyValue = Array.isArray(node.data.Company) ? 
+                              (node.data.Company.length > 0 ? node.data.Company[0] : '') : 
+                              node.data.Company;
+          
           // If Company is a domain like example.com, format it as a proper URL
-          const domain = String(node.data.Company).trim();
-          if (domain && !domain.startsWith('http')) {
-            website = `https://${domain}`;
-          } else {
-            website = domain;
+          if (companyValue) {
+            const domain = String(companyValue).trim();
+            if (domain && !domain.startsWith('http')) {
+              website = `https://${domain}`;
+            } else {
+              website = domain;
+            }
           }
         }
         
@@ -99,7 +109,10 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
           stage: node.data.Stage || 'Seed',
           investmentDate: investmentDate,
           announced: isAnnounced,
-          oneLiner: node.data.One_Line_Summary || ''
+          oneLiner: node.data.One_Line_Summary || '',
+          fund: node.data.Fund || undefined,
+          totalInvested: node.data.Total_Invested ? Number(node.data.Total_Invested) : undefined,
+          entryValuation: node.data.Entry_Valuation || undefined
         };
       });
       

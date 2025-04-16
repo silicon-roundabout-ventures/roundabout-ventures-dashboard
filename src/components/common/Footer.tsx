@@ -56,7 +56,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-10 pt-8 border-t border-white/10 text-center text-srv-gray">
-          <p className="font-mono">/* &copy; {currentYear} Silicon Roundabout Ventures. All rights reserved. */</p>
+          <p className="font-mono">/* &copy; {currentYear} Silicon Roundabout Ventures Advisers Ltd. All rights reserved. */</p>
         </div>
       </div>
     </footer>

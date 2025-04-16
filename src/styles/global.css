@@ -13,7 +13,14 @@
  * Base styles and CSS variables
  * These define the color scheme and basic styling for the application
  */
-@layer base {
+@layer base {  
+  /* Improve font rendering to be closer to Safari's appearance */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv09", "cv11";
+  }
   :root {
     /* Main colors - VS Code Minimal Dark theme */
     --background: #000000; /* Pitch black background */

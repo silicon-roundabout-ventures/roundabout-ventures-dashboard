@@ -97,6 +97,10 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0' }
         },
+        'blink': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' }
+        },
         'typing': {
           from: { width: '0' },
           to: { width: '100%' }
@@ -108,7 +112,8 @@ export default {
         'fade-in': 'fade-in 0.5s ease-out',
         'pulse-slow': 'pulse-slow 3s infinite',
         'cursor-blink': 'cursor-blink 1s step-end infinite',
-        'typing': 'typing 3.5s steps(40, end)'
+        'typing': 'typing 3.5s steps(40, end)',
+        'blink': 'blink 0.7s step-end infinite'
       }
     }
   },

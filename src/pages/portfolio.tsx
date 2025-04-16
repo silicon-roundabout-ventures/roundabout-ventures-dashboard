@@ -1,42 +1,128 @@
-
 import React, { useState, useEffect } from 'react';
-import AirtableService, { PortfolioCompany, FundStatistics } from '../services/AirtableService';
+import { Link, graphql } from 'gatsby';
+import { PortfolioCompany, FundStatistics } from '../services/AirtableService';
 import PortfolioCard from '../components/dashboard/PortfolioCard';
 import StatisticCard from '../components/dashboard/StatisticCard';
 import ChartComponent from '../components/dashboard/ChartComponent';
 import ParticleBackground from '../components/common/ParticleBackground';
 import { toast } from "sonner";
-import Layout from '../components/common/Layout';
+import Layout from '../components/common/Layout';  
 import { Button } from '../components/ui/button';
-import { Link } from 'gatsby';
 import { ArrowRight } from 'lucide-react';
 
-const PortfolioContent = () => {
-  const [companies, setCompanies] = useState<PortfolioCompany[]>([]);
-  const [statistics, setStatistics] = useState<FundStatistics | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+// Process Airtable data into our format
+const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
+  if (!airtableNodes || airtableNodes.length === 0) {
+    console.log('No Airtable data available');
+    return [];
+  }
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const [portfolioData, statsData] = await Promise.all([
-          AirtableService.getPortfolioCompanies(),
-          AirtableService.getFundStatistics()
-        ]);
-        
-        setCompanies(portfolioData);
-        setStatistics(statsData);
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
-        toast.error('Failed to load dashboard data');
-      } finally {
-        setLoading(false);
-      }
-    };
+  console.log(`Processing ${airtableNodes.length} Airtable records`);
+  
+  return airtableNodes.map(node => {
+    const logoFile = node.data.logo?.localFiles?.[0];
+    const logoUrl = logoFile ? (logoFile.publicURL || 
+                    (logoFile.childImageSharp?.gatsbyImageData ? logoFile.childImageSharp.gatsbyImageData : null)) 
+                    : null;
     
-    fetchData();
+    const companyName = node.data.name || 'Unnamed Company';
+    return {
+      id: node.id,
+      name: companyName,
+      description: node.data.description || '',
+      logo: logoUrl || `https://placehold.co/200x200?text=${companyName.charAt(0) || 'C'}`,
+      website: node.data.website || '',
+      industry: Array.isArray(node.data.sector) ? node.data.sector : 
+                node.data.sector ? [node.data.sector] : [],
+      stage: node.data.stage || 'Seed',
+      investmentDate: node.data.close_date || '',
+      announced: node.data.announced === 'Yes' || node.data.announced === true
+    };
+  });
+};
+
+// Calculate statistics based on portfolio companies
+const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatistics => {
+  // Generate statistics based on portfolio data
+  const totalInvestment = 5200000; // placeholder value
+  
+  // Calculate industry split
+  const industryCount: Record<string, number> = {};
+  portfolioCompanies.forEach(company => {
+    if (company.industry) {
+      company.industry.forEach(industry => {
+        industryCount[industry] = (industryCount[industry] || 0) + 1;
+      });
+    }
+  });
+  
+  // Convert to percentages
+  const industrySplit: Record<string, number> = {};
+  const totalIndustries = Object.values(industryCount).reduce((sum, count) => sum + count, 0);
+  Object.entries(industryCount).forEach(([industry, count]) => {
+    industrySplit[industry] = Math.round((count / totalIndustries) * 100);
+  });
+  
+  // Calculate stage split
+  const stageCount: Record<string, number> = {};
+  portfolioCompanies.forEach(company => {
+    if (company.stage) {
+      stageCount[company.stage] = (stageCount[company.stage] || 0) + 1;
+    }
+  });
+  
+  // Convert to percentages
+  const stageSplit: Record<string, number> = {};
+  const totalStages = Object.values(stageCount).reduce((sum, count) => sum + count, 0);
+  Object.entries(stageCount).forEach(([stage, count]) => {
+    stageSplit[stage] = Math.round((count / totalStages) * 100);
+  });
+  
+  return {
+    totalInvestments: totalInvestment,
+    totalCompanies: portfolioCompanies.length,
+    averageInvestment: portfolioCompanies.length > 0 ? totalInvestment / portfolioCompanies.length : 0,
+    medianValuation: 8500000,  // Placeholder value
+    investmentsLast12Months: 2100000, // Placeholder
+    companiesLast12Months: 2,  // Placeholder
+    industrySplit: Object.keys(industrySplit).length > 0 ? industrySplit : {
+      'Artificial Intelligence': 40,
+      'Enterprise Software': 20,
+      'CleanTech': 20,
+      'FinTech': 20
+    },
+    stageSplit: Object.keys(stageSplit).length > 0 ? stageSplit : {
+      'Pre-seed': 20,
+      'Seed': 60,
+      'Series A': 20
+    }
+  };
+};
+
+interface PortfolioProps {
+  location: { pathname: string };
+  data: {
+    allAirtable?: {
+      nodes: any[];
+    }
+  }
+}
+
+const Portfolio = ({ location, data }: PortfolioProps) => {
+  const [filter, setFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Process Airtable data
+  const companies = data?.allAirtable?.nodes ? 
+    processAirtableData(data.allAirtable.nodes) : 
+    [];
+  
+  // Calculate statistics
+  const statistics = calculateStatistics(companies);
+  
+  // Set loading state when component mounts
+  useEffect(() => {
+    setIsLoading(false);
   }, []);
   
   // Format statistics data for charts
@@ -88,10 +174,11 @@ const PortfolioContent = () => {
   });
 
   return (
-    <div className="min-h-screen pt-28 pb-16">
-      <ParticleBackground />
-      
-      <div className="container mx-auto px-4">
+    <Layout title="Portfolio - Roundabout Ventures" location={location}>
+      <div className="min-h-screen pt-28 pb-16">
+        <ParticleBackground />
+        
+        <div className="container mx-auto px-4">
         <div className="mb-16 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
           <p className="text-white/90 max-w-2xl mx-auto">
@@ -99,7 +186,7 @@ const PortfolioContent = () => {
           </p>
         </div>
         
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-pulse-slow text-srv-teal">Loading dashboard data...</div>
           </div>
@@ -217,16 +304,38 @@ const PortfolioContent = () => {
           </>
         )}
       </div>
-    </div>
-  );
-};
-
-const Portfolio = () => {
-  return (
-    <Layout title="Portfolio - Roundabout Ventures">
-      <PortfolioContent />
+      </div>
     </Layout>
   );
 };
 
+export const query = graphql`
+  query PortfolioPageQuery {
+    allAirtable(filter: {table: {eq: "Startups"}}) {
+      nodes {
+        id
+        recordId
+        data {
+          name
+          description
+          sector
+          website
+          stage
+          announced
+          close_date
+          logo {
+            localFiles {
+              publicURL
+              childImageSharp {
+                gatsbyImageData(width: 200, placeholder: BLURRED)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Export the page query
 export default Portfolio;

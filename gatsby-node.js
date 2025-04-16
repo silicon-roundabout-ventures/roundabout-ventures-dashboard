@@ -10,14 +10,19 @@ exports.createSchemaCustomization = ({ actions }) => {
       recordId: String
     }
     type AirtableData {
-      name: String
-      description: String
-      sector: [String]
-      website: String
-      stage: String
-      announced: String
-      close_date: String
-      logo: AirtableDataLogo
+      Name: [String]
+      Deal_Name: String
+      Notes: String
+      One_Line_Summary: String
+      Sector: [String]
+      Stage: String
+      Announced: String
+      Close_Date: String
+      Company: [String]
+      Logo: AirtableDataLogo
+      Fund: String
+      Total_Invested: Float
+      Entry_Valuation: String
     }
     type AirtableDataLogo {
       localFiles: [File] @link

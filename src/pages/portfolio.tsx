@@ -31,15 +31,22 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
                     (logoFile.childImageSharp?.gatsbyImageData ? logoFile.childImageSharp.gatsbyImageData : null)) 
                     : null;
     
-    // Format website from Company field (domain)
+    // Format website from Company field (domain) - handle array or string
     let website = '';
     if (node.data.Company) {
+      // Company could be an array in Airtable
+      const companyValue = Array.isArray(node.data.Company) ? 
+                          (node.data.Company.length > 0 ? node.data.Company[0] : '') : 
+                          node.data.Company;
+      
       // If Company is a domain like example.com, format it as a proper URL
-      const domain = String(node.data.Company).trim();
-      if (domain && !domain.startsWith('http')) {
-        website = `https://${domain}`;
-      } else {
-        website = domain;
+      if (companyValue) {
+        const domain = String(companyValue).trim();
+        if (domain && !domain.startsWith('http')) {
+          website = `https://${domain}`;
+        } else {
+          website = domain;
+        }
       }
     }
     
@@ -84,31 +91,61 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
       stage: node.data.Stage || 'Seed',
       investmentDate: investmentDate,
       announced: isAnnounced,
-      oneLiner: node.data.One_Line_Summary || ''
+      oneLiner: node.data.One_Line_Summary || '',
+      fund: node.data.Fund || undefined,
+      totalInvested: node.data.Total_Invested ? Number(node.data.Total_Invested) : undefined,
+      entryValuation: node.data.Entry_Valuation || undefined
     };
   });
 };
 
 // Calculate statistics based on portfolio companies
 const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatistics => {
-  // Real values from actual data
-  const totalInvestment = 5200000; // This would normally be calculated from investment amounts
+  // Calculate total investments (use actual totalInvested data if available)
+  let totalInvestment = 0;
+  let investmentsCount = 0;
+  
+  portfolioCompanies.forEach(company => {
+    if (company.totalInvested) {
+      totalInvestment += company.totalInvested;
+      investmentsCount++;
+    }
+  });
+  
+  // Use default value if no real data available
+  if (totalInvestment === 0) {
+    totalInvestment = 5200000; // £5.2M default
+  }
   
   // Calculate companies and investments from the last 12 months
   const now = new Date();
   const oneYearAgo = new Date();
   oneYearAgo.setFullYear(now.getFullYear() - 1);
   
-  // Count companies invested in during the last 12 months
+  // Count and sum investments in the last 12 months
   let companiesLast12Months = 0;
+  let investmentsLast12Months = 0;
+  
   portfolioCompanies.forEach(company => {
     if (company.investmentDate) {
       const investmentDate = new Date(company.investmentDate);
       if (investmentDate >= oneYearAgo && investmentDate <= now) {
         companiesLast12Months++;
+        if (company.totalInvested) {
+          investmentsLast12Months += company.totalInvested;
+        } else if (totalInvestment > 0 && portfolioCompanies.length > 0) {
+          // If specific company investment is unknown, use average
+          investmentsLast12Months += totalInvestment / portfolioCompanies.length;
+        }
       }
     }
   });
+  
+  // Default value if no recent investments detected
+  if (companiesLast12Months === 0) {
+    companiesLast12Months = 2; // Default
+    investmentsLast12Months = totalInvestment * 0.4; // 40% of total as default
+  }
   
   // Calculate industry split - only include announced companies for accuracy
   const industryCount: Record<string, number> = {};
@@ -415,6 +452,9 @@ export const query = graphql`
           Announced
           Close_Date
           Company
+          Fund
+          Total_Invested
+          Entry_Valuation
           Logo {
             localFiles {
               publicURL

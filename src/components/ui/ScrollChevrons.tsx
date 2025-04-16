@@ -13,16 +13,28 @@ interface ScrollChevronProps {
 const ScrollChevrons: React.FC<ScrollChevronProps> = ({ targetId, className = '' }) => {
   // Function to scroll to target element
   const handleClick = () => {
-    document.querySelector(`#${targetId}`)?.scrollIntoView({ 
-      behavior: 'smooth' 
-    });
+    const targetElement = document.querySelector(`#${targetId}`);
+    if (targetElement) {
+      // Implement smooth scrolling with a fallback for browsers that don't support it
+      if ('scrollBehavior' in document.documentElement.style) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Fallback for browsers that don't support smooth scrolling
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
   };
 
   return (
     <button 
       onClick={handleClick}
-      className={`flex flex-col items-center space-y-0 text-white/60 hover:text-white/90 transition-colors ${className}`}
-      aria-label="Scroll down"
+      className={`flex flex-col items-center space-y-0 text-white/60 hover:text-white/90 transition-colors focus:outline-none focus:ring-2 focus:ring-srv-teal/50 ${className}`}
+      aria-label={`Scroll to ${targetId.replace(/-/g, ' ')}`}
+      title={`Scroll to ${targetId.replace(/-/g, ' ')}`}
     >
       {/* Chevron 1 - Animated with a slight delay */}
       <svg 
@@ -30,7 +42,7 @@ const ScrollChevrons: React.FC<ScrollChevronProps> = ({ targetId, className = ''
         viewBox="0 0 24 24" 
         fill="none" 
         stroke="currentColor" 
-        className="w-12 h-6 animate-pulse opacity-30 -mb-1"
+        className="w-10 h-5 sm:w-12 sm:h-6 animate-pulse opacity-30 -mb-1"
         style={{ animationDuration: '1.5s' }}
       >
         <path 
@@ -47,7 +59,7 @@ const ScrollChevrons: React.FC<ScrollChevronProps> = ({ targetId, className = ''
         viewBox="0 0 24 24" 
         fill="none" 
         stroke="currentColor" 
-        className="w-12 h-6 animate-pulse opacity-60 -mb-1"
+        className="w-10 h-5 sm:w-12 sm:h-6 animate-pulse opacity-60 -mb-1"
         style={{ animationDuration: '1.5s', animationDelay: '0.2s' }}
       >
         <path 
@@ -64,7 +76,7 @@ const ScrollChevrons: React.FC<ScrollChevronProps> = ({ targetId, className = ''
         viewBox="0 0 24 24" 
         fill="none" 
         stroke="currentColor" 
-        className="w-12 h-6 animate-pulse opacity-100 -mb-1"
+        className="w-10 h-5 sm:w-12 sm:h-6 animate-pulse opacity-100 -mb-1"
         style={{ animationDuration: '1.5s', animationDelay: '0.4s' }}
       >
         <path 

@@ -46,7 +46,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           node {
             relativePath
             childImageSharp {
-              gatsbyImageData(width: 1200, quality: 90, placeholder: BLURRED)
+              gatsbyImageData(width: 1200, quality: 90, placeholder: BLURRED, formats: [AUTO, WEBP])
             }
           }
         }
@@ -82,7 +82,11 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
   }
 
   return (
-    <div className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}>
+    <div 
+      className={`absolute inset-0 w-full h-full overflow-hidden ${className}`}
+      role="region"
+      aria-label="Image slideshow"
+    >
       {/* Slider Images */}
       {matchingImages.map((image: any, index: number) => (
         <div 
@@ -90,6 +94,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
             currentImage === index ? 'opacity-100' : 'opacity-0'
           }`}
+          aria-hidden={currentImage !== index}
         >
           {image && (
             <GatsbyImage
@@ -98,19 +103,33 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
               className="w-full h-full"
               objectFit="cover"
               objectPosition="center"
+              loading={index === 0 ? "eager" : "lazy"}
             />
           )}
         </div>
       ))}
       
       {/* Overlay for better text readability */}
-      <div className={`absolute inset-0 bg-black/${opacity} z-10`} />
+      <div className={`absolute inset-0 bg-black/${opacity} z-10`} aria-hidden="true" />
+      
+      {/* Navigation dots for accessibility */}
+      {matchingImages.length > 1 && (
+        <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2" aria-hidden="true">
+          {matchingImages.map((_: any, index: number) => (
+            <span 
+              key={index}
+              className={`w-2 h-2 rounded-full ${currentImage === index ? 'bg-white' : 'bg-white/30'}`}
+            />
+          ))}
+        </div>
+      )}
       
       {/* Loading indicator */}
       {showLoadingIndicator && (
         <div className="absolute inset-x-0 top-0 flex justify-center pt-6 z-20 pointer-events-none">
-          <div className="animate-pulse-slow text-srv-teal bg-black/70 px-6 py-3 rounded-lg backdrop-blur-sm">
+          <div className="animate-pulse-slow text-srv-teal bg-black/70 px-6 py-3 rounded-lg backdrop-blur-sm" role="status">
             {loadingText}
+            <span className="sr-only">Loading images</span>
           </div>
         </div>
       )}

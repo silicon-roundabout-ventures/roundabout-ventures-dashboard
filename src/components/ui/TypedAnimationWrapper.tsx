@@ -68,6 +68,14 @@ const TypedAnimationWrapper: React.FC<TypedAnimationWrapperProps> = ({
             parent.style.display = 'inline-block';
             parent.style.width = '100%';
             parent.style.whiteSpace = 'normal';
+            parent.style.wordBreak = 'break-word';
+            parent.style.overflowWrap = 'break-word';
+            
+            // Improve mobile readability
+            const fontSize = window.innerWidth < 768 ? 
+              Math.max(16, parseInt(window.getComputedStyle(parent).fontSize)) : 
+              parseInt(window.getComputedStyle(parent).fontSize);
+            parent.style.fontSize = `${fontSize}px`;
           }
         }
       },
@@ -91,8 +99,21 @@ const TypedAnimationWrapper: React.FC<TypedAnimationWrapperProps> = ({
   }, [strings, typeSpeed, startDelay, backSpeed, backDelay, loop, loopCount, showCursor, cursorChar, smartBackspace]);
 
   return (
-    <div className={`typed-animation-wrapper ${className}`} style={{ whiteSpace: 'normal' }}>
-      <span ref={typedElement} className="typed-text"></span>
+    <div 
+      className={`typed-animation-wrapper ${className}`} 
+      style={{ 
+        whiteSpace: 'normal', 
+        wordBreak: 'break-word',
+        overflowWrap: 'break-word',
+        maxWidth: '100%',
+        textAlign: 'left',
+      }}
+    >
+      <span 
+        ref={typedElement} 
+        className="typed-text"
+        style={{ display: 'inline-block', maxWidth: '100%' }}
+      ></span>
     </div>
   );
 };

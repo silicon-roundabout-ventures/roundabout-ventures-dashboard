@@ -38,18 +38,29 @@ const ParticleBackgroundContent = () => {
       initParticles();
     };
     
-    // Initialize particles
+    // Check if device is mobile or has reduced motion preference
+    const isMobileDevice = () => window.innerWidth < 768;
+    const prefersReducedMotion = () => 
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Initialize particles - optimize for mobile
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.min(window.innerWidth / 9, 150); // Increased particle count
+      // Reduce particle count for mobile devices and respect user preference for reduced motion
+      const isLowPower = isMobileDevice() || prefersReducedMotion();
+      const particleCount = isLowPower 
+        ? Math.min(window.innerWidth / 20, 40) // Significantly fewer particles for mobile
+        : Math.min(window.innerWidth / 9, 150); // Regular count for desktop
+      
+      const particleSpeed = isLowPower ? 0.5 : 0.9; // Slower movement on mobile
       
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 3.5 + 0.5, // Larger particles for more visibility
-          speedX: (Math.random() - 0.5) * 0.9,
-          speedY: (Math.random() - 0.5) * 0.9,
+          size: Math.random() * (isLowPower ? 2.5 : 3.5) + 0.5, // Slightly smaller particles on mobile
+          speedX: (Math.random() - 0.5) * particleSpeed,
+          speedY: (Math.random() - 0.5) * particleSpeed,
           // Use code editor theme colors for particles with slightly higher intensity
           color: Math.random() > 0.7 ? '#61AFEF' : Math.random() > 0.5 ? '#56B6C2' : Math.random() > 0.3 ? '#C678DD' : '#546E7A',
           opacity: Math.random() * 0.5 + 0.2 // Higher opacity for better visibility
@@ -87,19 +98,23 @@ const ParticleBackgroundContent = () => {
       });
     };
     
-    // Connect particles with lines if they're close enough
+    // Connect particles with lines if they're close enough - optimized for performance
     const connectParticles = (particle: Particle, index: number) => {
-      for (let j = index + 1; j < particles.length; j++) {
+      // Skip some connections on mobile to improve performance
+      const isMobile = isMobileDevice();
+      const connectionDistance = isMobile ? 100 : 130;
+      const skipFactor = isMobile ? 2 : 1; // Skip every other particle on mobile for connections
+      
+      for (let j = index + skipFactor; j < particles.length; j += skipFactor) {
         const otherParticle = particles[j];
-        const distance = Math.sqrt(
-          Math.pow(particle.x - otherParticle.x, 2) +
-          Math.pow(particle.y - otherParticle.y, 2)
-        );
+        const dx = particle.x - otherParticle.x;
+        const dy = particle.y - otherParticle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 130) {
+        if (distance < connectionDistance) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(167, 167, 167, ${0.4 * (1 - distance / 130)})`;
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = `rgba(167, 167, 167, ${0.4 * (1 - distance / connectionDistance)})`;
+          ctx.lineWidth = isMobile ? 0.5 : 1; // Thinner lines on mobile
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(otherParticle.x, otherParticle.y);
           ctx.stroke();
@@ -107,9 +122,18 @@ const ParticleBackgroundContent = () => {
       }
     };
     
-    // Animation loop
-    const animate = () => {
-      drawParticles();
+    // Animation loop with throttling for mobile
+    let lastTime = 0;
+    const frameInterval = isMobileDevice() ? 1000/30 : 1000/60; // Lower FPS on mobile (30fps vs 60fps)
+    
+    const animate = (timestamp = 0) => {
+      const deltaTime = timestamp - lastTime;
+      
+      if (deltaTime >= frameInterval) {
+        lastTime = timestamp - (deltaTime % frameInterval);
+        drawParticles();
+      }
+      
       animationFrameId = requestAnimationFrame(animate);
     };
     

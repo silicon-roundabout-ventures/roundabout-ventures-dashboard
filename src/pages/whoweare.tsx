@@ -32,64 +32,82 @@ const TeamMember: React.FC<TeamMemberProps> = ({
   twitter = null,
   github = null,
   blog = null
-}) => (
-  <div className="flex flex-col items-center justify-center">
-    {/* Use our enhanced CircularImage component for better centering */}
-    {image?.childImageSharp?.gatsbyImageData ? (
-      <CircularImage
-        image={image.childImageSharp.gatsbyImageData}
-        alt={name}
-        size={160} // Slightly larger size for better visibility
-        borderColor="border-[#4c566a]/40"
-        className="mb-4"
-        objectPosition="center center" // Center the image properly
-      />
-    ) : imageSrc ? (
-      <CircularImage
-        imageSrc={imageSrc}
-        alt={name}
-        size={160}
-        borderColor="border-[#4c566a]/40"
-        className="mb-4"
-        objectPosition="center center"
-      />
-    ) : (
-      <CircularImage
-        initials={name.charAt(0)}
-        alt={name}
-        size={160}
-        borderColor="border-[#4c566a]/40"
-        className="mb-4"
-      />
-    )}
-    <h3 className="text-2xl font-bold text-white mb-1 text-center">{name}</h3>
-    <p className="text-srv-teal text-sm mb-2 text-center">{role}</p>
-    <p className="text-srv-gray text-sm text-center max-w-2xl mb-3">{description}</p>
-    
-    <div className="flex space-x-3 justify-center">
-      {linkedin && (
-        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
-          <Linkedin size={18} />
-        </a>
-      )}
-      {twitter && (
-        <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
-          <XLogo size={18} />
-        </a>
-      )}
-      {github && (
-        <a href={github} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
-          <Github size={18} />
-        </a>
-      )}
-      {blog && (
-        <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
-          <Globe size={18} />
-        </a>
-      )}
+}) => {
+  const [showDetails, setShowDetails] = useState(false);
+  
+  const toggleDetails = (e: MouseEvent) => {
+    e.preventDefault();
+    setShowDetails(!showDetails);
+  };
+  
+  return (
+    <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg border border-white/10 hover:border-white/20 transition duration-300 w-full max-w-md mx-auto">
+      <div className="p-4 sm:p-6">
+        <div className="flex flex-col items-center text-center mb-4">
+          {image && (
+            <CircularImage 
+              image={image.childImageSharp.gatsbyImageData}
+              alt={name}
+              size={120}
+              className="mb-4"
+            />
+          )}
+          {imageSrc && (
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden mb-4">
+              <img 
+                src={imageSrc}
+                alt={name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+          <h3 className="text-xl font-bold text-white">{name}</h3>
+          <p className="text-srv-yellow mt-1">{role}</p>
+        </div>
+        
+        <div className={`text-sm text-srv-gray overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
+          {description}
+        </div>
+        
+        {typeof description === 'string' && description.length > 100 && (
+          <button 
+            onClick={toggleDetails}
+            className="mt-2 text-srv-teal text-sm hover:underline focus:outline-none"
+            aria-expanded={showDetails}
+          >
+            {showDetails ? 'Show less' : 'Read more'}
+          </button>
+        )}
+        
+        {/* Social links */}
+        {(linkedin || twitter || github || blog) && (
+          <div className="flex justify-center mt-4 space-x-4">
+            {linkedin && (
+              <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s LinkedIn profile`}>
+                <Linkedin size={20} />
+              </a>
+            )}
+            {twitter && (
+              <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s Twitter profile`}>
+                <XLogo size={20} />
+              </a>
+            )}
+            {github && (
+              <a href={github} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s GitHub profile`}>
+                <Github size={20} />
+              </a>
+            )}
+            {blog && (
+              <a href={blog} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white/100" aria-label={`${name}'s Blog`}>
+                <Globe size={20} />
+              </a>
+            )}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 interface TeamData {
   leads: TeamMemberProps[];
@@ -251,7 +269,7 @@ const WhoWeAre = () => {
             {/* Venture Partners */}
             <div className="mb-12">
               <h3 className="text-2xl font-bold text-white mb-6 text-center">Venture Partners</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                 {teamData.partners.map((member, index) => (
                   <div key={index} className="flex justify-center">
                     <TeamMember {...member} />

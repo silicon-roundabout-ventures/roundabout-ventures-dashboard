@@ -50,7 +50,7 @@ const IndexContent = () => {
             &lt;Silicon Roundabout Ventures/&gt;
           </h1>
           
-          <div className="font-mono text-xl md:text-2xl mb-12 text-white">
+          <div className="font-mono text-xl md:text-2xl mb-12 text-white w-full max-w-4xl mx-auto px-4">
             {/* Professional typing animation using Typed.js */}
             <TypedAnimationWrapper
               strings={[
@@ -65,7 +65,7 @@ const IndexContent = () => {
             />
           </div>
         
-          <div className="flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-wrap gap-4 justify-center mt-4 px-4 w-full">
             <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
               <Link to="/apply">
                 Apply For Funding <ArrowRight className="ml-2 h-4 w-4" />

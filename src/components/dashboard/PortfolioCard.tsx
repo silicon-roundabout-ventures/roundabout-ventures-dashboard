@@ -22,7 +22,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
       <>
         <div 
           onClick={handleCardClick}
-          className="border-2 border-white/20 rounded-lg p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
+          className="border-2 border-white/20 rounded-lg p-3 sm:p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleCardClick()}
+          aria-label={`View stealth company details in ${company.industry?.join(', ') || 'Unknown'} industry`}
         >
           <div className="absolute inset-0 bg-srv-teal/0 group-hover:bg-srv-teal/5 transition-colors rounded-lg"></div>
           <div className="flex flex-col items-center justify-center h-full relative z-10">
@@ -33,10 +37,10 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
             </div>
             <div className="text-center">
               <p className="text-white/90 text-sm font-medium mb-2">🔒 Stealth</p>
-              <div className="flex flex-wrap justify-center gap-2 mt-4">
+              <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-3 sm:mt-4">
                 {Array.isArray(company.industry) ? 
                   company.industry.map((tag, index) => (
-                    <span key={index} className="border border-white/20 text-white/90 text-xs px-2 py-0.5 rounded-full">
+                    <span key={index} className="border border-white/20 text-white/90 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                       {typeof tag === 'string' ? tag : 'Unknown'}
                     </span>
                   ))
@@ -63,7 +67,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
     <>
       <div 
         onClick={handleCardClick}
-        className="border-2 border-white/20 rounded-lg p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
+        className="border-2 border-white/20 rounded-lg p-3 sm:p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && handleCardClick()}
+        aria-label={`View ${company.name || 'company'} details`}
       >
         <div className="absolute inset-0 bg-srv-teal/0 group-hover:bg-srv-teal/5 transition-colors rounded-lg"></div>
         <div className="flex flex-col h-full relative z-10">

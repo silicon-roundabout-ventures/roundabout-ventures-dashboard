@@ -7,10 +7,9 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { Link } from 'gatsby';
-import { Linkedin, Github, Globe, ArrowRight } from 'lucide-react';
-import { XLogo } from '../icons/XLogo';
+import { Linkedin, Github, Globe, ArrowRight, X } from 'lucide-react';
 import { CircularImage } from '../ui/CircularImage';
-import Timeline from '../about/Timeline';
+import Timeline from '../ui/Timeline';
 import { Button } from '../ui/button';
 
 // Define team types directly in this file until we refactor more
@@ -21,7 +20,7 @@ interface TeamMember {
   image?: any; // Gatsby image data
   imageSrc?: string | null;
   linkedin?: string | null;
-  twitter?: string | null;
+  x?: string | null;  // Previously twitter
   github?: string | null;
   blog?: string | null;
 }
@@ -81,7 +80,7 @@ const WhoWeAreSection: React.FC<WhoWeAreSectionProps> = ({
         Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
         image: data.francescoImage, // Using Gatsby image
         linkedin: "https://www.linkedin.com/in/fperticarari/",
-        twitter: "https://twitter.com/francesco_srv",
+        x: "https://x.com/francesco_srv",
         github: "https://github.com/fpert041",
         blog: "https://francescoperticarari.com"
       }
@@ -280,7 +279,7 @@ const TeamMemberCard: React.FC<TeamMember> = ({
   image = null,
   imageSrc = null,
   linkedin = null,
-  twitter = null,
+  x = null,
   github = null,
   blog = null
 }) => {
@@ -339,9 +338,9 @@ const TeamMemberCard: React.FC<TeamMember> = ({
             <Linkedin size={18} />
           </a>
         )}
-        {twitter && (
-          <a href={twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-srv-teal transition-colors">
-            <XLogo size={18} />
+        {x && (
+          <a href={x} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-srv-teal transition-colors">
+            <X size={18} />
           </a>
         )}
         {github && (

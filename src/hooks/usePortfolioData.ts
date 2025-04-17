@@ -5,8 +5,8 @@
  * Provides a standardized interface for components to interact with portfolio data
  */
 import { useMemo, useState, useCallback } from 'react';
-import { useAirtableData } from '../services/airtable/AirtableProvider';
-import { PortfolioCompany } from '../services/airtable/airtable';
+import { usePortfolioCompanies } from './useAirtableData';
+import { PortfolioCompany } from '../services/airtable';
 
 // Filter options interface
 export interface PortfolioFilterOptions {
@@ -21,7 +21,9 @@ export interface PortfolioFilterOptions {
  * Hook for accessing and filtering portfolio data
  */
 export function usePortfolioData() {
-  const { portfolioCompanies, isLoading, hasError, errorMessage } = useAirtableData();
+  const { data: portfolioCompanies, isLoading, error, retry } = usePortfolioCompanies();
+  const hasError = !!error;
+  const errorMessage = error?.message || 'Failed to load portfolio data';
   
   // Local state for filtering
   const [filterOptions, setFilterOptions] = useState<PortfolioFilterOptions>({
@@ -37,6 +39,15 @@ export function usePortfolioData() {
     const sectors = new Set<string>();
     const stages = new Set<string>();
     const funds = new Set<string>();
+    
+    // Early return with empty arrays if we have no data
+    if (!portfolioCompanies) {
+      return {
+        sectors: [],
+        stages: [],
+        funds: []
+      };
+    }
     
     portfolioCompanies.forEach(company => {
       // Add sectors
@@ -64,7 +75,7 @@ export function usePortfolioData() {
   
   // Filter companies based on current filter options
   const filteredCompanies = useMemo(() => {
-    if (!portfolioCompanies.length) return [];
+    if (!portfolioCompanies || !portfolioCompanies.length) return [];
     
     return portfolioCompanies.filter(company => {
       // Filter by sector (previously industry)

@@ -1,23 +1,23 @@
 import React from 'react';
 import { Link, graphql, useStaticQuery, HeadFC } from 'gatsby';
 import { Button } from "../components/ui/button";
-import ParticleBackground from '../components/common/ParticleBackground';
+import ParticleBackground from '../components/ui/ParticleBackground';
 import { ArrowRight } from 'lucide-react';
-import Layout from "../components/layouts/Layout";
+import Layout from "../components/core/Layout";
 import { CodeBlock, CodeLine } from "../components/ui/CodeBlock";
 import { GlassCard } from "../components/ui/GlassCard";
-import { Section } from "../components/ui/Section";
-import { Hero, HeroHeading } from '../components/ui/Hero';
-import { Container, InnerContainer } from '../components/ui/Container';
+import { Section } from "../components/core/Section";
+import { Hero, HeroHeading } from '../components/core/Hero';
+import { Container, InnerContainer } from '../components/core/Container';
 import { IconCircle } from '../components/ui/IconCircle';
 import { FeatureCard } from '../components/ui/FeatureCard';
 import { CircularImage } from '../components/ui/CircularImage';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import ImageSlider from '../components/common/ImageSlider';
+import ImageSlider from '../components/ui/ImageSlider';
 import TypedAnimationWrapper from '../components/ui/TypedAnimationWrapper';
 import ScrollChevrons from '../components/ui/ScrollChevrons';
 import DashboardOverview from '../components/sections/DashboardOverview';
-import { AirtableProvider } from '../services/airtable/AirtableProvider';
+// Using hook-based approach instead of AirtableProvider
 import { Toaster } from 'sonner';
 
 // Content component to separate from layout
@@ -272,20 +272,6 @@ const IndexContent = () => {
               </Link>
             </GlassCard>
           </div>
-        </div>
-      </Section>
-      
-      {/* Portfolio Dashboard Overview Section */}
-      <Section title="Portfolio Dashboard" background="glass">
-        <div className="mb-8">
-          <p className="text-white text-xl mb-8">
-            Explore our portfolio of innovative startups across various sectors. Our investments focus on
-            deep tech, sustainable energy, and next-generation computing infrastructure.
-          </p>
-          
-          <AirtableProvider>
-            <DashboardOverview />
-          </AirtableProvider>
         </div>
       </Section>
     </div>

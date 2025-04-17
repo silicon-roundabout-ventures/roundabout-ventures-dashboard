@@ -1,11 +1,11 @@
 import React from 'react';
-import ParticleBackground from '../components/common/ParticleBackground';
-import Layout from '../components/common/Layout';
+import ParticleBackground from '../components/ui/ParticleBackground';
+import Layout from '../components/core/Layout';
 
 // In Gatsby, the default export is what becomes the page component
-const LPEnquiriesPage = () => {
+const LPEnquiriesPage = ({ location = { pathname: '/lpenquiries' } }) => {
   return (
-    <Layout title="Investor Interest - Silicon Roundabout Ventures">
+    <Layout title="Investor Interest - Silicon Roundabout Ventures" location={location}>
       <div className="min-h-screen pt-28 pb-16">  {/* Updated pt to match other pages */}
         <ParticleBackground />
         

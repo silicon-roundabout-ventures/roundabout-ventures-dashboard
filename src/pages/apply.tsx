@@ -1,6 +1,6 @@
 import React from 'react';
-import ParticleBackground from '../components/common/ParticleBackground';
-import Layout from '../components/common/Layout';
+import ParticleBackground from '../components/ui/ParticleBackground';
+import Layout from '../components/core/Layout';
 
 const ApplyContent = () => {
   return (
@@ -57,7 +57,7 @@ const ApplyContent = () => {
 
 const Apply = () => {
   return (
-    <Layout title="Apply for Funding - Roundabout Ventures">
+    <Layout title="Apply for Funding - Roundabout Ventures" location={{ pathname: "/apply" }}>
       <ApplyContent />
     </Layout>
   );

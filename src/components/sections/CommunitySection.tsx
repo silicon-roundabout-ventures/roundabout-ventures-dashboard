@@ -6,8 +6,8 @@
  */
 import React from 'react';
 import { Link } from 'gatsby';
-import ImageSlider from '../common/ImageSlider';
-import EventsCalendar from '../data-display/EventsCalendar';
+import ImageSlider from '../ui/ImageSlider';
+import EventsCalendar from '../ui/EventsCalendar';
 import { Button } from '../ui/button';
 import { ArrowRight } from 'lucide-react';
 
@@ -29,9 +29,15 @@ const CommunitySection: React.FC<CommunitySectionProps> = ({
         <div className="w-full h-[50vh] overflow-hidden rounded-lg relative">
           {/* Use the reusable ImageSlider component */}
           <ImageSlider 
-            imagePathPattern="community\/events"
-            transitionSpeed={4000}
-            overlayOpacity={50}
+            images={[
+              "/images/community/events/event1.jpg",
+              "/images/community/events/event2.jpg",
+              "/images/community/events/event3.jpg"
+            ]}
+            alt="Community events"
+            autoAdvance={4000}
+            height="50vh"
+            objectFit="cover"
           />
           
           {/* Text content */}

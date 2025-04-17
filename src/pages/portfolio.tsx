@@ -6,12 +6,11 @@
  */
 import React from 'react';
 import { HeadFC, graphql } from 'gatsby';
-import Layout from '../components/layouts/Layout';
+import Layout from '../components/core/Layout';
 import PortfolioSection from '../components/sections/PortfolioSection';
-import { AirtableProvider } from '../services/airtable/AirtableProvider';
-import ParticleBackground from '../components/common/ParticleBackground';
+import ParticleBackground from '../components/ui/ParticleBackground';
 import { Toaster } from 'sonner';
-import SEO from '../components/common/SEO';
+import SEO from '../components/core/SEO';
 
 interface PortfolioPageProps {
   location: any;
@@ -29,12 +28,10 @@ const PortfolioPage: React.FC<PortfolioPageProps> = ({ location }) => {
         <ParticleBackground />
       </div>
       
-      {/* Wrap everything in AirtableProvider to provide data */}
-      <AirtableProvider>
-        <div className="container mx-auto px-4 py-12">
-          <PortfolioSection />
-        </div>
-      </AirtableProvider>
+      {/* Portfolio section with data from our hook-based approach */}
+      <div className="container mx-auto px-4 py-12">
+        <PortfolioSection />
+      </div>
       
       {/* Toast notifications */}
       <Toaster position="top-right" closeButton />

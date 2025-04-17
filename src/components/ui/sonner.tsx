@@ -1,10 +1,10 @@
-import { useTheme } from "next-themes"
 import { Toaster as Sonner } from "sonner"
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  // Use a static theme value since next-themes is not available in Gatsby
+  const theme = "system"; // You can change this to "light" or "dark" if needed
 
   return (
     <Sonner

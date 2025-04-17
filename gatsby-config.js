@@ -20,10 +20,10 @@ module.exports = {
   // Gatsby configuration for optimal SSR and hydration
   flags: {
     DEV_SSR: false, // Disable SSR in development to prevent hydration mismatches
-    FAST_DEV: true,
-    PRESERVE_FILE_DOWNLOAD_CACHE: true,
-    DETECT_NODE_MUTATIONS: true, // Help identify DOM mutations that may cause hydration issues
-    PARALLEL_SOURCING: true, // Improve build performance
+    FAST_DEV: true, // Improve develop server start time
+    PRESERVE_FILE_DOWNLOAD_CACHE: true, // Don't delete cache when changing gatsby files
+    PARALLEL_SOURCING: true, // Run source plugins in parallel for better performance
+    PARTIAL_HYDRATION: true, // Enable React 18 selective hydration features
   },
   jsxRuntime: "automatic",
   plugins: [
@@ -46,7 +46,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sharp`,
       options: {
-        failOnError: false, // Prevents build failures on image processing errors
+        failOn: 'none', // Modern replacement for failOnError: false
         defaultQuality: 80, // Good balance between quality and size
         stripMetadata: true, // Reduces image size
       }
@@ -67,8 +67,8 @@ module.exports = {
     // TypeScript support
     `gatsby-plugin-typescript`,
     
-    // React Helmet for managing document head
-    `gatsby-plugin-react-helmet`,
+    // Using Gatsby's built-in Head API instead of React Helmet
+    // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
     
     // PWA manifest removed until proper icon assets are available
     
@@ -111,18 +111,22 @@ module.exports = {
       }
     },
     
-    // Uncomment when we have proper icons
-    // {
-    //   resolve: `gatsby-plugin-manifest`,
-    //   options: {
-    //     name: `roundabout-ventures`,
-    //     short_name: `roundabout`,
-    //     start_url: `/`,
-    //     background_color: `#191c22`,
-    //     theme_color: `#88c0d0`,
-    //     display: `minimal-ui`,
-    //     icon: `src/images/favicon.png`, // This path is relative to the root of the site.
-    //   },
-    // },
+    // PWA manifest configuration
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Roundabout Ventures`,
+        short_name: `Roundabout`,
+        start_url: `/`,
+        background_color: `#191c22`,
+        theme_color: `#88c0d0`,
+        display: `minimal-ui`,
+        icon: `src/images/favicon.png`, // This path is relative to the root of the site.
+        icon_options: {
+          purpose: `any maskable`,
+        },
+        cache_busting_mode: 'none', // Improve Lighthouse score
+      },
+    },
   ],
 } 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeadFC, PageProps } from 'gatsby';
-import Layout from '../components/layouts/Layout';
-import ParticleBackground from '../components/common/ParticleBackground';
+import Layout from '../components/core/Layout';
+import ParticleBackground from '../components/ui/ParticleBackground';
 import WhoWeAreSection from '../components/sections/WhoWeAreSection';
 import { Toaster } from 'sonner';
 

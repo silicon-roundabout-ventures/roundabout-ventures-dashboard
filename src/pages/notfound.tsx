@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import { Link, PageProps } from "gatsby";
-import Layout from "../components/common/Layout";
+import Layout from "../components/core/Layout";
 
-interface NotFoundProps {
-  location: {
-    pathname: string;
-  };
-}
 
 const NotFound = ({ location }: PageProps) => {
   useEffect(() => {
@@ -20,7 +15,7 @@ const NotFound = ({ location }: PageProps) => {
   }, [location.pathname]);
 
   return (
-    <Layout title="404 - Page Not Found | Roundabout Ventures">
+    <Layout title="404 - Page Not Found | Roundabout Ventures" location={location}>
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4 text-white">404</h1>

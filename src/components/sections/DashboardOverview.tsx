@@ -8,9 +8,6 @@ import React from 'react';
 import { Link } from 'gatsby';
 import { usePortfolioStats } from '../../hooks/usePortfolioStats';
 import { usePortfolioData } from '../../hooks/usePortfolioData';
-import StatisticDisplay from '../data-display/StatisticDisplay';
-import ChartDisplay from '../data-display/ChartDisplay';
-import PortfolioCompanyCard from '../data-display/PortfolioCompanyCard';
 import { 
   CircleDollarSign, 
   Building2, 
@@ -21,8 +18,42 @@ import {
   Calendar,
 } from 'lucide-react';
 import { Button } from '../ui/button';
-import DataCard from '../data-display/DataCard';
-import ClientOnly from '../common/ClientOnly';
+import DataCard from '../ui/DataCard';
+import PortfolioCard from '../ui/PortfolioCard';
+
+// Simple inline implementation of ClientOnly component
+const ClientOnly: React.FC<{children: React.ReactNode; fallback?: React.ReactNode}> = ({ 
+  children, 
+  fallback = null 
+}) => {
+  const [isMounted, setIsMounted] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  
+  if (!isMounted) return <>{fallback}</>;
+  
+  return <>{children}</>;
+};
+
+// Create simplified placeholder components for missing UI elements
+const StatisticDisplay = ({ title, value, icon }: any) => (
+  <div className="bg-black/50 p-4 rounded-lg flex items-center space-x-4">
+    {icon && <div className="text-primary">{icon}</div>}
+    <div>
+      <h3 className="text-white text-lg font-bold">{title}</h3>
+      <p className="text-2xl font-bold text-white">{value}</p>
+    </div>
+  </div>
+);
+
+const ChartDisplay = ({ title, children }: any) => (
+  <div className="bg-black/50 p-4 rounded-lg">
+    <h3 className="text-white text-lg font-bold mb-4">{title}</h3>
+        {children}
+      </div>
+);
 
 interface DashboardOverviewProps {
   /** Additional CSS class name */
@@ -53,14 +84,14 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   
   // Get most recent investments (up to 3)
   const recentInvestments = React.useMemo(() => {
-    if (!allCompanies.length) return [];
+    if (!allCompanies || !allCompanies.length) return [];
     
     // Sort by date invested (most recent first)
     return [...allCompanies]
-      .filter(company => !!company.dateInvested)
+      .filter(company => !!company.investmentDate)
       .sort((a, b) => {
-        const dateA = new Date(a.dateInvested || 0);
-        const dateB = new Date(b.dateInvested || 0);
+        const dateA = new Date(a.investmentDate || 0);
+        const dateB = new Date(b.investmentDate || 0);
         return dateB.getTime() - dateA.getTime();
       })
       .slice(0, 3);
@@ -157,32 +188,12 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             {recentInvestments.length > 0 ? (
               <div className="space-y-3">
                 {recentInvestments.map(company => (
-                  <div key={company.id} className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 transition-colors">
-                    {company.logo ? (
-                      <img 
-                        src={company.logo} 
-                        alt={`${company.name} logo`} 
-                        className="w-10 h-10 object-contain rounded-md"
-                      />
-                    ) : (
-                      <div className="w-10 h-10 flex items-center justify-center rounded-md bg-primary/20">
-                        <span className="text-sm font-bold">{company.name.charAt(0)}</span>
-                      </div>
-                    )}
-                    <div className="flex-grow">
-                      <h4 className="font-medium">
-                        {company.name}
-                        {!company.announced && <span className="ml-2 text-xs bg-muted px-1.5 py-0.5 rounded">Stealth</span>}
-                      </h4>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(company.dateInvested || '').toLocaleDateString('en-GB', {
-                          year: 'numeric',
-                          month: 'short',
-                        })}
-                        {company.stage && ` · ${company.stage}`}
-                      </p>
-                    </div>
-                  </div>
+                  <PortfolioCard
+                    key={company.id}
+                    company={company}
+                    variant="compact"
+                    className="h-full"
+                  />
                 ))}
               </div>
             ) : (

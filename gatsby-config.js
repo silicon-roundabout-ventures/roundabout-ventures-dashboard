@@ -14,6 +14,8 @@ module.exports = {
     description: `Community-Driven VC firm backing Deep Tech and Big Data startups`,
     author: `@roundaboutvc`,
     siteUrl: `https://roundabout.ventures`,
+    image: `/images/roundabout-social.jpg`, // Default social sharing image
+    twitterUsername: `@roundaboutvc`,
   },
   // Gatsby configuration for optimal SSR and hydration
   flags: {
@@ -64,6 +66,11 @@ module.exports = {
     
     // TypeScript support
     `gatsby-plugin-typescript`,
+    
+    // React Helmet for managing document head
+    `gatsby-plugin-react-helmet`,
+    
+    // PWA manifest removed until proper icon assets are available
     
     // Airtable source plugin with simplified configuration for Netlify compatibility
     {

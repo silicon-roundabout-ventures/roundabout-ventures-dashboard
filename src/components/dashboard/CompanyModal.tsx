@@ -1,5 +1,5 @@
 import React from 'react';
-import { PortfolioCompany } from '../../services/AirtableService';
+import { PortfolioCompany } from '../../services/airtable/airtable';
 import Modal from '../ui/Modal';
 
 interface CompanyModalProps {
@@ -20,11 +20,11 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
       title={company.name}
     >
       <div className="space-y-6">
-        {/* Company Photo or Logo */}
+        {/* Company Logo */}
         <div className="w-full aspect-video bg-black/30 rounded-lg overflow-hidden border border-white/10 flex items-center justify-center">
-          {company.photo || company.logo ? (
+          {company.logoUrl || company.logo ? (
             <img 
-              src={company.photo || company.logo} 
+              src={company.logoUrl || company.logo} 
               alt={`${company.name}`} 
               className="w-full h-full object-contain" 
             />

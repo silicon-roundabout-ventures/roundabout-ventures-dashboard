@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, graphql, useStaticQuery } from 'gatsby';
+import { Link, graphql, useStaticQuery, HeadFC } from 'gatsby';
 import { Button } from "../components/ui/button";
 import ParticleBackground from '../components/common/ParticleBackground';
 import { ArrowRight } from 'lucide-react';
-import Layout from "../components/common/Layout";
+import Layout from "../components/layouts/Layout";
 import { CodeBlock, CodeLine } from "../components/ui/CodeBlock";
 import { GlassCard } from "../components/ui/GlassCard";
 import { Section } from "../components/ui/Section";
@@ -16,6 +16,9 @@ import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import ImageSlider from '../components/common/ImageSlider';
 import TypedAnimationWrapper from '../components/ui/TypedAnimationWrapper';
 import ScrollChevrons from '../components/ui/ScrollChevrons';
+import DashboardOverview from '../components/sections/DashboardOverview';
+import { AirtableProvider } from '../services/airtable/AirtableProvider';
+import { Toaster } from 'sonner';
 
 // Content component to separate from layout
 const IndexContent = () => {
@@ -271,15 +274,41 @@ const IndexContent = () => {
           </div>
         </div>
       </Section>
+      
+      {/* Portfolio Dashboard Overview Section */}
+      <Section title="Portfolio Dashboard" background="glass">
+        <div className="mb-8">
+          <p className="text-white text-xl mb-8">
+            Explore our portfolio of innovative startups across various sectors. Our investments focus on
+            deep tech, sustainable energy, and next-generation computing infrastructure.
+          </p>
+          
+          <AirtableProvider>
+            <DashboardOverview />
+          </AirtableProvider>
+        </div>
+      </Section>
     </div>
   );
 };
 
 // Gatsby page component
-const IndexPage = () => {
+interface IndexPageProps {
+  path?: string;
+  location?: { pathname: string };
+}
+
+const IndexPage = ({ path, location }: IndexPageProps) => {
+  // Ensure pathname is always a string
+  const safeLocation = {
+    pathname: (location?.pathname || path || '/') as string
+  };
+  
   return (
-    <Layout title="Roundabout Ventures">
+    <Layout location={safeLocation} title="Roundabout Ventures | Home">
       <IndexContent />
+      {/* Toast notifications */}
+      <Toaster position="top-right" closeButton />
     </Layout>
   );
 };
@@ -288,9 +317,14 @@ export default IndexPage;
 export { IndexContent };
 
 // Add SEO metadata for this page using Gatsby's built-in Head API
-export const Head = () => (
-  <>
-    <title>Roundabout Ventures</title>
-    <meta name="description" content="Silicon Roundabout Ventures - Investing in Deep Tech and Big Data startups" />
-  </>
-);
+export const Head: HeadFC = () => {
+  return (
+    <>
+      <title>Silicon Roundabout Ventures | Home</title>
+      <meta name="description" content="Silicon Roundabout Ventures is a Community-Driven VC firm backing Deep Tech startups at pre-seed and seed stages." />
+      <meta property="og:title" content="Silicon Roundabout Ventures | Home" />
+      <meta property="og:description" content="A Community-Driven VC firm backing Deep Tech startups at pre-seed and seed stages." />
+      <meta property="og:type" content="website" />
+    </>
+  );
+};

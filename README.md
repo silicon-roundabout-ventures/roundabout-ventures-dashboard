@@ -6,7 +6,7 @@ A modern, data-driven dashboard for Silicon Roundabout Ventures, a Community-Dri
 
 ## 📋 Project Overview
 
-The Silicon Roundabout Ventures Dashboard is a Gatsby-based web application that provides a professional, responsive interface for the venture capital firm. It features dynamic data integration with Airtable, allowing for real-time updates of portfolio companies and fund statistics.
+The Silicon Roundabout Ventures Dashboard is a JAMStack Gatsby-based web application that provides a transparent, responsive interface for the venture capital firm. It features dynamic data integration with Airtable, allowing for real-time updates of portfolio companies and fund statistics.
 
 ### 🚀 Deployment URL
 
@@ -169,6 +169,65 @@ To contribute to the project:
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🚧 TODO
+
+### Refactoring
+- [ ] Reorganize project structure for better code organization
+  - [ ] Standardize directory naming conventions
+  - [ ] Create dedicated directories for page-specific components
+  - [ ] Separate layouts from common components
+- [ ] Implement standardized component patterns
+  - [ ] Create compound components for related UI elements
+  - [ ] Use React Context for state sharing rather than prop drilling
+  - [ ] Implement proper memoization for expensive calculations
+- [ ] Create reusable UI components for common patterns
+  - [ ] Build a `DataCard` base component
+  - [ ] Create a standardized `StatsDisplay` component
+  - [ ] Implement a reusable filtering system
+- [ ] Apply consistent error handling throughout the application
+  - [ ] Wrap all data-fetching components in error boundaries
+  - [ ] Create standardized error display components
+  - [ ] Implement graceful degradation for failed API calls
+- [ ] Add comprehensive comments and documentation
+
+### Improving Airtable Import Data Flow
+- [ ] Centralize Airtable data fetching
+  - [ ] Create a dedicated `AirtableDataProvider` component
+  - [ ] Implement custom hooks for data access
+  - [ ] Standardize GraphQL queries
+- [ ] Implement robust error handling for API failures
+  - [ ] Add retry mechanisms
+  - [ ] Create graceful fallbacks to mock data
+- [ ] Create better data transformation utilities
+  - [ ] Implement a standard `transformAirtableRecord` utility
+  - [ ] Build a `sanitizeCompanyData` function for consistent data cleaning
+  - [ ] Create a `calculatePortfolioStats` utility for consistent statistics
+- [ ] Improve type safety for Airtable data
+  - [ ] Define strict TypeScript interfaces for all data structures
+  - [ ] Implement runtime type checking
+- [ ] Optimize build-time data processing
+  - [ ] Reduce duplicate data fetching
+  - [ ] Implement caching strategies
+- [ ] Add incremental builds for content updates
+
+### Fixing RSS Blog Display
+- [ ] Implement proper RSS feed parsing
+  - [ ] Handle missing or malformed content
+  - [ ] Sanitize HTML from external sources
+- [ ] Add caching for external feed data
+  - [ ] Implement server-side caching
+  - [ ] Add fallback content for failed fetches
+- [ ] Create fallback UI for failed feed fetches
+  - [ ] Design placeholder components
+  - [ ] Show meaningful error messages
+- [ ] Improve the styling of blog post previews
+  - [ ] Create consistent card layouts
+  - [ ] Optimize image display
+- [ ] Add pagination for blog posts
+  - [ ] Implement lazy loading
+  - [ ] Create page navigation controls
+- [ ] Implement category filtering for blog content
 
 ## 🎨 Design Inspiration
 

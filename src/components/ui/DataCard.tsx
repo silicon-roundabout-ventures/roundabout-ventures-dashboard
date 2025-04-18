@@ -5,7 +5,7 @@
  */
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from './card';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/utils';
 
 interface DataCardProps {
   /** Card header content */

@@ -1,6 +1,6 @@
 import React from 'react';
-import ParticleBackground from '../components/common/ParticleBackground';
-import Layout from '../components/common/Layout';
+import ParticleBackground from '@/components/core/ParticleBackground';
+import Layout from '@/components/core/Layout';
 
 const ApplyContent = () => {
   return (

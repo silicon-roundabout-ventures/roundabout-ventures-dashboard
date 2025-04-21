@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Link } from 'gatsby';
 
 export interface TimelineItem {
   year: string;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, InnerContainer } from './Container';
 
 interface HeroProps {
   children: React.ReactNode;

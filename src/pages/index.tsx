@@ -1,21 +1,16 @@
 import React from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
-import { Button } from "../components/ui/button";
-import ParticleBackground from '../components/common/ParticleBackground';
+import { Button } from "@/components/ui/button";
+import ParticleBackground from '@/components/core/ParticleBackground';
 import { ArrowRight } from 'lucide-react';
-import Layout from "../components/common/Layout";
-import { CodeBlock, CodeLine } from "../components/ui/CodeBlock";
-import { GlassCard } from "../components/ui/GlassCard";
-import { Section } from "../components/ui/Section";
-import { Hero, HeroHeading } from '../components/ui/Hero';
-import { Container, InnerContainer } from '../components/ui/Container';
-import { IconCircle } from '../components/ui/IconCircle';
-import { FeatureCard } from '../components/ui/FeatureCard';
-import { CircularImage } from '../components/ui/CircularImage';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
-import ImageSlider from '../components/common/ImageSlider';
-import TypedAnimationWrapper from '../components/ui/TypedAnimationWrapper';
-import ScrollChevrons from '../components/ui/ScrollChevrons';
+import Layout from '@/components/core/Layout';
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Section } from "@/components/ui/Section";
+import { FeatureCard } from '@/components/ui/FeatureCard';
+import { CircularImage } from '@/components/ui/CircularImage';
+import ImageSlider from '@/components/core/ImageSlider';
+import TypedAnimationWrapper from '@/components/ui/TypedAnimationWrapper';
+import ScrollChevrons from '@/components/ui/ScrollChevrons';
 
 // Content component to separate from layout
 const IndexContent = () => {

@@ -1,14 +1,12 @@
 import React, { MouseEvent, useState } from 'react';
 import { Linkedin, Github, Globe } from 'lucide-react';
-import { XLogo } from '../components/icons/XLogo';
-import Layout from '../components/common/Layout';
-import ClientOnly from '../components/common/ClientOnly';
-import ParticleBackground from '../components/common/ParticleBackground';
-import { CircularImage } from '../components/ui/CircularImage';
+import { XLogo } from '@/components/icons/XLogo';
+import Layout from '@/components/core/Layout';
+import ParticleBackground from '@/components/core/ParticleBackground';
+import { CircularImage } from '@/components/ui/CircularImage';
 import { graphql, useStaticQuery } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import { Link } from 'gatsby';
-import Timeline from '../components/about/Timeline';
+import Timeline from '@/components/sections/Timeline';
 
 interface TeamMemberProps {
   name: string;

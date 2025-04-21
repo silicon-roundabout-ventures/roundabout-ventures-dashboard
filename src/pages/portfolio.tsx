@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, graphql } from 'gatsby';
-import { PortfolioCompany, FundStatistics } from '../services/AirtableService';
-import PortfolioCard from '../components/dashboard/PortfolioCard';
-import StatisticCard from '../components/dashboard/StatisticCard';
-import ChartComponent from '../components/dashboard/ChartComponent';
-import ParticleBackground from '../components/common/ParticleBackground';
-import { toast } from "sonner";
-import Layout from '../components/common/Layout';  
-import { Button } from '../components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import ClientOnly from '../components/common/ClientOnly';
+import { PortfolioCompany, FundStatistics } from '@/services/AirtableService';
+import PortfolioCard from '@/components/sections/dashboard/PortfolioCard';
+import StatisticCard from '@/components/sections/dashboard/StatisticCard';
+import ChartComponent from '@/components/sections/dashboard/ChartComponent';
+import ParticleBackground from '@/components/core/ParticleBackground'
+import Layout from '@/components/core/Layout';  
+import { Button } from '@/components/ui/button';
+import ClientOnly from '@/components/core/ClientOnly';
 
 // Process Airtable data into our format
 const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {

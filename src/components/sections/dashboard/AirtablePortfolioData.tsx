@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import { PortfolioCompany } from "../../services/AirtableService"
+import { PortfolioCompany } from "@/services/AirtableService"
 
 interface AirtablePortfolioDataProps {
   onDataLoaded?: (companies: PortfolioCompany[]) => void;

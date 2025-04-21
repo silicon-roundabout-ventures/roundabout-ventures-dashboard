@@ -1,8 +1,8 @@
 import React from 'react';
-import { graphql, Link, useStaticQuery } from 'gatsby';
-import ParticleBackground from '../components/common/ParticleBackground';
-import Layout from '../components/common/Layout';
-import ImageSlider from '../components/common/ImageSlider';
+import { Link } from 'gatsby';
+import ParticleBackground from '@/components/core/ParticleBackground';
+import Layout from '@/components/core/Layout';
+import ImageSlider from '@/components/core/ImageSlider';
 
 const CommunityContent = () => {
 

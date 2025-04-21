@@ -1,5 +1,4 @@
 import "./src/styles/global.css"
-import React from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { TooltipProvider } from "./src/components/ui/tooltip"
 import { Toaster } from "./src/components/ui/toaster"

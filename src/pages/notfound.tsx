@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, PageProps } from "gatsby";
-import Layout from "../components/common/Layout";
+import Layout from "../components/core/Layout";
 
 interface NotFoundProps {
   location: {

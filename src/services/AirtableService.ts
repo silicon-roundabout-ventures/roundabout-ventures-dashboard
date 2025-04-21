@@ -1,7 +1,7 @@
 
 import { toast } from "sonner";
 import Airtable from 'airtable';
-import env, { isAirtableConfigured } from '../config/env';
+import env, { isAirtableConfigured } from '@/hooks/env';
 
 // Types for our portfolio companies
 export interface PortfolioCompany {

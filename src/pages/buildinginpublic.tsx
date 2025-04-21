@@ -1,8 +1,8 @@
 
 import React, { useEffect } from 'react';
-import ParticleBackground from '../components/common/ParticleBackground';
+import ParticleBackground from '@/components/core/ParticleBackground';
 import { Button } from "@/components/ui/button";
-import Layout from '../components/common/Layout';
+import Layout from '@/components/core/Layout';
 
 const BuildingInPublicContent = () => {
   useEffect(() => {

@@ -54,10 +54,9 @@ async function fetchFromTable(tableName) {
         
         // Try various field names for description
         const description = 
-          fields['Description'] || 
-          fields['Notes'] || 
+          fields['Summary'] || 
           fields['One Liner'] ||
-          fields['GP Portfolio Notes'] || 
+          fields['Description'] ||
           'No description available';
         
         // Try different field names for announced status

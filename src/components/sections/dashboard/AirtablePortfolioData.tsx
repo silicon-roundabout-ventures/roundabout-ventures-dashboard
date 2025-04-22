@@ -14,16 +14,14 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         nodes {
           id
           data {
-            Name
             Deal_Name
-            Notes
+            Summary
             One_Line_Summary
             Sector
             Stage
             Announced
             Close_Date
-            Company
-            Fund
+            Invested_from_fund
             Total_Invested
             Entry_Valuation
             Logo {
@@ -43,16 +41,14 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
           recordId
           table
           data {
-            Name
             Deal_Name
-            Notes
+            Summary
             One_Line_Summary
             Sector
             Stage
             Announced
             Close_Date
-            Company
-            Fund
+            Invested_from_fund
             Total_Invested
             Entry_Valuation
           }
@@ -105,10 +101,10 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         const sectors = Array.isArray(node.data.Sector) ? node.data.Sector : 
                        node.data.Sector ? [node.data.Sector] : [];
         
-        // Generate description text from Notes or One_Line_Summary
+        // Generate description text from Summary or One_Line_Summary
         let description = '';
         if (isAnnounced) {
-          description = node.data.Notes || node.data.One_Line_Summary || 
+          description = node.data.Summary || node.data.One_Line_Summary || 
                       (sectors.length > 0 ? `${sectors.join(', ')} company` : 'Technology company');
         } else {
           // For stealth companies, mask the description
@@ -125,7 +121,10 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
         
         // Create first letter for placeholder logo
         const firstLetter = displayName.charAt(0);
-        
+       
+        // Get fund names
+        const funds = Array.isArray(node.data.Invested_from_fund) ? node.data.Invested_from_fund : [];
+
         return {
           id: node.id,
           name: displayName,
@@ -137,7 +136,7 @@ const AirtablePortfolioData: React.FC<AirtablePortfolioDataProps> = ({ onDataLoa
           investmentDate: investmentDate,
           announced: isAnnounced,
           oneLiner: node.data.One_Line_Summary || '',
-          fund: node.data.Fund || undefined,
+          fund: funds || undefined,
           totalInvested: node.data.Total_Invested ? Number(node.data.Total_Invested) : undefined,
           entryValuation: node.data.Entry_Valuation || undefined
         };

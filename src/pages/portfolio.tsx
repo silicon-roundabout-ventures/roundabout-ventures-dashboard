@@ -60,7 +60,7 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
     // Generate description text from Notes or One_Line_Summary
     let description = '';
     if (isAnnounced) {
-      description = node.data.Notes || node.data.One_Line_Summary || 
+      description = node.data.Summary || node.data.One_Line_Summary || 
                   (sectors.length > 0 ? `${sectors.join(', ')} company` : 'Technology company');
     } else {
       // For stealth companies, mask the description
@@ -80,6 +80,9 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
     
     // Get founder names
     const founders = Array.isArray(node.data.Name) ? node.data.Name : [];
+   
+    // Get fund names
+    const funds = Array.isArray(node.data.Invested_from_fund) ? node.data.Invested_from_fund : [];
     
     return {
       id: node.id,
@@ -92,7 +95,7 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
       investmentDate: investmentDate,
       announced: isAnnounced,
       oneLiner: node.data.One_Line_Summary || '',
-      fund: node.data.Fund || undefined,
+      fund: funds || undefined,
       totalInvested: node.data.Total_Invested ? Number(node.data.Total_Invested) : undefined,
       entryValuation: node.data.Entry_Valuation || undefined
     };
@@ -459,14 +462,14 @@ export const query = graphql`
         data {
           Name
           Deal_Name
-          Notes
+          Summary
           One_Line_Summary
           Sector
           Stage
           Announced
           Close_Date
           Company
-          Fund
+          Invested_from_fund
           Total_Invested
           Entry_Valuation
           Logo {
@@ -489,14 +492,14 @@ export const query = graphql`
         data {
           Name
           Deal_Name
-          Notes
+          Summary
           One_Line_Summary
           Sector
           Stage
           Announced
           Close_Date
           Company
-          Fund
+          Invested_from_fund
           Total_Invested
           Entry_Valuation
         }

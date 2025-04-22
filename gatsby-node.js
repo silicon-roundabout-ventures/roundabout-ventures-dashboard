@@ -9,15 +9,15 @@ const mockPortfolioData = [
     recordId: "rec123mock1",
     data: {
       Name: ["Jane Doe", "John Smith"],
-      Deal_Name: "TechFusion AI",
-      Notes: "AI-powered data analytics platform for enterprise",
+      Dea_Name: "TechFusion AI",
+      Summary: "AI-powered data analytics platform for enterprise",
       One_Line_Summary: "Making data accessible to all",
       Sector: ["Artificial Intelligence", "Enterprise Software"],
       Stage: "Series A",
       Announced: "Yes",
       Close_Date: "2023-06-15",
       Company: ["techfusion.ai"],
-      Fund: "Fund I",
+      Invested_from_fund: "Fund I",
       Total_Invested: 500000,
       Entry_Valuation: "£5M"
     }
@@ -29,14 +29,14 @@ const mockPortfolioData = [
     data: {
       Name: ["Alex Rivera"],
       Deal_Name: "GreenTech Solutions",
-      Notes: "Sustainable energy management systems for commercial buildings",
+      Summary: "Sustainable energy management systems for commercial buildings",
       One_Line_Summary: "Reducing carbon footprints through smart building tech",
       Sector: ["CleanTech", "IoT"],
       Stage: "Seed",
       Announced: "Yes",
       Close_Date: "2023-09-22",
       Company: ["greentechsolutions.com"],
-      Fund: "Fund I",
+      Invested_from_fund: "Fund I",
       Total_Invested: 350000,
       Entry_Valuation: "£3.5M"
     }
@@ -48,14 +48,14 @@ const mockPortfolioData = [
     data: {
       Name: ["Sarah Chen", "Michael Wong"],
       Deal_Name: "HealthCare AI",
-      Notes: "AI diagnostics platform for early disease detection",
+      Summary: "AI diagnostics platform for early disease detection",
       One_Line_Summary: "Democratizing healthcare through AI",
       Sector: ["HealthTech", "Artificial Intelligence"],
       Stage: "Series A",
       Announced: "Yes",
       Close_Date: "2023-04-10",
       Company: ["healthcareai.io"],
-      Fund: "Fund I",
+      Invested_from_fund: "Fund I",
       Total_Invested: 750000,
       Entry_Valuation: "£7M"
     }
@@ -67,14 +67,14 @@ const mockPortfolioData = [
     data: {
       Name: ["David Patel"],
       Deal_Name: "",
-      Notes: "Information about this company is currently not available.",
+      Summary: "Information about this company is currently not available.",
       One_Line_Summary: "",
       Sector: ["Fintech"],
       Stage: "Seed",
       Announced: "No",
       Close_Date: "2024-01-15",
       Company: [""],
-      Fund: "Fund II",
+      Invested_from_fund: "Fund II",
       Total_Invested: 250000,
       Entry_Valuation: "£2M"
     }
@@ -86,14 +86,14 @@ const mockPortfolioData = [
     data: {
       Name: ["Emma Johnson", "Tom Wilson"],
       Deal_Name: "EdTech Innovations",
-      Notes: "Personalized learning platform for K-12 students",
+      Summary: "Personalized learning platform for K-12 students",
       One_Line_Summary: "Revolutionizing education through adaptive learning",
       Sector: ["EdTech"],
       Stage: "Seed",
       Announced: "Yes",
       Close_Date: "2023-11-05",
       Company: ["edtechinnovations.io"],
-      Fund: "Fund II",
+      Invested_from_fund: "Fund II",
       Total_Invested: 300000,
       Entry_Valuation: "£2.5M"
     }
@@ -117,7 +117,7 @@ exports.createSchemaCustomization = ({ actions, reporter }) => {
     type AirtableData {
       Name: [String]
       Deal_Name: String
-      Notes: String
+      Summary: String
       One_Line_Summary: String
       Sector: [String]
       Stage: String
@@ -125,7 +125,7 @@ exports.createSchemaCustomization = ({ actions, reporter }) => {
       Close_Date: String
       Company: [String]
       Logo: AirtableDataLogo
-      Fund: String
+      Invested_from_fund: [String]
       Total_Invested: Float
       Entry_Valuation: String
     }
@@ -142,14 +142,14 @@ exports.createSchemaCustomization = ({ actions, reporter }) => {
     type PortfolioData {
       Name: [String]
       Deal_Name: String
-      Notes: String
+      Summary: String
       One_Line_Summary: String
       Sector: [String]
       Stage: String
       Announced: String
       Close_Date: String
       Company: [String]
-      Fund: String
+      Invested_from_fund: String
       Total_Invested: Float
       Entry_Valuation: String
     }

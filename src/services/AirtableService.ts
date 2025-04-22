@@ -7,7 +7,7 @@ import env, { isAirtableConfigured } from '@/hooks/env';
 export interface PortfolioCompany {
   id: string;
   name: string;          // Deal Name in Airtable
-  description: string;   // Notes in Airtable
+  description: string;   // Summary in Airtable
   oneLiner?: string;     // One Line Summary or One Liner in Airtable
   logo: string;          // Will need to be constructed from other fields
   photo?: string;        // Company Photo in Airtable (larger image for modals)
@@ -288,8 +288,8 @@ class AirtableService {
             console.log(`Using One Line Summary for ${companyName}: "${oneLiner}"`);
           } 
           // Fallback options if One Line Summary doesn't exist
-          else if (fields['One Liner'] && typeof fields['One Liner'] === 'string') {
-            oneLiner = fields['One Liner'];
+          else if (fields['One Liner AI (not visible)'] && typeof fields['One Liner AI (not visible)'] === 'string') {
+            oneLiner = fields['One Liner AI (not visible)'];
             console.log(`Using One Liner fallback: "${oneLiner}"`);
           }
           else if (fields['Tagline'] && typeof fields['Tagline'] === 'string') {
@@ -327,8 +327,8 @@ class AirtableService {
             console.log(`Using Summary field for description`);
           } else {
             description = fields['Description'] || 
-                          fields['Notes'] || 
-                          fields['GP Portfolio Notes'] || 
+                          fields['One Line Summary'] || 
+                          fields['One Liner AI (not visible)'] || 
                           'Information about this company is currently not available.';
             console.log(`Using fallback field for description`);
           }

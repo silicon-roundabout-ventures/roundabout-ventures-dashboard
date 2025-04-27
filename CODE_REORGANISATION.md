@@ -106,8 +106,8 @@ roundabout-ventures-dashboard/
 ├── src/                     # Source code
 │   ├── pages/               # Gatsby pages → routes
 │   ├── components/          # Reusable UI & layout
-│   │   ├── core/            # Layout, Section, Hero, Container
-│   │   ├── ui/              # Primitives: Button, Card, Slider, etc.
+│   │   ├── layouts/            # Layout, Section, Hero, Container
+│   │   ├── parts/              # Primitives: Button, Card, Slider, etc.
 │   │   └── sections/        # Page sections: DashboardOverview, etc.
 │   ├── hooks/               # Custom React Query hooks
 │   ├── services/            # API clients (e.g. Airtable)
@@ -151,7 +151,7 @@ roundabout-ventures-dashboard/
 
 3. **UI Primitives**
    - `Button`, `GlassCard`, `CodeBlock`, `ImageSlider`, `ParticleBackground`, etc.
-   - Located in `components/ui/`
+   - Located in `components/parts/`
 
 4. **Data Services & Hooks**
    - `src/services/airtable.ts`: configures Airtable client and helper functions.

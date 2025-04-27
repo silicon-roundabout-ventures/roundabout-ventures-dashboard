@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import ParticleBackground from '@/components/core/ParticleBackground';
-import Layout from '@/components/core/Layout';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import Layout from '@/components/layouts/Layout';
 
 const ForInvestorsContent = () => {
   return (

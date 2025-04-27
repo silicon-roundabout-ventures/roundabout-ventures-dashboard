@@ -1,6 +1,6 @@
 import React from 'react';
-import { PortfolioCompany } from '@/services/AirtableService';
-import Modal from '@/components/ui/Modal';
+import { PortfolioCompany } from '@/config/airtableConfig';
+import Modal from '@/components/parts/Modal';
 
 interface CompanyModalProps {
   company: PortfolioCompany;

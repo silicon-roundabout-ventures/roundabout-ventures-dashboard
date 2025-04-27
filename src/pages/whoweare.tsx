@@ -1,12 +1,12 @@
 import React, { MouseEvent, useState } from 'react';
 import { Linkedin, Github, Globe } from 'lucide-react';
-import { XLogo } from '@/components/icons/XLogo';
-import Layout from '@/components/core/Layout';
-import ParticleBackground from '@/components/core/ParticleBackground';
-import { CircularImage } from '@/components/ui/CircularImage';
+import { XLogo } from '@/images/icons/XLogo';
+import Layout from '@/components/layouts/Layout';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import { CircularImage } from '@/components/parts/CircularImage';
 import { graphql, useStaticQuery } from 'gatsby';
 import { Link } from 'gatsby';
-import Timeline from '@/components/sections/Timeline';
+import Timeline from '@/components/widgets/Timeline';
 
 interface TeamMemberProps {
   name: string;

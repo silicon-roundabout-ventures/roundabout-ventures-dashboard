@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { PortfolioCompany } from 'src/services/AirtableService';
+import { PortfolioCompany } from '@/config/airtableConfig';
 import CompanyModal from './CompanyModal';
 
 interface PortfolioCardProps {

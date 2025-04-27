@@ -1,8 +1,10 @@
 
 import React, { useEffect } from 'react';
-import ParticleBackground from '@/components/core/ParticleBackground';
-import { Button } from "@/components/ui/button";
-import Layout from '@/components/core/Layout';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import { Button } from "@/components/parts/button";
+import Layout from '@/components/layouts/Layout';
+import { Link } from 'gatsby';
+import { ArrowRight } from 'lucide-react';
 
 const BuildingInPublicContent = () => {
   useEffect(() => {
@@ -70,7 +72,7 @@ const BuildingInPublicContent = () => {
               </a>
             </div>
             
-            <h2 className="text-2xl font-bold text-white mb-6 text-center">&lt;Latest Posts/&gt;</h2>
+            <h2 className="text-2xl font-bold text-white mb-12 text-center">&lt;Latest Posts/&gt;</h2>
             
             {/* Substack Feed */}
             <div id="substack-feed-embed" className="h-[600px] overflow-auto mb-8"></div>
@@ -89,6 +91,22 @@ const BuildingInPublicContent = () => {
               </a>
             </div>
           </div>
+         
+         {/* Call to action */}
+          <div className="flex flex-wrap gap-4 justify-center mt-6 mb-12 px-4 w-full">
+            <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
+              <Link to="/apply">
+                Apply For Funding <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            
+            <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
+              <Link to="/lpenquiries">
+                LP Enquiries <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
         </div>
       </div>
     </div>

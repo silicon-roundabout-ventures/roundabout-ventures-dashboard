@@ -1,7 +1,6 @@
-import { PortfolioCompany, FundStatistics } from '../config/airtableConfig';
-
-// Mock portfolio companies data
-export const getMockPortfolioCompanies = (): PortfolioCompany[] => [
+// Mock portfolio data for when Airtable is not available
+// Raw portfolio companies data
+const mockPortfolioCompanies = [
   {
     id: 'rec123456',
     name: 'Example Tech',
@@ -16,6 +15,7 @@ export const getMockPortfolioCompanies = (): PortfolioCompany[] => [
     announced: true,
     fund: 'Fund II',
     dealValue: 5000000,
+    netMoic: 2.3,
     totalInvested: 1000000,
     entryValuation: '20M',
   },
@@ -33,20 +33,31 @@ export const getMockPortfolioCompanies = (): PortfolioCompany[] => [
     fund: 'Fund III',
     totalInvested: 500000,
   },
-  // Add more mock companies as needed
+  // Add more mock companies here if needed
 ];
 
-// Mock fund statistics
-export const getMockFundStatistics = (): FundStatistics => ({
+// Raw fund statistics
+const mockFundStatistics = {
   totalInvestments: 25000000,
   totalCompanies: 15,
   averageInvestment: 1666667,
   medianValuation: 18000000,
   investmentsLast12Months: 8000000,
   companiesLast12Months: 5,
-});
+};
 
-export default {
+// Helper functions
+function getMockPortfolioCompanies() {
+  return mockPortfolioCompanies;
+}
+
+function getMockFundStatistics() {
+  return mockFundStatistics;
+}
+
+module.exports = {
+  mockPortfolioCompanies,
+  mockFundStatistics,
   getMockPortfolioCompanies,
   getMockFundStatistics,
 };

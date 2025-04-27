@@ -1,7 +1,8 @@
 const path = require("path")
 const crypto = require("crypto")
 
-const mockPortfolioData = require("./src/mocks/mockPortfolioData.js");
+const { getMockPortfolioCompanies } = require("./src/mocks/mockPortfolioData.js");
+const mockPortfolioData = getMockPortfolioCompanies();
 
 const { AIRTABLE_TYPEDEFS } = require("./src/config/airtableSchema");
 

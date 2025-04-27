@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import { Button } from "@/components/parts/button";
@@ -8,29 +7,19 @@ import { ArrowRight } from 'lucide-react';
 
 const BuildingInPublicContent = () => {
   useEffect(() => {
-    // Create Substack feed widget config
     window.SubstackFeedWidget = {
       substackUrl: "blog.siliconroundabout.ventures",
       posts: 8,
       layout: "right",
-      colors: {
-        primary: "#FFFFFF",
-        secondary: "#DBDBDB",
-        background: "#000000",
-      }
+      colors: { primary: "#FFFFFF", secondary: "#DBDBDB", background: "#000000" },
     };
-    
-    // Load the Substack API script
-    const script = document.createElement('script');
-    script.src = 'https://substackapi.com/embeds/feed.js';
-    script.async = true;
-    document.body.appendChild(script);
-    
-    // Cleanup
-    return () => {
-      document.body.removeChild(script);
-      delete window.SubstackFeedWidget;
-    };
+    if (!document.getElementById('substack-embed-script')) {
+      const script = document.createElement('script');
+      script.id = 'substack-embed-script';
+      script.src = 'https://substackapi.com/embeds/feed.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
   }, []);
 
   return (
@@ -115,7 +104,7 @@ const BuildingInPublicContent = () => {
 
 const BuildingInPublic = () => {
   return (
-    <Layout title="Building in Public - Roundabout Ventures">
+    <Layout title="Building in Public Blog">
       <BuildingInPublicContent />
     </Layout>
   );

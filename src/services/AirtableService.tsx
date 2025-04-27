@@ -12,7 +12,7 @@ import {
   AirtableRecord,
   portfolioFragment
 } from '../config/airtableConfig';
-import { getMockPortfolioCompanies, getMockFundStatistics } from '../mocks/airtableMock';
+const { getMockPortfolioCompanies, getMockFundStatistics } = require('../mocks/mockPortfolioData');
 
 // Cache instance
 const cache = new LRUCache<string, any>({

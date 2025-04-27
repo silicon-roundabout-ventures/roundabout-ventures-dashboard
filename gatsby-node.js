@@ -17,7 +17,7 @@ const mockPortfolioData = [
       Announced: "Yes",
       Close_Date: "2023-06-15",
       Company: ["techfusion.ai"],
-      Invested_from_fund: "Fund I",
+      Fund_numeral: "Fund I",
       Total_Invested: 500000,
       Entry_Valuation: "£5M"
     }
@@ -36,7 +36,7 @@ const mockPortfolioData = [
       Announced: "Yes",
       Close_Date: "2023-09-22",
       Company: ["greentechsolutions.com"],
-      Invested_from_fund: "Fund I",
+      Fund_numeral: "Fund I",
       Total_Invested: 350000,
       Entry_Valuation: "£3.5M"
     }
@@ -55,7 +55,7 @@ const mockPortfolioData = [
       Announced: "Yes",
       Close_Date: "2023-04-10",
       Company: ["healthcareai.io"],
-      Invested_from_fund: "Fund I",
+      Fund_numeral: "Fund I",
       Total_Invested: 750000,
       Entry_Valuation: "£7M"
     }
@@ -74,7 +74,7 @@ const mockPortfolioData = [
       Announced: "No",
       Close_Date: "2024-01-15",
       Company: [""],
-      Invested_from_fund: "Fund II",
+      Fund_numeral: "Fund II",
       Total_Invested: 250000,
       Entry_Valuation: "£2M"
     }
@@ -93,75 +93,20 @@ const mockPortfolioData = [
       Announced: "Yes",
       Close_Date: "2023-11-05",
       Company: ["edtechinnovations.io"],
-      Invested_from_fund: "Fund II",
+      Fund_numeral: "Fund II",
       Total_Invested: 300000,
       Entry_Valuation: "£2.5M"
     }
   }
 ];
 
-// Add explicit schema typing for Airtable data
-exports.createSchemaCustomization = ({ actions, reporter }) => {
-  const { createTypes } = actions
-  
-  // Log schema customization to help debug Netlify builds
-  reporter.info('Customizing GraphQL schema for Airtable integration');
-  
-  // Use a more defensive schema definition with fallbacks
-  const typeDefs = `
-    type Airtable implements Node @dontInfer {
-      data: AirtableData
-      table: String
-      recordId: String
-    }
-    type AirtableData {
-      Name: [String]
-      Deal_Name: String
-      Summary: String
-      One_Line_Summary: String
-      Sector: [String]
-      Stage: String
-      Announced: String
-      Close_Date: String
-      Company: [String]
-      Logo: AirtableDataLogo
-      Invested_from_fund: [String]
-      Total_Invested: Float
-      Entry_Valuation: String
-    }
-    type AirtableDataLogo {
-      localFiles: [File] @link
-    }
-    
-    # Define schema for our mock portfolio data
-    type MockPortfolioData implements Node @dontInfer {
-      data: PortfolioData
-      table: String
-      recordId: String
-    }
-    type PortfolioData {
-      Name: [String]
-      Deal_Name: String
-      Summary: String
-      One_Line_Summary: String
-      Sector: [String]
-      Stage: String
-      Announced: String
-      Close_Date: String
-      Company: [String]
-      Invested_from_fund: String
-      Total_Invested: Float
-      Entry_Valuation: String
-    }
-  `
-  try {
-    createTypes(typeDefs)
-    reporter.info('Successfully created GraphQL schema types')
-  } catch (error) {
-    reporter.error('Error creating GraphQL schema types: ' + error.message)
-    // Continue build process despite schema errors
-  }
-}
+const { AIRTABLE_TYPEDEFS } = require("./src/config/airtableSchema");
+
+// Use dynamic Airtable SDL from config
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions;
+  createTypes(AIRTABLE_TYPEDEFS);
+};
 
 // Create fallback data if Airtable plugin is not loaded
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter }) => {
@@ -207,6 +152,15 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter })
     reporter.error('Error in sourceNodes: ' + error.message);
     // Prevent build failure by continuing despite errors
   }
+};
+
+// Add webpack alias for @ imports
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    resolve: {
+      alias: { "@": path.resolve(__dirname, "src") },
+    },
+  });
 };
 
 // Setup path aliases and handle browser-only modules

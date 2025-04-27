@@ -1,6 +1,6 @@
 import React from 'react';
-import ParticleBackground from '@/components/core/ParticleBackground';
-import Layout from '@/components/core/Layout';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import Layout from '@/components/layouts/Layout';
 
 // In Gatsby, the default export is what becomes the page component
 const LPEnquiriesPage = () => {

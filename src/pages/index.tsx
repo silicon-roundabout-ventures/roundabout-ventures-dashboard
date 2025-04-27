@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
-import { Button } from "@/components/ui/button";
-import ParticleBackground from '@/components/core/ParticleBackground';
+import { Button } from "@/components/parts/button";
+import ParticleBackground from '@/components/layouts/ParticleBackground';
 import { ArrowRight } from 'lucide-react';
-import Layout from '@/components/core/Layout';
-import { GlassCard } from "@/components/ui/GlassCard";
-import { Section } from "@/components/ui/Section";
-import { FeatureCard } from '@/components/ui/FeatureCard';
-import { CircularImage } from '@/components/ui/CircularImage';
-import ImageSlider from '@/components/core/ImageSlider';
-import TypedAnimationWrapper from '@/components/ui/TypedAnimationWrapper';
-import ScrollChevrons from '@/components/ui/ScrollChevrons';
+import Layout from '@/components/layouts/Layout';
+import { GlassCard } from "@/components/parts/GlassCard";
+import { Section } from "@/components/parts/Section";
+import { FeatureCard } from '@/components/parts/FeatureCard';
+import { CircularImage } from '@/components/parts/CircularImage';
+import ImageSlider from '@/components/layouts/ImageSlider';
+import TypedAnimationWrapper from '@/components/parts/TypedAnimationWrapper';
+import ScrollChevrons from '@/components/parts/ScrollChevrons';
 
 // Content component to separate from layout
 const IndexContent = () => {
@@ -149,9 +149,9 @@ const IndexContent = () => {
             </div>
             
             <div className="text-center">
-              <Link to="/whoweare">
+              <Link to="/portfolio">
                 <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
-                  Learn More About Us
+                  Whom we invested in
                 </Button>
               </Link>
             </div>
@@ -257,9 +257,9 @@ const IndexContent = () => {
             />
             
             <GlassCard className="flex items-center justify-center p-10">
-              <Link to="/portfolio">
+              <Link to="/buildinginpublic">
                 <Button className="bg-srv-yellow text-black hover:bg-srv-yellow/80">
-                  View Our Portfolio
+                  Read our Build in Public blog
                 </Button>
               </Link>
             </GlassCard>

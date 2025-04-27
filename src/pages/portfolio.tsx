@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, graphql } from 'gatsby';
+import { Link } from 'gatsby';
 import { ArrowRight } from 'lucide-react';
-import { PortfolioCompany, FundStatistics } from '@/services/AirtableService';
-import PortfolioCard from '@/components/sections/dashboard/PortfolioCard';
-import StatisticCard from '@/components/sections/dashboard/StatisticCard';
-import ChartComponent from '@/components/sections/dashboard/ChartComponent';
-import ParticleBackground from '@/components/core/ParticleBackground'
-import Layout from '@/components/core/Layout';  
-import { Button } from '@/components/ui/button';
-import ClientOnly from '@/components/core/ClientOnly';
+// Import types from centralized config
+import { PortfolioCompany, FundStatistics } from '../config/airtableConfig';
+// Import hooks from centralized service
+import { usePortfolioCompanies } from '../services/AirtableService';
+import PortfolioCard from '@/components/widgets/PortfolioCard';
+import StatisticCard from '@/components/widgets/StatisticCard';
+import ChartComponent from '@/components/widgets/ChartComponent';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import Layout from '@/components/layouts/Layout'; 
+import { Button } from '@/components/parts/button';
+import ClientOnly from '@/components/layouts/ClientOnly';
 
 // Process Airtable data into our format
 const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
@@ -82,7 +85,7 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
     const founders = Array.isArray(node.data.Name) ? node.data.Name : [];
    
     // Get fund names
-    const funds = Array.isArray(node.data.Invested_from_fund) ? node.data.Invested_from_fund : [];
+    const funds = Array.isArray(node.data.Fund_numeral) ? node.data.Fund_numeral : [];
     
     return {
       id: node.id,
@@ -102,8 +105,21 @@ const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
   });
 };
 
-// Calculate statistics based on portfolio companies
+/**
+ * Calculate statistics based on portfolio companies
+ */
 const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatistics => {
+  if (!portfolioCompanies || portfolioCompanies.length === 0) {
+    return {
+      totalInvestments: 0,
+      totalCompanies: 0,
+      averageInvestment: 0,
+      medianValuation: 0,
+      investmentsLast12Months: 0,
+      companiesLast12Months: 0
+    };
+  }
+
   // Calculate total investments (use actual totalInvested data if available)
   let totalInvestment = 0;
   let investmentsCount = 0;
@@ -115,40 +131,74 @@ const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatis
     }
   });
   
-  // Use default value if no real data available
-  if (totalInvestment === 0) {
-    totalInvestment = 5200000; // £5.2M default
+  // If we don't have real investment data, use approximations
+  if (investmentsCount === 0) {
+    totalInvestment = portfolioCompanies.length * 500000; // Approximation based on average seed ticket
   }
   
-  // Calculate companies and investments from the last 12 months
-  const now = new Date();
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(now.getFullYear() - 1);
+  // Calculate average investment
+  const averageInvestment = investmentsCount > 0 ? 
+    totalInvestment / investmentsCount : 
+    totalInvestment / portfolioCompanies.length;
   
-  // Count and sum investments in the last 12 months
-  let companiesLast12Months = 0;
-  let investmentsLast12Months = 0;
-  
+  // Get sorted array of valuations for median calculation
+  const valuations: number[] = [];
   portfolioCompanies.forEach(company => {
-    if (company.investmentDate) {
-      const investmentDate = new Date(company.investmentDate);
-      if (investmentDate >= oneYearAgo && investmentDate <= now) {
-        companiesLast12Months++;
-        if (company.totalInvested) {
-          investmentsLast12Months += company.totalInvested;
-        } else if (totalInvestment > 0 && portfolioCompanies.length > 0) {
-          // If specific company investment is unknown, use average
-          investmentsLast12Months += totalInvestment / portfolioCompanies.length;
+    if (company.entryValuation) {
+      // Handle both number and string formats like "£5M"
+      if (typeof company.entryValuation === 'number') {
+        valuations.push(company.entryValuation);
+      } else {
+        // Extract numeric portion and convert to number
+        const matches = company.entryValuation.match(/\d+(\.\d+)?/);
+        if (matches) {
+          let value = parseFloat(matches[0]);
+          // Check if the string contains M (millions)
+          if (company.entryValuation.includes('M')) {
+            value *= 1000000;
+          } else if (company.entryValuation.includes('K')) {
+            value *= 1000;
+          }
+          valuations.push(value);
         }
       }
     }
   });
   
-  // Default value if no recent investments detected
-  if (companiesLast12Months === 0) {
-    companiesLast12Months = 2; // Default
-    investmentsLast12Months = totalInvestment * 0.4; // 40% of total as default
+  // Calculate median valuation
+  let medianValuation = 0;
+  if (valuations.length > 0) {
+    valuations.sort((a, b) => a - b);
+    const mid = Math.floor(valuations.length / 2);
+    medianValuation = valuations.length % 2 === 0 ? 
+      (valuations[mid - 1] + valuations[mid]) / 2 : 
+      valuations[mid];
+  } else {
+    // Approximation if no real data
+    medianValuation = 5000000; // Typical early-stage valuation
   }
+  
+  // Calculate investments in last 12 months
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  
+  let investmentsLast12Months = 0;
+  let companiesLast12Months = 0;
+  
+  portfolioCompanies.forEach(company => {
+    if (company.investmentDate) {
+      const investmentDate = new Date(company.investmentDate);
+      if (investmentDate >= oneYearAgo) {
+        companiesLast12Months++;
+        if (company.totalInvested) {
+          investmentsLast12Months += company.totalInvested;
+        } else {
+          // Approximation
+          investmentsLast12Months += 500000;
+        }
+      }
+    }
+  });
   
   // Calculate industry split - only include announced companies for accuracy
   const industryCount: Record<string, number> = {};
@@ -217,69 +267,88 @@ const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatis
   };
   
   // Return statistics with better handling of empty data
+  // Return only the fields defined in FundStatistics interface
   return {
     totalInvestments: totalInvestment,
     totalCompanies: portfolioCompanies.length,
-    averageInvestment: portfolioCompanies.length > 0 ? totalInvestment / portfolioCompanies.length : 0,
-    medianValuation: 8500000,  // Placeholder value
-    investmentsLast12Months: companiesLast12Months > 0 ? (totalInvestment / portfolioCompanies.length) * companiesLast12Months : 2100000,
-    companiesLast12Months: companiesLast12Months || 2,  // Use calculated value or fallback to 2
-    industrySplit: Object.keys(industrySplit).length > 0 ? industrySplit : fallbackIndustrySplit,
-    stageSplit: Object.keys(stageSplit).length > 0 ? stageSplit : fallbackStageSplit
+    averageInvestment,
+    medianValuation,
+    investmentsLast12Months,
+    companiesLast12Months
+    // Note: industrySplit and stageSplit are now calculated on-demand in chart preparation functions
   };
 };
 
+/**
+ * Props for the Portfolio page component
+ */
 interface PortfolioProps {
   location: { pathname: string };
-  data: {
-    allAirtable?: {
-      nodes: any[];
-    }
-    allMockPortfolioData?: {
-      nodes: any[];
-    }
-  }
 }
 
-const Portfolio = ({ location, data }: PortfolioProps) => {
+/**
+ * Portfolio page component
+ */
+const Portfolio = ({ location }: PortfolioProps) => {
   const [filter, setFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
   
-  // Process data from Airtable OR from MockPortfolioData if Airtable is empty
-  const airtableNodes = data.allAirtable?.nodes || [];
-  const mockNodes = data.allMockPortfolioData?.nodes || [];
+  // Get data using centralized hooks from AirtableService
+  const portfolioCompanies = usePortfolioCompanies();
   
-  // Determine which dataset to use - prefer Airtable if available
-  const sourceNodes = airtableNodes.length > 0 ? airtableNodes : mockNodes;
-  console.log(`Using ${airtableNodes.length > 0 ? 'Airtable' : 'mock'} data with ${sourceNodes.length} nodes`);
+  // State for processed portfolio companies and statistics
+  const [companies, setCompanies] = useState<PortfolioCompany[]>([]);
+  const [statistics, setStatistics] = useState<FundStatistics | null>(null);
   
-  // Process data into our format - this handles missing or empty data gracefully
-  const companies = processAirtableData(sourceNodes);
-  
-  // Calculate statistics
-  const statistics = calculateStatistics(companies);
-  
-  // Set loading state when component mounts
+  // Process data when it changes
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
-  
-  // Format statistics data for charts
+    // Initialize only once when data arrives
+    if (portfolioCompanies.length > 0 && companies.length === 0) {
+      setIsLoading(true);
+      setCompanies(portfolioCompanies);
+      const stats = calculateStatistics(portfolioCompanies);
+      setStatistics(stats);
+      setTimeout(() => setIsLoading(false), 500);
+    }
+  }, [portfolioCompanies, companies]);
+
+  /**
+   * Prepare data for industry distribution chart
+   */
   const prepareIndustryChartData = () => {
-    if (!statistics) return [];
+    // Calculate industry distribution on-the-fly
+    const industrySplit: Record<string, number> = {};
     
-    return Object.entries(statistics.industrySplit).map(([name, value]) => ({
-      name,
-      value
+    companies.forEach(company => {
+      if (company.industry && company.industry.length > 0) {
+        company.industry.forEach(industry => {
+          industrySplit[industry] = (industrySplit[industry] || 0) + 1;
+        });
+      }
+    });
+    
+    return Object.entries(industrySplit).map(([key, value]) => ({
+      name: key,
+      value: value
     }));
   };
   
+  /**
+   * Prepare data for stage distribution chart
+   */
   const prepareStageChartData = () => {
-    if (!statistics) return [];
+    // Calculate stage distribution on-the-fly
+    const stageSplit: Record<string, number> = {};
     
-    return Object.entries(statistics.stageSplit).map(([name, value]) => ({
-      name,
-      value
+    companies.forEach(company => {
+      if (company.stage) {
+        stageSplit[company.stage] = (stageSplit[company.stage] || 0) + 1;
+      }
+    });
+    
+    return Object.entries(stageSplit).map(([key, value]) => ({
+      name: key,
+      value: value
     }));
   };
   
@@ -318,12 +387,12 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
         <ParticleBackground />
         
         <div className="container mx-auto px-4">
-        <div className="mb-16 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
-          <p className="text-white/90 max-w-2xl mx-auto">
-            We back exceptional founders creating innovative solutions across industries.
-          </p>
-        </div>
+          <div className="mb-16 text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
+            <p className="text-white/90 max-w-2xl mx-auto">
+              We back exceptional founders creating innovative solutions across industries.
+            </p>
+          </div>
         
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
@@ -452,61 +521,4 @@ const Portfolio = ({ location, data }: PortfolioProps) => {
   );
 };
 
-export const query = graphql`
-  query PortfolioPageQuery {
-    # Query real Airtable data
-    allAirtable(filter: {table: {eq: "Startups"}}) {
-      nodes {
-        id
-        recordId
-        data {
-          Name
-          Deal_Name
-          Summary
-          One_Line_Summary
-          Sector
-          Stage
-          Announced
-          Close_Date
-          Company
-          Invested_from_fund
-          Total_Invested
-          Entry_Valuation
-          Logo {
-            localFiles {
-              publicURL
-              childImageSharp {
-                gatsbyImageData(width: 200, placeholder: BLURRED)
-              }
-            }
-          }
-        }
-      }
-    }
-    # Query fallback mock data when Airtable is not available
-    allMockPortfolioData {
-      nodes {
-        id
-        recordId
-        table
-        data {
-          Name
-          Deal_Name
-          Summary
-          One_Line_Summary
-          Sector
-          Stage
-          Announced
-          Close_Date
-          Company
-          Invested_from_fund
-          Total_Invested
-          Entry_Valuation
-        }
-      }
-    }
-  }
-`;
-
-// Export the page query
 export default Portfolio;

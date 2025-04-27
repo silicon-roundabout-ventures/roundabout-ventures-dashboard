@@ -75,7 +75,7 @@ module.exports = {
         requestTimeout: 60000, // 60 seconds timeout for Netlify builds
         // Configure error handling for Netlify builds
         errorHandling: 'skip',
-        separateNodeType: true, // Avoid node type conflicts
+        separateNodeType: false, // Use unified Airtable type for GraphQL queries
         queryName: 'AIRTABLE',
         tables: [
           // Only process if environment variables are available and non-empty
@@ -84,7 +84,8 @@ module.exports = {
             {
               baseId: process.env.AIRTABLE_BASE_ID.trim(),
               tableName: `Startups`,
-              tableView: `Portfolio` // Use the specific Portfolio view
+              tableView: `Portfolio`, // Use the specific Portfolio view
+              mapping: { Logo: 'fileNode', Photo: 'fileNode' }
             }
           ] : [])
         ]

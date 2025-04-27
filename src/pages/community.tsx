@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import ParticleBackground from '@/components/core/ParticleBackground';
-import Layout from '@/components/core/Layout';
-import ImageSlider from '@/components/core/ImageSlider';
+import ParticleBackground from '@/components/layouts/ParticleBackground';
+import Layout from '@/components/layouts/Layout';
+import ImageSlider from '@/components/layouts/ImageSlider';
 
 const CommunityContent = () => {
 

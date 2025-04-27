@@ -1,27 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import { Button } from "@/components/parts/button";
 import Layout from '@/components/layouts/Layout';
 import { Link } from 'gatsby';
 import { ArrowRight } from 'lucide-react';
+import SubstackFeed from '@/components/widgets/SubstackFeed';
 
 const BuildingInPublicContent = () => {
-  useEffect(() => {
-    window.SubstackFeedWidget = {
-      substackUrl: "blog.siliconroundabout.ventures",
-      posts: 8,
-      layout: "right",
-      colors: { primary: "#FFFFFF", secondary: "#DBDBDB", background: "#000000" },
-    };
-    if (!document.getElementById('substack-embed-script')) {
-      const script = document.createElement('script');
-      script.id = 'substack-embed-script';
-      script.src = 'https://substackapi.com/embeds/feed.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
-
   return (
     <div className="min-h-screen pt-28 pb-16">
       <ParticleBackground />
@@ -64,7 +49,7 @@ const BuildingInPublicContent = () => {
             <h2 className="text-2xl font-bold text-white mb-12 text-center">&lt;Latest Posts/&gt;</h2>
             
             {/* Substack Feed */}
-            <div id="substack-feed-embed" className="h-[600px] overflow-auto mb-8"></div>
+            <SubstackFeed />
             
             <div className="text-center mt-12">
               <p className="text-white mb-6">Check out more articles:</p>
@@ -109,5 +94,7 @@ const BuildingInPublic = () => {
     </Layout>
   );
 };
+
+// Removed Script/Head logic; using SubstackFeed component instead
 
 export default BuildingInPublic;

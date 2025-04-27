@@ -34,3 +34,5 @@ static/
 .env
 .env.*
 !.env.example
+# Local Netlify folder
+.netlify

@@ -13,4 +13,26 @@ export const wrapRootElement = ({ element }) => {
       </TooltipProvider>
     </QueryClientProvider>
   )
-} 
+}
+
+// Inject Substack feed config and script at end of body
+export const onRenderBody = ({ setPostBodyComponents }) => {
+  setPostBodyComponents([
+    <script
+      key="substack-feed-config"
+      dangerouslySetInnerHTML={{ __html: `
+        window.SubstackFeedWidget = {
+          substackUrl: "blog.siliconroundabout.ventures",
+          posts: 8,
+          layout: "right",
+          colors: {
+            primary: "#FFFFFF",
+            secondary: "#DBDBDB",
+            background: "#000000",
+          }
+        };
+      ` }}
+    />,
+    <script key="substack-feed" src="https://substackapi.com/embeds/feed.js" async />,
+  ]);
+};

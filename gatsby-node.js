@@ -1,16 +1,13 @@
 const path = require("path")
 const crypto = require("crypto")
 
+/* 
+* Airtable node setup
+*/
 const { getMockPortfolioCompanies } = require("./src/mocks/mockPortfolioData.js");
 const mockPortfolioData = getMockPortfolioCompanies();
 
-const { AIRTABLE_TYPEDEFS } = require("./src/config/airtableSchema");
-
-// Use dynamic Airtable SDL from config
-exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions;
-  createTypes(AIRTABLE_TYPEDEFS);
-};
+// No custom schema - use gatsby-source-airtable's built-in schema inference
 
 // Create fallback data if Airtable plugin is not loaded
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter }) => {
@@ -58,6 +55,10 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter })
   }
 };
 
+/* 
+* Webpack setup
+*/
+
 // Add webpack alias for @ imports
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -78,6 +79,10 @@ exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
   })
+
+  /* 
+  * TypeScript & build-time setup
+  */
 
   // Configure TypeScript with JSX support
   actions.setWebpackConfig({

@@ -18,7 +18,7 @@ const Footer = () => {
               <a href="https://twitter.com/siliconroundabt" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
                 <Twitter size={20} />
               </a>
-              <a href="https://www.linkedin.com/company/siliconroundabout/" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
+              <a href="https://www.linkedin.com/company/siliconroundabout-ventures" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
                 <Linkedin size={20} />
               </a>
               <a href="https://github.com/SiliconRoundabout" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">

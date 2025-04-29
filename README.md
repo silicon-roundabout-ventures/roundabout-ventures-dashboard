@@ -1,6 +1,6 @@
 # Silicon Roundabout Ventures Dashboard
 
-![Silicon Roundabout Ventures](./src/images/srv_logo_dash.png)
+![Silicon Roundabout Ventures](./src/images/siliconroundabout/srv_logo_dash.png)
 
 A modern, data-driven dashboard for Silicon Roundabout Ventures, a Community-Driven VC firm backing Deep Tech founders with extreme conviction at pre-seed and seed stages.
 
@@ -37,14 +37,49 @@ The Silicon Roundabout Ventures Dashboard is a JAMStack Gatsby-based web applica
 The dashboard connects to Airtable to fetch and display real portfolio company data:
 
 - **Base ID**: Configured via environment variables
-- **Table**: "Startups"
-- **View**: "Portfolio"
+- **Table**: where the startup data to visuialise rests
+- **View**: for better filtering
 
 The integration includes:
 - Dynamic field mapping for flexibility
 - Fallback to mock data if API is not available
 - Error handling for API connection issues
 - Fund statistics calculation from raw data
+
+All data comes from Airtable via the `gatsby-source-airtable` plugin. To customize fields or tables:
+
+1. Environment variables:
+   - `AIRTABLE_API_KEY` (in `.env.development`)
+   - `AIRTABLE_BASE_ID`
+
+2. Plugin config (`gatsby-config.js`):
+   ```js
+   {
+     resolve: `gatsby-source-airtable`,
+     options: {
+       apiKey: process.env.AIRTABLE_API_KEY.trim(),
+       tables: [
+         {
+           baseId: process.env.AIRTABLE_BASE_ID.trim(),
+           tableName: `Startups`,
+           tableView: `Portfolio`,
+           mapping: { Logo: 'fileNode', Photo: 'fileNode' },
+         },
+       ],
+     },
+   }
+   ```
+
+3. Field definitions (`src/config/airtableConfig.ts`):
+   - `FIELDS.PORTFOLIO` defines Airtable column names.
+   - `PortfolioFields` interface mirrors your Airtable schema.
+
+4. Data service (`src/services/AirtableService.tsx`):
+   - `usePortfolioCompanies()` queries Airtable (here: `allAirtable`).
+   - Attachments resolve at `data.Logo.localFiles[0].publicURL`.
+   - `normalizePortfolioCompany` maps nodes to `PortfolioCompany`.
+
+To add/remove fields, update `FIELDS.PORTFOLIO` and adjust the GraphQL query and normalization logic.
 
 ## 🔄 External Service Integrations
 
@@ -125,7 +160,7 @@ npm run develop
 # npm run clean - Clean the Gatsby cache
 ```
 
-The site will be available at http://localhost:8000
+The site will be available by default at http://localhost:8000
 
 ## 🔄 Environment Configuration
 
@@ -138,27 +173,24 @@ These variables are managed in the `.env.development` file (not committed to ver
 
 ## 🏗️ Project Structure
 
-```
 src/
 ├── components/      # Reusable UI components
-│   ├── common/      # Layout, navigation, etc.
-│   ├── dashboard/   # Dashboard-specific components
-│   └── ui/          # Basic UI elements
-├── config/          # Configuration files
-├── hooks/           # Custom React hooks
+│   ├── layouts/     # Layout, backgrounds & navigation
+│   ├── sections/    # Page sections
+│   ├── widgets/     # Cards, charts, utility rendering widgets, etc.
+│   └── parts/       # Basic UI elements
+├── config/          # Env & Airtable field/type definitions
+├── services/        # API data & normalization (`AirtableService`)
+├── hooks/           # Custom hooks (e.g., filters)
+├── mocks/           # Fallback mock data
+├── pages/           # Gatsby page components
 ├── images/          # Static images
-├── pages/           # Gatsby pages
-├── services/        # API and data services
-└── styles/          # Global styles
-```
+├── utilis/          # Utility functions
+└── styles/          # Global styles & Tailwind setup
 
 ## 📦 Deployment
 
-The project is deployed using Lovable:
-
-1. Open [Lovable Project](https://lovable.dev/projects/f06d8893-6918-4f22-bd2b-f6c1a738717c)
-2. Click on Share -> Publish
-3. For custom domains, navigate to Project > Settings > Domains
+The project is deployed using Netlify
 
 ## 📝 Contributing
 
@@ -173,11 +205,11 @@ To contribute to the project:
 ## 🚧 TODO
 
 ### Refactoring
-- [ ] Reorganize project structure for better code organization
-  - [ ] Standardize directory naming conventions
-  - [ ] Create dedicated directories for page-specific components
+- [ x ] Reorganize project structure for better code organization
+  - [ x ] Standardize directory naming conventions
+  - [ x ] Create dedicated directories for page-specific components
   - [ ] Separate layouts from common components
-- [ ] Implement standardized component patterns
+- [ x ] Implement standardized component patterns
   - [ ] Create compound components for related UI elements
   - [ ] Use React Context for state sharing rather than prop drilling
   - [ ] Implement proper memoization for expensive calculations
@@ -192,29 +224,30 @@ To contribute to the project:
 - [ ] Add comprehensive comments and documentation
 
 ### Improving Airtable Import Data Flow
-- [ ] Centralize Airtable data fetching
-  - [ ] Create a dedicated `AirtableDataProvider` component
-  - [ ] Implement custom hooks for data access
-  - [ ] Standardize GraphQL queries
-- [ ] Implement robust error handling for API failures
-  - [ ] Add retry mechanisms
-  - [ ] Create graceful fallbacks to mock data
-- [ ] Create better data transformation utilities
+- [ x ] Centralize Airtable data fetching
+  - [ x ] Create a dedicated `AirtableeService` component as a data provider, a schema file and a config file for the setup
+  - [ x ] Implement custom fragments for data access
+  - [ x ] Standardize GraphQL queries
+- [ x ] Implement robust error handling for API failures
+  - [ x ] Add retry mechanisms
+  - [ x ] Create graceful fallbacks to mock data
+- [ x ] Create better data transformation utilities
   - [ ] Implement a standard `transformAirtableRecord` utility
   - [ ] Build a `sanitizeCompanyData` function for consistent data cleaning
   - [ ] Create a `calculatePortfolioStats` utility for consistent statistics
-- [ ] Improve type safety for Airtable data
-  - [ ] Define strict TypeScript interfaces for all data structures
-  - [ ] Implement runtime type checking
-- [ ] Optimize build-time data processing
+- [ x ] Improve type safety for Airtable data
+  - [ x ] Define strict TypeScript interfaces for all data structures
+  - [ x ] Implement runtime type checking
+- [ x ] Optimize build-time data processing
   - [ ] Reduce duplicate data fetching
   - [ ] Implement caching strategies
 - [ ] Add incremental builds for content updates
+- [ ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
 
 ### Fixing RSS Blog Display
-- [ ] Implement proper RSS feed parsing
-  - [ ] Handle missing or malformed content
-  - [ ] Sanitize HTML from external sources
+- [ x ] Implement proper RSS feed parsing
+  - [ x ] Handle missing or malformed content
+  - [  ] Sanitize HTML from external sources
 - [ ] Add caching for external feed data
   - [ ] Implement server-side caching
   - [ ] Add fallback content for failed fetches
@@ -227,7 +260,7 @@ To contribute to the project:
 - [ ] Add pagination for blog posts
   - [ ] Implement lazy loading
   - [ ] Create page navigation controls
-- [ ] Implement category filtering for blog content
+- [ x ] Implement category filtering for blog content
 
 ## 🎨 Design Inspiration
 

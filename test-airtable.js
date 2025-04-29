@@ -28,11 +28,11 @@ async function fetchFromTable(tableName) {
   try {
     console.log(`\nAttempting to fetch from table: ${tableName}`);
     
-    // Use the 'Portfolio' view as specified by the user
-    console.log(`Using 'Portfolio' view as specified`);
+    // Use the 'Portfolio_websiteFeed' view as specified by the user
+    console.log(`Using 'Portfolio_websiteFeed' view as specified`);
     const records = await base(tableName).select({
       maxRecords: 100,
-      view: 'Portfolio'
+      view: 'Portfolio_websiteFeed'
     }).all();
     
     console.log(`✅ Success! Found ${records.length} records in table '${tableName}'`);

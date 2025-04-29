@@ -1,6 +1,18 @@
 const path = require("path")
 const crypto = require("crypto")
 
+// Explicitly add custom fields to AirtableData for GraphQL schema
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions;
+  createTypes(`
+    type AirtableData {
+      Technology_Type: String
+      Main_Headquarter: String
+      Details: String
+    }
+  `);
+};
+
 /* 
 * Airtable node setup
 */

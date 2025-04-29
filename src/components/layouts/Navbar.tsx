@@ -159,7 +159,7 @@ export default function Navbar({ location }: NavbarProps) {
               
               {/* Social Media Icons - Mobile */}
               <div className="flex items-center space-x-4 pt-4 border-t border-white/10">
-                <a href="https://www.linkedin.com/company/siliconroundabout/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
+                <a href="https://www.linkedin.com/company/siliconroundabout-ventures" target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
                   <Linkedin size={18} />
                 </a>
                 <a href="https://github.com/SiliconRoundabout" target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">

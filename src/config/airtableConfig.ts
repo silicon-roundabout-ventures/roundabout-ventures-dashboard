@@ -1,4 +1,3 @@
-import { graphql } from 'gatsby';
 import Airtable from 'airtable';
 
 // Environment & connection
@@ -17,9 +16,8 @@ export const getAirtableBase = () => {
 
 // Table names (single source of truth)
 export const TABLES = {
-  PORTFOLIO: 'Portfolio Companies',
-  FUNDS: 'Funds',
-  INVESTMENTS: 'Investments',
+  PORTFOLIO: 'Startups',
+  FUNDS: 'SRV_Funds'
 } as const;
 
 // Field mappings (single source of truth)
@@ -31,12 +29,13 @@ export const FIELDS = {
     ONE_LINER: 'One_Line_Summary',
     LOGO: 'Logo',
     PHOTO: 'Photo',
-    WEBSITE: 'Company',
+    WEBSITE: 'domain__from_Company_',
+    COMPANY: 'Company',
     INDUSTRY: 'Sector',
     STAGE: 'Stage',
     INVESTMENT_DATE: 'Close_Date',
     ANNOUNCED: 'Announced',
-    FUND: 'Fund_Numeral',
+    FUND: 'Fund_numeral',
     DEAL_VALUE: 'Deal_Value',
     TOTAL_INVESTED: 'Total_Invested',
     ENTRY_VALUATION: 'Entry_Valuation',
@@ -55,25 +54,26 @@ export interface AirtableRecord<T> {
   fields: T;
 }
 
-// Portfolio raw fields from Airtable
+// Portfolio raw fields from Airtable (note that lookup fields in airtable are served as arrays if you allow multiple linked records)
 export interface PortfolioFields {
   [FIELDS.PORTFOLIO.NAME]: string;
   [FIELDS.PORTFOLIO.DESCRIPTION]?: string;
   [FIELDS.PORTFOLIO.ONE_LINER]?: string;
   [FIELDS.PORTFOLIO.LOGO]?: { url: string }[];
   [FIELDS.PORTFOLIO.PHOTO]?: { url: string }[];
-  [FIELDS.PORTFOLIO.WEBSITE]?: string;
+  [FIELDS.PORTFOLIO.WEBSITE]?: string | string[];
+  [FIELDS.PORTFOLIO.COMPANY]?: string;
   [FIELDS.PORTFOLIO.INDUSTRY]?: string[];
   [FIELDS.PORTFOLIO.STAGE]?: string;
   [FIELDS.PORTFOLIO.INVESTMENT_DATE]?: string;
   [FIELDS.PORTFOLIO.ANNOUNCED]?: boolean;
-  [FIELDS.PORTFOLIO.FUND]?: string | number;
+  [FIELDS.PORTFOLIO.FUND]?: string | number | (string | number)[];
   [FIELDS.PORTFOLIO.DEAL_VALUE]?: number;
   [FIELDS.PORTFOLIO.TOTAL_INVESTED]?: number;
   [FIELDS.PORTFOLIO.ENTRY_VALUATION]?: number | string;
 }
 
-// Normalized application types
+// Normalized application types (to map airtable raw data into an object for use in this website's components)
 export interface PortfolioCompany {
   id: string;
   name: string;
@@ -86,7 +86,7 @@ export interface PortfolioCompany {
   stage: string;
   investmentDate: string;
   announced: boolean;
-  fund?: string | number;
+  fund?: string | number | (string | number)[];
   dealValue?: number;
   totalInvested?: number;
   entryValuation?: number | string;
@@ -100,47 +100,3 @@ export interface FundStatistics {
   investmentsLast12Months: number;
   companiesLast12Months: number;
 }
-
-// GraphQL fragments - using static strings for Gatsby compatibility
-export const portfolioFragment = graphql`
-  fragment PortfolioCompanyFields on Airtable {
-    id
-    table
-    recordId
-    data {
-      Deal_Name
-      Summary
-      One_Line_Summary
-      Company
-      domain__from_Company_
-      Sector
-      Stage
-      Close_Date
-      Announced
-      Fund_numeral
-      Deal_Value
-      Total_Invested
-      Entry_Valuation
-      Logo {
-        localFiles {
-          publicURL
-        }
-      }
-      Photo {
-        localFiles {
-          publicURL
-        }
-      }
-    }
-  }
-`;
-
-export const fundsFragment = graphql`
-  fragment FundFields on Airtable {
-    id
-    data {
-      Name
-      # Add additional fund fields here as needed
-    }
-  }
-`;

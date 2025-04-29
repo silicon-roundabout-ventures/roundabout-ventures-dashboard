@@ -13,98 +13,6 @@ import Layout from '@/components/layouts/Layout';
 import { Button } from '@/components/parts/button';
 import ClientOnly from '@/components/layouts/ClientOnly';
 
-// Process Airtable data into our format
-const processAirtableData = (airtableNodes: any[]): PortfolioCompany[] => {
-  if (!airtableNodes || airtableNodes.length === 0) {
-    console.log('No Airtable data available');
-    return [];
-  }
-  
-  console.log(`Processing ${airtableNodes.length} Airtable records`);
-  
-  return airtableNodes.map(node => {
-    // Get company name - prioritize Deal_Name, fallback to constructing from other fields
-    const companyName = node.data.Deal_Name || 
-                       (node.data.Company ? String(node.data.Company).split('.')[0] : null) || 
-                       'Unnamed Company';
-    
-    // Get logo if available
-    const logoFile = node.data.Logo?.localFiles?.[0];
-    const logoUrl = logoFile ? (logoFile.publicURL || 
-                    (logoFile.childImageSharp?.gatsbyImageData ? logoFile.childImageSharp.gatsbyImageData : null)) 
-                    : null;
-    
-    // Format website from Company field (domain) - handle array or string
-    let website = '';
-    if (node.data.Company) {
-      // Company could be an array in Airtable
-      const companyValue = Array.isArray(node.data.Company) ? 
-                          (node.data.Company.length > 0 ? node.data.Company[0] : '') : 
-                          node.data.Company;
-      
-      // If Company is a domain like example.com, format it as a proper URL
-      if (companyValue) {
-        const domain = String(companyValue).trim();
-        if (domain && !domain.startsWith('http')) {
-          website = `https://${domain}`;
-        } else {
-          website = domain;
-        }
-      }
-    }
-    
-    // Determine if company is announced
-    const isAnnounced = node.data.Announced === 'Yes';
-    
-    // Get sectors as an array
-    const sectors = Array.isArray(node.data.Sector) ? node.data.Sector : 
-                   node.data.Sector ? [node.data.Sector] : [];
-    
-    // Generate description text from Notes or One_Line_Summary
-    let description = '';
-    if (isAnnounced) {
-      description = node.data.Summary || node.data.One_Line_Summary || 
-                  (sectors.length > 0 ? `${sectors.join(', ')} company` : 'Technology company');
-    } else {
-      // For stealth companies, mask the description
-      description = 'Information about this company is not yet public.';
-    }
-    
-    // Get investment date
-    const investmentDate = node.data.Close_Date || '';
-    
-    // Format company name for stealth companies
-    const displayName = isAnnounced ? 
-                       companyName : 
-                       `Stealth ${sectors[0] || 'Technology'} Company`;
-    
-    // Create first letter for placeholder logo
-    const firstLetter = displayName.charAt(0);
-    
-    // Get founder names
-    const founders = Array.isArray(node.data.Name) ? node.data.Name : [];
-   
-    // Get fund names
-    const funds = Array.isArray(node.data.Fund_numeral) ? node.data.Fund_numeral : [];
-    
-    return {
-      id: node.id,
-      name: displayName,
-      description: description,
-      logo: logoUrl || `https://placehold.co/200x200?text=${firstLetter}`,
-      website: website,
-      industry: sectors,
-      stage: node.data.Stage || 'Seed',
-      investmentDate: investmentDate,
-      announced: isAnnounced,
-      oneLiner: node.data.One_Line_Summary || '',
-      fund: funds || undefined,
-      totalInvested: node.data.Total_Invested ? Number(node.data.Total_Invested) : undefined,
-      entryValuation: node.data.Entry_Valuation || undefined
-    };
-  });
-};
-
 /**
  * Calculate statistics based on portfolio companies
  */
@@ -296,21 +204,12 @@ const Portfolio = ({ location }: PortfolioProps) => {
   // Get data using centralized hooks from AirtableService
   const portfolioCompanies = usePortfolioCompanies();
   
-  // State for processed portfolio companies and statistics
-  const [companies, setCompanies] = useState<PortfolioCompany[]>([]);
   const [statistics, setStatistics] = useState<FundStatistics | null>(null);
   
-  // Process data when it changes
   useEffect(() => {
-    // Initialize only once when data arrives
-    if (portfolioCompanies.length > 0 && companies.length === 0) {
-      setIsLoading(true);
-      setCompanies(portfolioCompanies);
-      const stats = calculateStatistics(portfolioCompanies);
-      setStatistics(stats);
-      setTimeout(() => setIsLoading(false), 500);
-    }
-  }, [portfolioCompanies, companies]);
+    setStatistics(calculateStatistics(portfolioCompanies));
+    setIsLoading(false);
+  }, [portfolioCompanies]);
 
   /**
    * Prepare data for industry distribution chart
@@ -319,7 +218,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
     // Calculate industry distribution on-the-fly
     const industrySplit: Record<string, number> = {};
     
-    companies.forEach(company => {
+    portfolioCompanies.forEach(company => {
       if (company.industry && company.industry.length > 0) {
         company.industry.forEach(industry => {
           industrySplit[industry] = (industrySplit[industry] || 0) + 1;
@@ -340,7 +239,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
     // Calculate stage distribution on-the-fly
     const stageSplit: Record<string, number> = {};
     
-    companies.forEach(company => {
+    portfolioCompanies.forEach(company => {
       if (company.stage) {
         stageSplit[company.stage] = (stageSplit[company.stage] || 0) + 1;
       }
@@ -353,7 +252,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
   };
   
   // Get unique funds for filter dropdown
-  const funds = companies
+  const funds = portfolioCompanies
     .filter(company => company.fund !== undefined && company.fund !== null)
     .map(company => String(company.fund)) // Get fund as string
     .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
@@ -361,11 +260,11 @@ const Portfolio = ({ location }: PortfolioProps) => {
   
   // Get unique industries for filter dropdown
   const industries = Array.from(
-    new Set(companies.flatMap(company => company.industry))
+    new Set(portfolioCompanies.flatMap(company => company.industry))
   );
   
   // Filter companies based on selected filter
-  const filteredCompanies = companies.filter(company => {
+  const filteredCompanies = portfolioCompanies.filter(company => {
     if (filter === 'all') return true;
     if (filter === 'announced') return company.announced;
     if (filter === 'stealth') return !company.announced;
@@ -390,7 +289,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
           <div className="mb-16 text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
             <p className="text-white/90 max-w-2xl mx-auto">
-              We back exceptional founders creating innovative solutions across industries.
+              Don't trust our PR words, see for yourself what we invest in:
             </p>
           </div>
         

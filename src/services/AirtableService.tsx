@@ -9,8 +9,7 @@ import {
   PortfolioFields,
   PortfolioCompany,
   FundStatistics,
-  AirtableRecord,
-  portfolioFragment
+  AirtableRecord
 } from '../config/airtableConfig';
 const { getMockPortfolioCompanies, getMockFundStatistics } = require('../mocks/mockPortfolioData');
 
@@ -20,7 +19,6 @@ const cache = new LRUCache<string, any>({
   ttl: 1000 * 60 * 5, // 5 minutes
 });
 
-
 // Normalization functions
 // Properly type the record to include data property from GraphQL queries
 export interface AirtableGraphQLRecord extends AirtableRecord<PortfolioFields> {
@@ -28,22 +26,15 @@ export interface AirtableGraphQLRecord extends AirtableRecord<PortfolioFields> {
     Deal_Name?: string;
     Summary?: string;
     One_Line_Summary?: string;
-    Logo?: { 
-      localFiles?: {
-        publicURL?: string;
-      }[];
-    };
-    Photo?: { 
-      localFiles?: {
-        publicURL?: string;
-      }[];
-    };
+    Logo?: { localFiles?: { publicURL?: string }[] };
+    Photo?: { localFiles?: { publicURL?: string }[] };
+    domain__from_Company_?: string | string[];
     Company?: string;
     Sector?: string[];
     Stage?: string;
     Close_Date?: string;
     Announced?: string | boolean;
-    Fund_numeral?: string | number;
+    Fund_numeral?: string | number | (string | number)[];
     Deal_Value?: number;
     Total_Invested?: number;
     Entry_Valuation?: number | string;
@@ -63,7 +54,13 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
       oneLiner: data.One_Line_Summary || undefined,
       logo: data.Logo?.localFiles?.[0]?.publicURL || '',
       photo: data.Photo?.localFiles?.[0]?.publicURL || undefined,
-      website: data.Company || '',
+      website: (() => {
+        const rawValue = Array.isArray(data.domain__from_Company_)
+          ? data.domain__from_Company_[0]
+          : data.domain__from_Company_;
+        if (!rawValue || typeof rawValue !== 'string') return '';
+        return /^https?:\/\//i.test(rawValue) ? rawValue : `https://${rawValue}`;
+      })(),
       industry: data.Sector || [],
       stage: data.Stage || '',
       investmentDate: data.Close_Date || '',
@@ -83,7 +80,13 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
     oneLiner: fields[FIELDS.PORTFOLIO.ONE_LINER] || undefined,
     logo: fields[FIELDS.PORTFOLIO.LOGO]?.[0]?.url || '',
     photo: fields[FIELDS.PORTFOLIO.PHOTO]?.[0]?.url || undefined,
-    website: fields[FIELDS.PORTFOLIO.WEBSITE] || '',
+    website: (() => {
+      const rawValue = Array.isArray(fields[FIELDS.PORTFOLIO.WEBSITE])
+        ? fields[FIELDS.PORTFOLIO.WEBSITE]?.[0]
+        : fields[FIELDS.PORTFOLIO.WEBSITE];
+      if (!rawValue || typeof rawValue !== 'string') return '';
+      return /^https?:\/\//i.test(rawValue) ? rawValue : `https://${rawValue}`;
+    })(),
     industry: fields[FIELDS.PORTFOLIO.INDUSTRY] || [],
     stage: fields[FIELDS.PORTFOLIO.STAGE] || '',
     investmentDate: fields[FIELDS.PORTFOLIO.INVESTMENT_DATE] || '',
@@ -95,25 +98,49 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
   };
 };
 
-// Gatsby static query hooks
-export const usePortfolioCompanies = (): PortfolioCompany[] => {
-  const data = useStaticQuery(graphql`
-    query PortfolioCompaniesQuery {
-      allAirtable(filter: {table: {eq: "Startups"}}) {
+// Gatsby static query hook
+export function usePortfolioCompanies(): PortfolioCompany[] {
+  const data = useStaticQuery<{ allAirtable: { nodes: AirtableGraphQLRecord[] } }>(graphql`
+    query PortfolioPageQuery {
+      allAirtable(filter: { table: { eq: "Startups" } }) {
         nodes {
-          ...PortfolioCompanyFields
+          id
+          table
+          recordId
+          data {
+            Deal_Name
+            Summary
+            One_Line_Summary
+            Company
+            domain__from_Company_
+            Sector
+            Stage
+            Close_Date
+            Announced
+            Fund_numeral
+            Deal_Value
+            Total_Invested
+            Entry_Valuation
+            Logo {
+              localFiles {
+                publicURL
+              }
+            }
+            Photo {
+              localFiles {
+                publicURL
+              }
+            }
+          }
         }
       }
     }
   `);
-
-  const nodes = data?.allAirtable?.nodes || [];
-  
-  if (nodes.length === 0) {
+  const nodes = data.allAirtable.nodes;
+  if (!nodes || nodes.length === 0) {
     console.warn('No portfolio companies found in GraphQL data, using mock data');
     return getMockPortfolioCompanies();
   }
-  
   return nodes.map(normalizePortfolioCompany);
 };
 

@@ -62,7 +62,7 @@ All data comes from Airtable via the `gatsby-source-airtable` plugin. To customi
          {
            baseId: process.env.AIRTABLE_BASE_ID.trim(),
            tableName: `Startups`,
-           tableView: `Portfolio`,
+           tableView: `Portfolio_websiteFeed`,
            mapping: { Logo: 'fileNode', Photo: 'fileNode' },
          },
        ],
@@ -284,7 +284,7 @@ The dashboard is configured to work with a specific Airtable structure:
 
 1. **Base**: The default base ID is the database to which the dashboard is connected
 2. **Table**: "Startups"
-3. **View**: "Portfolio"
+3. **View**: "
 
 ### Field Mapping
 

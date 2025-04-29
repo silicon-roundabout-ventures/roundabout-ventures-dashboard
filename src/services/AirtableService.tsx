@@ -38,6 +38,9 @@ export interface AirtableGraphQLRecord extends AirtableRecord<PortfolioFields> {
     Deal_Value?: number;
     Total_Invested?: number;
     Entry_Valuation?: number | string;
+    Technology_Type?: string;
+    Main_Headquarter?: string;
+    Details?: string;
   };
 }
 
@@ -47,10 +50,36 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
   
   // For static GraphQL queries
   if (data) {
+    const isAnnounced = data.Announced === true || data.Announced === 'Yes';
+    if (!isAnnounced) {
+      // Stealth mode: strip sensitive data
+      return {
+        id: record.id,
+        name: '🔒 Stealth',
+        description: data.Details || '',
+        details: undefined,
+        oneLiner: undefined,
+        logo: '',
+        photo: undefined,
+        website: '',
+        technologyType: undefined,
+        headquarter: undefined,
+        industry: data.Sector || [],
+        stage: data.Stage || '',
+        investmentDate: data.Close_Date || '',
+        announced: false,
+        fund: undefined,
+        dealValue: undefined,
+        totalInvested: undefined,
+        entryValuation: undefined,
+      };
+    }
+    // Announced companies: full public data
     return {
       id: record.id,
       name: data.Deal_Name || '',
       description: data.Summary || '',
+      details: data.Details || undefined,
       oneLiner: data.One_Line_Summary || undefined,
       logo: data.Logo?.localFiles?.[0]?.publicURL || '',
       photo: data.Photo?.localFiles?.[0]?.publicURL || undefined,
@@ -61,10 +90,12 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
         if (!rawValue || typeof rawValue !== 'string') return '';
         return /^https?:\/\//i.test(rawValue) ? rawValue : `https://${rawValue}`;
       })(),
+      technologyType: data.Technology_Type || undefined,
+      headquarter: data.Main_Headquarter || undefined,
       industry: data.Sector || [],
       stage: data.Stage || '',
       investmentDate: data.Close_Date || '',
-      announced: data.Announced === true || data.Announced === 'Yes',
+      announced: true,
       fund: data.Fund_numeral || undefined,
       dealValue: data.Deal_Value || undefined,
       totalInvested: data.Total_Invested || undefined,
@@ -75,18 +106,21 @@ export const normalizePortfolioCompany = (record: AirtableGraphQLRecord): Portfo
   // For direct Airtable API calls
   return {
     id: record.id,
-    name: fields[FIELDS.PORTFOLIO.NAME] || '',
-    description: fields[FIELDS.PORTFOLIO.DESCRIPTION] || '',
+    // Hide all sensitive fields in API mode for stealth if not announced
+    name: fields[FIELDS.PORTFOLIO.ANNOUNCED] ? fields[FIELDS.PORTFOLIO.NAME] || '' : '🔒 Stealth',
+    description: fields[FIELDS.PORTFOLIO.ANNOUNCED] ? fields[FIELDS.PORTFOLIO.DESCRIPTION] || '' : fields[FIELDS.PORTFOLIO.DETAILS] || '',
     oneLiner: fields[FIELDS.PORTFOLIO.ONE_LINER] || undefined,
     logo: fields[FIELDS.PORTFOLIO.LOGO]?.[0]?.url || '',
     photo: fields[FIELDS.PORTFOLIO.PHOTO]?.[0]?.url || undefined,
-    website: (() => {
-      const rawValue = Array.isArray(fields[FIELDS.PORTFOLIO.WEBSITE])
-        ? fields[FIELDS.PORTFOLIO.WEBSITE]?.[0]
-        : fields[FIELDS.PORTFOLIO.WEBSITE];
-      if (!rawValue || typeof rawValue !== 'string') return '';
-      return /^https?:\/\//i.test(rawValue) ? rawValue : `https://${rawValue}`;
-    })(),
+    website: fields[FIELDS.PORTFOLIO.ANNOUNCED]
+      ? (() => {
+          const rawValue = Array.isArray(fields[FIELDS.PORTFOLIO.WEBSITE])
+            ? fields[FIELDS.PORTFOLIO.WEBSITE]?.[0]
+            : fields[FIELDS.PORTFOLIO.WEBSITE];
+          if (!rawValue || typeof rawValue !== 'string') return '';
+          return /^https?:\/\//i.test(rawValue) ? rawValue : `https://${rawValue}`;
+        })()
+      : '',
     industry: fields[FIELDS.PORTFOLIO.INDUSTRY] || [],
     stage: fields[FIELDS.PORTFOLIO.STAGE] || '',
     investmentDate: fields[FIELDS.PORTFOLIO.INVESTMENT_DATE] || '',
@@ -121,6 +155,9 @@ export function usePortfolioCompanies(): PortfolioCompany[] {
             Deal_Value
             Total_Invested
             Entry_Valuation
+            Technology_Type
+            Main_Headquarter
+            Details
             Logo {
               localFiles {
                 publicURL

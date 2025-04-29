@@ -250,7 +250,31 @@ const Portfolio = ({ location }: PortfolioProps) => {
       value: value
     }));
   };
-  
+
+  /**
+   * Prepare data for technology type distribution chart
+   */
+  const prepareTechTypeChartData = () => {
+    const techCount: Record<string, number> = {};
+    portfolioCompanies.forEach(company => {
+      const type = company.technologyType || 'Unknown';
+      techCount[type] = (techCount[type] || 0) + 1;
+    });
+    return Object.entries(techCount).map(([key, value]) => ({ name: key, value }));
+  };
+
+  /**
+   * Prepare data for headquarter distribution chart
+   */
+  const prepareHeadquarterChartData = () => {
+    const hqCount: Record<string, number> = {};
+    portfolioCompanies.forEach(company => {
+      const hq = company.headquarter || 'Unknown';
+      hqCount[hq] = (hqCount[hq] || 0) + 1;
+    });
+    return Object.entries(hqCount).map(([key, value]) => ({ name: key, value }));
+  };
+
   // Get unique funds for filter dropdown
   const funds = portfolioCompanies
     .filter(company => company.fund !== undefined && company.fund !== null)
@@ -330,7 +354,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
             </ClientOnly>
             
             {/* Charts Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               <ChartComponent 
                 title="Investment by Industry" 
                 data={prepareIndustryChartData()} 
@@ -339,6 +363,16 @@ const Portfolio = ({ location }: PortfolioProps) => {
                 title="Investment by Stage" 
                 data={prepareStageChartData()} 
                 colors={['#00A0A0', '#1A85B9', '#0F4C81']}
+              />
+              <ChartComponent
+                title="Technology Type Distribution"
+                data={prepareTechTypeChartData()}
+                chartType="pie"
+              />
+              <ChartComponent
+                title="Headquarter Location"
+                data={prepareHeadquarterChartData()}
+                chartType="bar"
               />
             </div>
             

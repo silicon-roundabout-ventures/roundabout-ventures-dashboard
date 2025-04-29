@@ -39,6 +39,9 @@ export const FIELDS = {
     DEAL_VALUE: 'Deal_Value',
     TOTAL_INVESTED: 'Total_Invested',
     ENTRY_VALUATION: 'Entry_Valuation',
+    TECHNOLOGY_TYPE: 'Technology_Type',
+    MAIN_HEADQUARTER: 'Main_Headquarter',
+    DETAILS: 'Details',
   },
   FUNDS: {
     // Add fund fields here
@@ -71,6 +74,9 @@ export interface PortfolioFields {
   [FIELDS.PORTFOLIO.DEAL_VALUE]?: number;
   [FIELDS.PORTFOLIO.TOTAL_INVESTED]?: number;
   [FIELDS.PORTFOLIO.ENTRY_VALUATION]?: number | string;
+  [FIELDS.PORTFOLIO.TECHNOLOGY_TYPE]?: string;
+  [FIELDS.PORTFOLIO.MAIN_HEADQUARTER]?: string;
+  [FIELDS.PORTFOLIO.DETAILS]?: string;
 }
 
 // Normalized application types (to map airtable raw data into an object for use in this website's components)
@@ -78,10 +84,13 @@ export interface PortfolioCompany {
   id: string;
   name: string;
   description: string;
+  details?: string;
   oneLiner?: string;
   logo: string;
   photo?: string;
   website: string;
+  technologyType?: string;
+  headquarter?: string;
   industry: string[];
   stage: string;
   investmentDate: string;

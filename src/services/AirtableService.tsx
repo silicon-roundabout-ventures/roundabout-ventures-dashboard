@@ -106,7 +106,7 @@ export function normalizePortfolioCompany(record: AirtableGraphQLRecord): Portfo
     : '';
   // Announced flag
   const rawAnnounced = pick(data.Announced, FIELDS.PORTFOLIO.ANNOUNCED);
-  const announced = (val: boolean | string) =>
+  const toBoolAnnounced = (val: boolean | string) =>
     typeof val === 'boolean' ? val : (typeof val === 'string' && val.toLowerCase() === 'yes');
   // Build base company
   const base: PortfolioCompany = {
@@ -122,7 +122,7 @@ export function normalizePortfolioCompany(record: AirtableGraphQLRecord): Portfo
     industry: pick(data.Sector, FIELDS.PORTFOLIO.INDUSTRY) || [],
     stage: pick(data.Stage, FIELDS.PORTFOLIO.STAGE) || '',
     investmentDate: pick(data.Close_Date, FIELDS.PORTFOLIO.INVESTMENT_DATE) || '',
-    announced: announced(rawAnnounced),
+    announced: toBoolAnnounced(rawAnnounced),
     fund: pick(data.Fund_numeral, FIELDS.PORTFOLIO.FUND),
     dealValue: pick(data.Deal_Value, FIELDS.PORTFOLIO.DEAL_VALUE),
     totalInvested: pick(data.Total_Invested, FIELDS.PORTFOLIO.TOTAL_INVESTED),

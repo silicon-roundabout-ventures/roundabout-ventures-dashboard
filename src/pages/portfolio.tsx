@@ -12,6 +12,9 @@ import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout'; 
 import { Button } from '@/components/parts/button';
 import ClientOnly from '@/components/layouts/ClientOnly';
+import { usePortfolioChartData } from '../hooks/usePortfolioChartData';
+import StatisticsSection from '../components/sections/StatisticsSection';
+import ChartsSection from '../components/sections/ChartsSection';
 
 /**
  * Calculate statistics based on portfolio companies
@@ -211,69 +214,8 @@ const Portfolio = ({ location }: PortfolioProps) => {
     setIsLoading(false);
   }, [portfolioCompanies]);
 
-  /**
-   * Prepare data for industry distribution chart
-   */
-  const prepareIndustryChartData = () => {
-    // Calculate industry distribution on-the-fly
-    const industrySplit: Record<string, number> = {};
-    
-    portfolioCompanies.forEach(company => {
-      if (company.industry && company.industry.length > 0) {
-        company.industry.forEach(industry => {
-          industrySplit[industry] = (industrySplit[industry] || 0) + 1;
-        });
-      }
-    });
-    
-    return Object.entries(industrySplit).map(([key, value]) => ({
-      name: key,
-      value: value
-    }));
-  };
-  
-  /**
-   * Prepare data for stage distribution chart
-   */
-  const prepareStageChartData = () => {
-    // Calculate stage distribution on-the-fly
-    const stageSplit: Record<string, number> = {};
-    
-    portfolioCompanies.forEach(company => {
-      if (company.stage) {
-        stageSplit[company.stage] = (stageSplit[company.stage] || 0) + 1;
-      }
-    });
-    
-    return Object.entries(stageSplit).map(([key, value]) => ({
-      name: key,
-      value: value
-    }));
-  };
-
-  /**
-   * Prepare data for technology type distribution chart
-   */
-  const prepareTechTypeChartData = () => {
-    const techCount: Record<string, number> = {};
-    portfolioCompanies.forEach(company => {
-      const type = company.technologyType || 'Unknown';
-      techCount[type] = (techCount[type] || 0) + 1;
-    });
-    return Object.entries(techCount).map(([key, value]) => ({ name: key, value }));
-  };
-
-  /**
-   * Prepare data for headquarter distribution chart
-   */
-  const prepareHeadquarterChartData = () => {
-    const hqCount: Record<string, number> = {};
-    portfolioCompanies.forEach(company => {
-      const hq = company.headquarter || 'Unknown';
-      hqCount[hq] = (hqCount[hq] || 0) + 1;
-    });
-    return Object.entries(hqCount).map(([key, value]) => ({ name: key, value }));
-  };
+  // Hook for chart data
+  const { industryData, stageData, techData, hqData } = usePortfolioChartData();
 
   // Get unique funds for filter dropdown
   const funds = portfolioCompanies
@@ -323,58 +265,14 @@ const Portfolio = ({ location }: PortfolioProps) => {
           </div>
         ) : (
           <>
-            {/* Statistics Row */}
-            <ClientOnly fallback={<div className="h-24 bg-muted animate-pulse rounded-lg"></div>}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                <StatisticCard
-                  title="Total Investments"
-                  value={statistics?.totalInvestments ? `£${(statistics.totalInvestments / 1000000).toFixed(1)}M` : '£0M'}
-                  icon={<span className="text-srv-teal text-xl">💸</span>}
-                  change={statistics?.investmentsLast12Months ? `£${(statistics.investmentsLast12Months / 1000000).toFixed(1)}M in last 12m` : 'No data for last 12m'}
-                  trend="neutral"
-                />
-                <StatisticCard
-                  title="Portfolio Companies"
-                  value={statistics?.totalCompanies || 0}
-                  icon={<span className="text-srv-teal text-xl">🏢</span>}
-                  change={statistics?.companiesLast12Months ? `+${statistics.companiesLast12Months} in last 12m` : 'No new companies'}
-                  trend={statistics?.companiesLast12Months && statistics.companiesLast12Months > 0 ? 'up' : 'neutral'}
-                />
-                <StatisticCard
-                  title="Average Investment"
-                  value={statistics?.averageInvestment ? `£${(statistics.averageInvestment / 1000).toFixed(0)}k` : '£0k'}
-                  icon={<span className="text-srv-teal text-xl">📊</span>}
-                />
-                <StatisticCard
-                  title="Median Valuation"
-                  value={statistics?.medianValuation ? `£${(statistics.medianValuation / 1000000).toFixed(1)}M` : '£0M'}
-                  icon={<span className="text-srv-teal text-xl">📈</span>}
-                />
-              </div>
-            </ClientOnly>
+            <StatisticsSection statistics={statistics!} />
             
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-              <ChartComponent 
-                title="Investment by Industry" 
-                data={prepareIndustryChartData()} 
-              />
-              <ChartComponent 
-                title="Investment by Stage" 
-                data={prepareStageChartData()} 
-                colors={['#00A0A0', '#1A85B9', '#0F4C81']}
-              />
-              <ChartComponent
-                title="Technology Type Distribution"
-                data={prepareTechTypeChartData()}
-                chartType="pie"
-              />
-              <ChartComponent
-                title="Headquarter Location"
-                data={prepareHeadquarterChartData()}
-                chartType="bar"
-              />
-            </div>
+            <ChartsSection
+              industryData={industryData}
+              stageData={stageData}
+              techData={techData}
+              hqData={hqData}
+            />
             
             {/* Portfolio Section */}
             <div className="mb-8">

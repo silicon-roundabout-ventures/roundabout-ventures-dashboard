@@ -61,7 +61,7 @@ module.exports = {
         tables: [{
           baseId: process.env.AIRTABLE_BASE_ID.trim(),
           tableName: `Startups`,
-          tableView: `Portfolio`,
+          tableView: `Portfolio_websiteFeed`,
           mapping: { Logo: 'fileNode', Photo: 'fileNode' },
         }],
       },

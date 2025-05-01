@@ -25,5 +25,3 @@
 # Add Netlify Gatsby plugin for caching but skip Gatsby adapter (to avoid issues importing react router)
 [[plugins]]
   package = "@netlify/plugin-gatsby"
-  [plugins.inputs]
-    skipGatsbyAdapter = true

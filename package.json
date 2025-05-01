@@ -52,7 +52,6 @@
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.3.0",
     "gatsby": "^5.14.3",
-    "gatsby-adapter-netlify": "^1.2.0",
     "gatsby-plugin-alias-imports": "^1.0.5",
     "gatsby-plugin-gatsby-cloud": "^5.14.0",
     "gatsby-plugin-image": "^3.14.0",

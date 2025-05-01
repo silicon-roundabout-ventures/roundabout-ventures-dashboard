@@ -24,16 +24,7 @@ module.exports = {
     PARALLEL_SOURCING: true, // Improve build performance
   },
   jsxRuntime: "automatic",
-  plugins: [
-    // Netlify adapter for Gatsby - must be first in the plugins array
-    {
-      resolve: "gatsby-adapter-netlify",
-      options: {
-        excludeDatastoreFromBundle: true,
-        imageCDN: true
-      }
-    },
-    
+  plugins: [    
     // Gatsby v5 has built-in Head API, so react-helmet is redundant
     // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
     
@@ -107,17 +98,17 @@ module.exports = {
     },
     
     // Uncomment when we have proper icons
-    // {
-    //   resolve: `gatsby-plugin-manifest`,
-    //   options: {
-    //     name: `roundabout-ventures`,
-    //     short_name: `roundabout`,
-    //     start_url: `/`,
-    //     background_color: `#191c22`,
-    //     theme_color: `#88c0d0`,
-    //     display: `minimal-ui`,
-    //     icon: `src/images/favicon.png`, // This path is relative to the root of the site.
-    //   },
-    // },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Silicon Roundabout Ventures`,
+        short_name: `siliconroundabout`,
+        start_url: `/`,
+        background_color: `#000000`,
+        theme_color: `#ffffff`,
+        display: `minimal-ui`,
+        icon: `src/images/siliconroundabout/srv_logo_dash.png`, // This path is relative to the root of the site.
+      },
+    },
   ],
 } 

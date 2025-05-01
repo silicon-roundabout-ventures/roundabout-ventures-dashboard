@@ -175,7 +175,7 @@ These variables are managed in the `.env.development` file (not committed to ver
 
 ## 🏗️ Project Structure
 
-src/
+src/ 
 ├── components/      # Reusable React components (UI & Processing)
 │   ├── layouts/     # Layout, backgrounds & navigation
 │   ├── sections/    # Page sections

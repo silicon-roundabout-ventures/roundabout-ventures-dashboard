@@ -3,6 +3,8 @@ require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+const path = require("path");
+
 // Add at the top of the file
 console.log("Gatsby Build Environment:");
 console.log("AIRTABLE_API_KEY exists:", !!process.env.AIRTABLE_API_KEY);
@@ -24,7 +26,7 @@ module.exports = {
     PARALLEL_SOURCING: true, // Improve build performance
   },
   jsxRuntime: "automatic",
-  plugins: [    
+  plugins: [
     // Gatsby v5 has built-in Head API, so react-helmet is redundant
     // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
     
@@ -55,6 +57,17 @@ module.exports = {
     
     // TypeScript support
     `gatsby-plugin-typescript`,
+    
+    // Alias imports plugin
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          "@": path.resolve(__dirname, "src"),
+        },
+        extensions: ["js", "jsx", "ts", "tsx"],
+      },
+    },
     
     // Airtable source plugin with simplified configuration for Netlify compatibility
     {

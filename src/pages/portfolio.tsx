@@ -78,12 +78,14 @@ const Portfolio = ({ location }: PortfolioProps) => {
           <>
             <StatisticsSection statistics={statistics} />
             
-            <ChartsSection
-              industryData={industryData}
-              stageData={stageData}
-              techData={techData}
-              hqData={hqData}
-            />
+            <ClientOnly fallback={<div className="h-64 bg-muted animate-pulse rounded-lg"></div>}>
+              <ChartsSection
+                industryData={industryData}
+                stageData={stageData}
+                techData={techData}
+                hqData={hqData}
+              />
+            </ClientOnly>
             
             {/* Portfolio Section */}
             <div className="mb-8">

@@ -17,11 +17,15 @@ const ChartsSection: React.FC<ChartsSectionProps> = ({
   hqData,
 }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <ChartComponent title="Investment by Industry" data={industryData} />
     <ChartComponent
       title="Investment by Stage"
       data={stageData}
-      colors={["#00A0A0", "#1A85B9", "#0F4C81"]}
+      colors={["#00A0A0", "#1A85B9", "#0F4C81", "#1F9C1F"]}
+      chartType="pie"
+    />
+    <ChartComponent title="Investment by Industry" 
+      data={industryData} 
+      chartType="bar"
     />
     <ChartComponent
       title="Technology Type Distribution"

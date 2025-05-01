@@ -176,18 +176,19 @@ These variables are managed in the `.env.development` file (not committed to ver
 ## 🏗️ Project Structure
 
 src/
-├── components/      # Reusable UI components
+├── components/      # Reusable React components (UI & Processing)
 │   ├── layouts/     # Layout, backgrounds & navigation
 │   ├── sections/    # Page sections
 │   ├── widgets/     # Cards, charts, utility rendering widgets, etc.
-│   └── parts/       # Basic UI elements
+│   └── parts/       # Basic UI elements and unitary components
 ├── config/          # Env & Airtable field/type definitions
 ├── services/        # API data & normalization (`AirtableService`)
-├── hooks/           # Custom hooks (e.g., filters)
+├── hooks/           # Custom hooks (e.g. filters)
 ├── mocks/           # Fallback mock data
-├── pages/           # Gatsby page components
+├── pages/           # Gatsby page components (website pages)
 ├── images/          # Static images
 ├── utilis/          # Utility functions
+├── types/           # Useful type definitions
 └── styles/          # Global styles & Tailwind setup
 
 ## 📦 Deployment
@@ -206,24 +207,38 @@ To contribute to the project:
 
 ## 🚧 TODO
 
+### Functionality
+
+- [ ] Account for currency exchange rates in fund & portfolio stats
+- [ ] Add login for LPs and Founders
+- [ ] Add interactive pages for LP client features and AI support 
+- [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
+- [ ] Consider adding a news feed for key portfolio updates (major scientific and TRL breakthroughs, key contracts announcements, funding round announcements)
+
+### UI / UX
+
+- [ ] Replace pie chart for Industry with bar chart for clarity
+
 ### Refactoring
 - [ x ] Reorganize project structure for better code organization
   - [ x ] Standardize directory naming conventions
   - [ x ] Create dedicated directories for page-specific components
-  - [ ] Separate layouts from common components
+  - [ x ] Separate layouts from common components
 - [ x ] Implement standardized component patterns
-  - [ ] Create compound components for related UI elements
-  - [ ] Use React Context for state sharing rather than prop drilling
-  - [ ] Implement proper memoization for expensive calculations
-- [ ] Create reusable UI components for common patterns
-  - [ ] Build a `DataCard` base component
-  - [ ] Create a standardized `StatsDisplay` component
-  - [ ] Implement a reusable filtering system
-- [ ] Apply consistent error handling throughout the application
-  - [ ] Wrap all data-fetching components in error boundaries
-  - [ ] Create standardized error display components
-  - [ ] Implement graceful degradation for failed API calls
-- [ ] Add comprehensive comments and documentation
+  - [ x ] Create compound components for related UI elements
+  - [ x ] Use React Context for state sharing rather than prop drilling
+  - [ x ] Implement proper memoization for expensive calculations
+- [ x ] Create reusable UI components for common patterns
+  - [ x ] Build a `DataCard` base component
+  - [ x ] Create a standardized `StatsDisplay` component
+  - [ x ] Implement a reusable filtering system
+- [ x ] Apply consistent error handling throughout the application
+  - [ x ] Wrap all data-fetching components in error boundaries
+  - [ x ] Create standardized error display components
+  - [ x ] Implement graceful degradation for failed API calls
+- [ x ] Add comprehensive comments and documentation
+- [ ] Remove unused code and dependencies
+- [ ] Check  and review above
 
 ### Improving Airtable Import Data Flow
 - [ x ] Centralize Airtable data fetching

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Github, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Github, Twitter, Linkedin, Youtube, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +12,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold text-white mb-4 font-mono">&lt;Connect/&gt;</h3>
             <p className="text-srv-gray mb-4">
-              Early-stage venture capital fund investing in deep tech and big data startups that shape the future of industry.
+              Pre-seed / Seed venture capital fund investing in the absolute best European deeptech founders building global-leading infrastructure technologies.
             </p>
             <div className="flex space-x-4">
               <a href="https://twitter.com/siliconroundabt" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
@@ -53,6 +53,12 @@ const Footer = () => {
                 <Link to="/apply">
                   Apply for Funding →
                 </Link>
+              </div>
+              <br/>
+              <div className="mt-4 inline-block px-4 py-2 border border-srv-pink/30 rounded text-srv-pink">
+              <Link to="/lpenquiries">
+                LP Enquiries →
+              </Link>
               </div>
             </address>
           </div>

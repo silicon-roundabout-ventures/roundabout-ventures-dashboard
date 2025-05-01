@@ -20,7 +20,7 @@ const ForInvestorsContent = () => {
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
             <h2 className="text-2xl font-bold text-white mb-6">&lt;Join Our Fund/&gt;</h2>
             <p className="text-white mb-6">
-              Silicon Roundabout Ventures offers a unique opportunity for investors to access a highly curated portfolio of <span className='text-srv-yellow'>deeptech</span> startups from the UK and Europe, in critical sectors that are reshaping our world during this century, such as <span className='text-srv-pink'>Computing </span>, <span className='text-srv-pink'>Defence</span>, and <span className='text-srv-pink'>Energy</span>. Our techical backgrounds and <span className='text-srv-yellow'>community-driven approach</span> allows us to meet and assess founders very early on that others may miss.
+              Silicon Roundabout Ventures focuses exclusively on <span className='text-srv-yellow'>deeptech</span> founders from the UK and Europe, in critical sectors that are reshaping our world during this century, such as <span className='text-srv-pink'>Computing </span>, <span className='text-srv-pink'>Defence</span>, and <span className='text-srv-pink'>Energy</span>. Our techical backgrounds and <span className='text-srv-yellow'>community-driven approach</span> allows us to meet and assess founders very early on that others may miss.
             </p>
 
             <p className="text-white mb-6">
@@ -32,8 +32,8 @@ const ForInvestorsContent = () => {
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">⚛️</span> <span>Access to some of the most transformative pre-seed/seed deeptech startups in Europe</span></li>
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💼</span> <span>Proprietary deal flow from our 15,000+ community</span></li>
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">🛠️</span> <span>Technical team and agile soloGP approach</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">📈</span> <span>Quarterly LP updates and community meetings</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Community of fellow angels and LPs looking for outsized growth: We got backing by 50+ active angel investors plus the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li> 
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">📈</span> <span>Institutional-grade administration & back-office management</span></li>
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Backed by 50+ active angel investors, Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li> 
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💰</span> <span>Co-investment opportunities in select portfolio companies</span></li>
             </ul>
             

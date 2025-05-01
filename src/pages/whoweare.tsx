@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react';
-import { Linkedin, Github, Globe } from 'lucide-react';
+import { Linkedin, Github, Globe, ArrowRight } from 'lucide-react';
 import { XLogo } from '@/images/icons/XLogo';
 import Layout from '@/components/layouts/Layout';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
@@ -7,6 +7,7 @@ import { CircularImage } from '@/components/parts/CircularImage';
 import { graphql, useStaticQuery } from 'gatsby';
 import { Link } from 'gatsby';
 import Timeline from '@/components/widgets/Timeline';
+import { Button } from '@/components/parts/button';
 
 interface TeamMemberProps {
   name: string;
@@ -331,17 +332,20 @@ const WhoWeAre = () => {
               className="mb-16"
             />
             
-            <div className="flex justify-center mb-16">
-              <Link 
-                to="/buildinginpublic" 
-                className="px-8 py-4 bg-srv-yellow hover:bg-srv-yellow/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
-              >
-                Check out our Build in Public blog
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
+            {/* Call to action */}
+          <div className="flex flex-wrap gap-4 justify-center mt-6 mb-12 px-4 w-full">
+            <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
+              <Link to="/buildinginpublic">
+                Check out our Build in Public blog <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-            </div>
+            </Button>
+            
+            <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
+              <Link to="/portfolio">
+                The people we backed so far <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>`
           </div>
         </div>
       </div>

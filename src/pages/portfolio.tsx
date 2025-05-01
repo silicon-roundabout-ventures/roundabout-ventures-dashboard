@@ -9,9 +9,9 @@ import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout'; 
 import { Button } from '@/components/parts/button';
 import ClientOnly from '@/components/layouts/ClientOnly';
-import { usePortfolioChartData } from '../hooks/usePortfolioChartData';
-import StatisticsSection from '../components/sections/StatisticsSection';
-import ChartsSection from '../components/sections/ChartsSection';
+import { usePortfolioChartData } from '@/hooks/usePortfolioChartData';
+import StatisticsSection from '@/components/sections/StatisticsSection';
+import ChartsSection from '@/components/sections/ChartsSection';
 import { FeatureCard } from '@/components/parts/FeatureCard';
 import { GlassCard } from '@/components/parts/GlassCard';
 

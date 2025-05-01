@@ -12,6 +12,8 @@ import ClientOnly from '@/components/layouts/ClientOnly';
 import { usePortfolioChartData } from '../hooks/usePortfolioChartData';
 import StatisticsSection from '../components/sections/StatisticsSection';
 import ChartsSection from '../components/sections/ChartsSection';
+import { FeatureCard } from '@/components/parts/FeatureCard';
+import { GlassCard } from '@/components/parts/GlassCard';
 
 /**
  * Props for the Portfolio page component
@@ -153,9 +155,23 @@ const Portfolio = ({ location }: PortfolioProps) => {
                 </Button>
               </div>
               <div className="mt-16">
-                <h3 className="text-2xl font-bold text-white mb-8 font-mono">
-                    &lt;Help us be even more transparent and share your feedback with us... Or collaborate on Github!/&gt;
+                <h3 className="text-2xl font-bold text-white mb-8 font-mono text-center">
+                    &lt;Recommendations welcome!/&gt;
                 </h3> 
+                <div className="grid grid-cols-1 text-srv-yellow md:grid-cols-1 lg:grid-cols-2 gap-6">
+                  <FeatureCard
+                    title={<>[ <span className="text-srv-pink">Open Source</span> ]</>}
+                    description="We welcome your feedback and recommendations for how we can improve our transparency and public page"
+                  />
+
+                  <GlassCard className="flex items-center justify-center p-10">
+                    <a href="https://github.com/silicon-roundabout-ventures/roundabout-ventures-dashboard" target="_blank">
+                      <Button className="bg-srv-yellow text-black hover:bg-srv-yellow/80">
+                        Share your pull requests for new features on GitHub
+                      </Button>
+                    </a>
+                  </GlassCard>
+                </div>
               </div>
             </div>
           </>

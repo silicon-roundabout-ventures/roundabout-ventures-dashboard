@@ -151,7 +151,7 @@ const IndexContent = () => {
             <div className="text-center">
               <Link to="/portfolio">
                 <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
-                  Whom we invested in
+                  The people we backed <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>

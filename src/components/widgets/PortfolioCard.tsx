@@ -46,7 +46,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
                   ))
                 : <span className="text-white/70">Stealth</span>}
               </div>
-              <p className="text-white/80 text-xs mt-4 font-mono">🚀 {typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</p>
+              <p className="text-white/80 text-xs mt-4 font-mono">🚀 Backed at: {typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</p>
             </div>
           </div>
           <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -85,7 +85,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
             </div>
             <div>
               <h3 className="text-white font-medium">{company.name}</h3>
-              <p className="text-white/80 text-xs font-mono">🚀 {typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</p>
+              <p className="text-white/80 text-xs font-mono">🚀 Backed at: <span className="font-semibold">{typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</span></p>
             </div>
           </div>
           

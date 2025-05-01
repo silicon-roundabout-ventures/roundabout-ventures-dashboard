@@ -160,18 +160,22 @@ const Portfolio = ({ location }: PortfolioProps) => {
                 <h3 className="text-2xl font-bold text-white mb-8 font-mono text-center">
                     &lt;Recommendations welcome!/&gt;
                 </h3> 
-                <div className="grid grid-cols-1 text-srv-yellow md:grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 text-srv-yellow md:grid-cols-1 lg:grid-cols-3 gap-6">
                   <FeatureCard
                     title={<>[ <span className="text-srv-pink">Open Source</span> ]</>}
                     description="We welcome your feedback and recommendations for how we can improve our transparency and public page"
                   />
+                  
 
                   <GlassCard className="flex items-center justify-center p-10">
                     <a href="https://github.com/silicon-roundabout-ventures/roundabout-ventures-dashboard" target="_blank">
                       <Button className="bg-srv-yellow text-black hover:bg-srv-yellow/80">
-                        Share your pull requests for new features on GitHub
+                        Contribute on GitHub
                       </Button>
                     </a>
+                  </GlassCard>
+                  <GlassCard className="flex items-center justify-center p-10">
+                    <div> ...or drop us an email or LinkedIn DM!</div>
                   </GlassCard>
                 </div>
               </div>

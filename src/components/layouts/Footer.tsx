@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Github, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,6 +23,9 @@ const Footer = () => {
               </a>
               <a href="https://github.com/SiliconRoundabout" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
                 <Github size={20} />
+              </a>
+              <a href="https://www.youtube.com/@siliconroundabout" target="_blank" rel="noopener noreferrer" className="text-srv-gray hover:text-srv-yellow transition-colors">
+                <Youtube size={20} />
               </a>
             </div>
           </div>

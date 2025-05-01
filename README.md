@@ -14,6 +14,8 @@ The Silicon Roundabout Ventures Dashboard is a JAMStack Gatsby-based web applica
 
 ## ✨ Key Features
 
+- **Transparency Principles**: All data is fetched from out Airtable and transparently displayed and updated in real-time (save from what Startups decide to keep in Stealth): we want to share exactly what we invest in, what we belive in, and what we are building. We have nothing to hide for other managers, LPs, or founders. We are 100% committed to a more transparent VC that actually puts money where their mouth is. For us it's Deeptech first, Technical Founders first, Europe first (at inception, not scaling), Pre-seed and Seed focused, and committed to building and sharing this journey in public.
+- **Open Source**: The code is open source and available on GitHub: request what you'd like to see and (within the limit of confidentiality agreements) we'll try to implement it.
 - **Modern UI Design**: Sleek dark theme with code editor-inspired aesthetics
 - **Responsive Layout**: Optimized for all devices from mobile to desktop
 - **Dynamic Portfolio**: Real-time data fetching from Airtable
@@ -124,7 +126,7 @@ The dashboard calculates and displays key fund metrics:
 - Median Valuation (£)
 - Investments in Last 12 Months (£)
 - Companies Added in Last 12 Months
-- Industry and Stage distribution
+- Industry, Stage, Type (hardware/software), and Headquarter distribution
 
 ## 🚀 Getting Started
 
@@ -232,35 +234,18 @@ To contribute to the project:
   - [ x ] Add retry mechanisms
   - [ x ] Create graceful fallbacks to mock data
 - [ x ] Create better data transformation utilities
-  - [ ] Implement a standard `transformAirtableRecord` utility
-  - [ ] Build a `sanitizeCompanyData` function for consistent data cleaning
-  - [ ] Create a `calculatePortfolioStats` utility for consistent statistics
+  - [ x ] Implement a standard data transformation function in `AirtableService`
+  - [ x] Build a `sanitizeCompanyData` function for consistent data cleaning
+  - [ x ] Create a `usePortfolioStats` hook for consistent statistics
 - [ x ] Improve type safety for Airtable data
   - [ x ] Define strict TypeScript interfaces for all data structures
   - [ x ] Implement runtime type checking
 - [ x ] Optimize build-time data processing
-  - [ ] Reduce duplicate data fetching
-  - [ ] Implement caching strategies
-- [ ] Add incremental builds for content updates
-- [ ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
+  - [ x ] Reduce duplicate data fetching
+  - [ x ] Implement caching strategies
+- [  ] Add incremental builds for content updates
+- [ x ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
 
-### Fixing RSS Blog Display
-- [ x ] Implement proper RSS feed parsing
-  - [ x ] Handle missing or malformed content
-  - [  ] Sanitize HTML from external sources
-- [ ] Add caching for external feed data
-  - [ ] Implement server-side caching
-  - [ ] Add fallback content for failed fetches
-- [ ] Create fallback UI for failed feed fetches
-  - [ ] Design placeholder components
-  - [ ] Show meaningful error messages
-- [ ] Improve the styling of blog post previews
-  - [ ] Create consistent card layouts
-  - [ ] Optimize image display
-- [ ] Add pagination for blog posts
-  - [ ] Implement lazy loading
-  - [ ] Create page navigation controls
-- [ x ] Implement category filtering for blog content
 
 ## 🎨 Design Inspiration
 
@@ -306,6 +291,9 @@ Fund statistics are dynamically calculated from raw Airtable data:
 - **Median Valuation**: Uses the `Entry Valuation` field when available; otherwise estimates based on deal value and stage
 - **Investments in Last 12 Months**: Calculated using the `investmentDate` field
 - **Industry and Stage Distribution**: Generated from the mapped fields in each record
+- **Total Investments**: Uses the `totalInvested` field when available; otherwise estimates based on deal value and stage
+- **Headquartered in**: Where are the investmets based
+- **Type**: Startups based devidided between Hardware and Software
 
 ### Customizing Data Sources
 
@@ -357,9 +345,10 @@ To add or modify pages:
 
 The component library is organized into:
 
-- `common/`: Layout, navigation, and shared components
-- `dashboard/`: Data visualization and metrics displays
-- `ui/`: Basic interface elements built with shadcn-ui
+- `layouts/`: Layout, navigation, and shared components
+- `sections/`: Page sections and data visualizations
+- `widgets/`: Reusable UI components and processing elements
+- `parts/`: Basic interface elements
 
 Extend these components by following the established patterns and TypeScript interfaces.
 

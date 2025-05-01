@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useStaticQuery, graphql } from 'gatsby';
-import { Menu, X, Github, Linkedin } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Youtube } from 'lucide-react';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 
 interface NavbarProps {
@@ -122,6 +122,16 @@ export default function Navbar({ location }: NavbarProps) {
               }`}
             >
               <Github size={18} />
+            </a>
+            <a 
+              href="https://www.youtube.com/@siliconroundabout" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={`hover:text-srv-teal transition-colors ${
+                hasScrolled || isMenuOpen || pathname !== "/" ? 'text-srv-light' : 'text-white'
+              }`}
+            >
+              <Youtube size={18} />
             </a>
           </div>
 

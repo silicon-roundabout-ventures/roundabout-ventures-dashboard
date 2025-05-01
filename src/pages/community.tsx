@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout';
-import ImageSlider from '@/components/layouts/ImageSlider';
+import ImageSlider from '@/components/sections/ImageSlider';
 
 const CommunityContent = () => {
 

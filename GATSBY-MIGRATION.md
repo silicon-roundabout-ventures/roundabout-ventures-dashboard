@@ -1,4 +1,4 @@
-# Converting to Gatsby
+# Converting to Gatsby - STATUS: Completed [ x]
 
 This document outlines the steps taken to convert this web application from Vite/React to Gatsby.
 
@@ -92,3 +92,7 @@ This document outlines the steps taken to convert this web application from Vite
 2. Set up proper SEO metadata for each page
 3. Implement data fetching with Gatsby's GraphQL layer if needed
 4. Add icons and manifest for PWA support 
+5. Restructure repo and components to follow Gatsby best practices and atomic design principles
+
+
+

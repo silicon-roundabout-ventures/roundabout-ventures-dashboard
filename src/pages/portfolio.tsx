@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import { ArrowRight } from 'lucide-react';
-// Import types from centralized config
-import { PortfolioCompany, FundStatistics } from '../config/airtableConfig';
 // Import hooks from centralized service
 import { usePortfolioCompanies } from '../services/AirtableService';
+import { usePortfolioStatistics } from '@/hooks/usePortfolioStatistics';
 import PortfolioCard from '@/components/widgets/PortfolioCard';
-import StatisticCard from '@/components/widgets/StatisticCard';
-import ChartComponent from '@/components/widgets/ChartComponent';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout'; 
 import { Button } from '@/components/parts/button';
@@ -15,180 +12,6 @@ import ClientOnly from '@/components/layouts/ClientOnly';
 import { usePortfolioChartData } from '../hooks/usePortfolioChartData';
 import StatisticsSection from '../components/sections/StatisticsSection';
 import ChartsSection from '../components/sections/ChartsSection';
-
-/**
- * Calculate statistics based on portfolio companies
- */
-const calculateStatistics = (portfolioCompanies: PortfolioCompany[]): FundStatistics => {
-  if (!portfolioCompanies || portfolioCompanies.length === 0) {
-    return {
-      totalInvestments: 0,
-      totalCompanies: 0,
-      averageInvestment: 0,
-      medianValuation: 0,
-      investmentsLast12Months: 0,
-      companiesLast12Months: 0
-    };
-  }
-
-  // Calculate total investments (use actual totalInvested data if available)
-  let totalInvestment = 0;
-  let investmentsCount = 0;
-  
-  portfolioCompanies.forEach(company => {
-    if (company.totalInvested) {
-      totalInvestment += company.totalInvested;
-      investmentsCount++;
-    }
-  });
-  
-  // If we don't have real investment data, use approximations
-  if (investmentsCount === 0) {
-    totalInvestment = portfolioCompanies.length * 500000; // Approximation based on average seed ticket
-  }
-  
-  // Calculate average investment
-  const averageInvestment = investmentsCount > 0 ? 
-    totalInvestment / investmentsCount : 
-    totalInvestment / portfolioCompanies.length;
-  
-  // Get sorted array of valuations for median calculation
-  const valuations: number[] = [];
-  portfolioCompanies.forEach(company => {
-    if (company.entryValuation) {
-      // Handle both number and string formats like "£5M"
-      if (typeof company.entryValuation === 'number') {
-        valuations.push(company.entryValuation);
-      } else {
-        // Extract numeric portion and convert to number
-        const matches = company.entryValuation.match(/\d+(\.\d+)?/);
-        if (matches) {
-          let value = parseFloat(matches[0]);
-          // Check if the string contains M (millions)
-          if (company.entryValuation.includes('M')) {
-            value *= 1000000;
-          } else if (company.entryValuation.includes('K')) {
-            value *= 1000;
-          }
-          valuations.push(value);
-        }
-      }
-    }
-  });
-  
-  // Calculate median valuation
-  let medianValuation = 0;
-  if (valuations.length > 0) {
-    valuations.sort((a, b) => a - b);
-    const mid = Math.floor(valuations.length / 2);
-    medianValuation = valuations.length % 2 === 0 ? 
-      (valuations[mid - 1] + valuations[mid]) / 2 : 
-      valuations[mid];
-  } else {
-    // Approximation if no real data
-    medianValuation = 5000000; // Typical early-stage valuation
-  }
-  
-  // Calculate investments in last 12 months
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-  
-  let investmentsLast12Months = 0;
-  let companiesLast12Months = 0;
-  
-  portfolioCompanies.forEach(company => {
-    if (company.investmentDate) {
-      const investmentDate = new Date(company.investmentDate);
-      if (investmentDate >= oneYearAgo) {
-        companiesLast12Months++;
-        if (company.totalInvested) {
-          investmentsLast12Months += company.totalInvested;
-        } else {
-          // Approximation
-          investmentsLast12Months += 500000;
-        }
-      }
-    }
-  });
-  
-  // Calculate industry split - only include announced companies for accuracy
-  const industryCount: Record<string, number> = {};
-  portfolioCompanies.forEach(company => {
-    // Only count announced companies in statistics for accuracy
-    if (company.industry && company.industry.length > 0 && company.announced) {
-      company.industry.forEach(industry => {
-        // Group similar industries
-        let normalizedIndustry = industry.trim();
-        // Simple normalization - you can enhance this further
-        if (normalizedIndustry.includes('AI') || normalizedIndustry.includes('Intelligence')) {
-          normalizedIndustry = 'Artificial Intelligence';
-        } else if (normalizedIndustry.includes('Fin')) {
-          normalizedIndustry = 'FinTech';
-        }
-        
-        industryCount[normalizedIndustry] = (industryCount[normalizedIndustry] || 0) + 1;
-      });
-    }
-  });
-  
-  // Convert to percentages
-  const industrySplit: Record<string, number> = {};
-  const totalIndustries = Object.values(industryCount).reduce((sum, count) => sum + count, 0);
-  Object.entries(industryCount).forEach(([industry, count]) => {
-    industrySplit[industry] = Math.round((count / totalIndustries) * 100);
-  });
-  
-  // Calculate stage split - again only for announced companies
-  const stageCount: Record<string, number> = {};
-  portfolioCompanies.forEach(company => {
-    if (company.stage && company.announced) {
-      // Normalize stage names
-      let normalizedStage = company.stage.trim();
-      if (normalizedStage.toLowerCase().includes('pre')) {
-        normalizedStage = 'Pre-seed';
-      } else if (normalizedStage.toLowerCase().includes('seed')) {
-        normalizedStage = 'Seed';
-      } else if (normalizedStage.toLowerCase().includes('series a')) {
-        normalizedStage = 'Series A';
-      }
-      
-      stageCount[normalizedStage] = (stageCount[normalizedStage] || 0) + 1;
-    }
-  });
-  
-  // Convert to percentages
-  const stageSplit: Record<string, number> = {};
-  const totalStages = Object.values(stageCount).reduce((sum, count) => sum + count, 0);
-  Object.entries(stageCount).forEach(([stage, count]) => {
-    stageSplit[stage] = Math.round((count / totalStages) * 100);
-  });
-  
-  // Always ensure we have these fallback values if no data is available
-  const fallbackIndustrySplit = {
-    'Artificial Intelligence': 40,
-    'Enterprise Software': 20,
-    'CleanTech': 20,
-    'FinTech': 20
-  };
-  
-  const fallbackStageSplit = {
-    'Pre-seed': 20,
-    'Seed': 60,
-    'Series A': 20
-  };
-  
-  // Return statistics with better handling of empty data
-  // Return only the fields defined in FundStatistics interface
-  return {
-    totalInvestments: totalInvestment,
-    totalCompanies: portfolioCompanies.length,
-    averageInvestment,
-    medianValuation,
-    investmentsLast12Months,
-    companiesLast12Months
-    // Note: industrySplit and stageSplit are now calculated on-demand in chart preparation functions
-  };
-};
 
 /**
  * Props for the Portfolio page component
@@ -202,17 +25,8 @@ interface PortfolioProps {
  */
 const Portfolio = ({ location }: PortfolioProps) => {
   const [filter, setFilter] = useState('all');
-  const [isLoading, setIsLoading] = useState(true);
-  
-  // Get data using centralized hooks from AirtableService
   const portfolioCompanies = usePortfolioCompanies();
-  
-  const [statistics, setStatistics] = useState<FundStatistics | null>(null);
-  
-  useEffect(() => {
-    setStatistics(calculateStatistics(portfolioCompanies));
-    setIsLoading(false);
-  }, [portfolioCompanies]);
+  const statistics = usePortfolioStatistics(portfolioCompanies);
 
   // Hook for chart data
   const { industryData, stageData, techData, hqData } = usePortfolioChartData();
@@ -259,13 +73,8 @@ const Portfolio = ({ location }: PortfolioProps) => {
             </p>
           </div>
         
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-pulse-slow text-srv-teal">Loading dashboard data...</div>
-          </div>
-        ) : (
           <>
-            <StatisticsSection statistics={statistics!} />
+            <StatisticsSection statistics={statistics} />
             
             <ChartsSection
               industryData={industryData}
@@ -343,10 +152,14 @@ const Portfolio = ({ location }: PortfolioProps) => {
                   </Link>
                 </Button>
               </div>
+              <div className="mt-16">
+                <h3 className="text-2xl font-bold text-white mb-8 font-mono">
+                    &lt;Help us be even more transparent and share your feedback with us... Or collaborate on Github!/&gt;
+                </h3> 
+              </div>
             </div>
           </>
-        )}
-      </div>
+        </div>
       </div>
     </Layout>
   );

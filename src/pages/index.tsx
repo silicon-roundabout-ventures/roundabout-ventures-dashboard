@@ -8,7 +8,7 @@ import { GlassCard } from "@/components/parts/GlassCard";
 import { Section } from "@/components/parts/Section";
 import { FeatureCard } from '@/components/parts/FeatureCard';
 import { CircularImage } from '@/components/parts/CircularImage';
-import ImageSlider from '@/components/layouts/ImageSlider';
+import ImageSlider from '@/components/sections/ImageSlider';
 import TypedAnimationWrapper from '@/components/parts/TypedAnimationWrapper';
 import ScrollChevrons from '@/components/parts/ScrollChevrons';
 

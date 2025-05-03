@@ -209,7 +209,7 @@ To contribute to the project:
 
 ### Functionality
 
-- [ ] Account for currency exchange rates in fund & portfolio stats
+- [ x ] Account for currency exchange rates in fund & portfolio stats
 - [ ] Add login for LPs and Founders
 - [ ] Add interactive pages for LP client features and AI support 
 - [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
@@ -283,7 +283,7 @@ The particle system is customizable in density, speed, and connection distance, 
 The dashboard is configured to work with a specific Airtable structure:
 
 1. **Base**: The default base ID is the database to which the dashboard is connected
-2. **Table**: "Startups"
+2. **Table**: 
 3. **View**: "
 
 ### Field Mapping

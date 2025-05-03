@@ -146,7 +146,7 @@ const WhoWeAre = () => {
       {
         name: "Francesco Perticarari",
         role: "General Partner",
-        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days.<br/><br/>
+        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days. In total I wrote 17 personal cheques including the likes of edge & GPU cloud leader <b>Ori Industries</b>, Quantum Photonics pioneer <b>Aegiq</b>, or holography world-leader <b>Vivid-Q</b>.<br/><br/>
         In 2023 I launched Silicon Roundabout Ventures as a soloGP fund in the UK from which I'm now investing from. We focus on writing first cheques in pre-seed and angel rounds (which we sometimes lead). I closed the fund at just over its £5m target and got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br/><br/>
         My mission? To build Europe's first community-driven and truly pan-European VC firm built by technical folks exclusively for deeptech pre-seed and seed founders.<br/><br/>
         Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
@@ -204,7 +204,7 @@ const WhoWeAre = () => {
                 stages.
               </p>
               <p className="text-xl text-srv-light">
-                We back founders who are "sub-0.1% of the population" type of{" "}
+                We back founders starting our in Europe who are "sub-0.1% of the population" type of{" "}
                 <span className="text-srv-yellow">exceptional</span>,{" "}
                 obsessively building novel technology companies for the long term in critical areas like{" "}
                 <span className="text-srv-pink">
@@ -256,8 +256,8 @@ const WhoWeAre = () => {
             
             {/* General Partner */}
             <div className="mb-12">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">General Partner</h3>
-              <div className="max-w-3xl mx-auto w-full">
+              <h3 className="text-3xl font-bold text-white mb-6 text-center">General Partner</h3>
+              <div className="max-w-4xl mx-auto w-full">
                 {teamData.leads.map((member, index) => (
                   <TeamMember key={index} {...member} />
                 ))}

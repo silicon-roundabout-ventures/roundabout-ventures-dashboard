@@ -37,10 +37,14 @@ export const FIELDS = {
     ANNOUNCED: 'Announced',
     FUND: 'Fund_numeral',
     DEAL_VALUE: 'Deal_Value',
+    GBP_INITIAL_ROUND_PRE_MONEY_VALUATION: 'GBP_Initial_Round_Pre_Money_Valuation',
+    GBP_FINAL_TICKET_INVESTED: 'GBP_Final_Ticket_Invested',
     TOTAL_INVESTED: 'Total_Invested',
     ENTRY_VALUATION: 'Entry_Valuation',
     TECHNOLOGY_TYPE: 'Technology_Type',
     MAIN_HEADQUARTER: 'Main_Headquarter',
+    LATEST_FOLLOW_ON_ROUND: 'Latest_Follow_on_Round',
+    CURRENT_STATUS: 'Current_Status',
   },
   FUNDS: {
     // Add fund fields here
@@ -71,10 +75,14 @@ export interface PortfolioFields {
   [FIELDS.PORTFOLIO.ANNOUNCED]?: boolean;
   [FIELDS.PORTFOLIO.FUND]?: string | number | (string | number)[];
   [FIELDS.PORTFOLIO.DEAL_VALUE]?: number;
+  [FIELDS.PORTFOLIO.GBP_FINAL_TICKET_INVESTED]?: number;
+  [FIELDS.PORTFOLIO.GBP_INITIAL_ROUND_PRE_MONEY_VALUATION]?: number;
   [FIELDS.PORTFOLIO.TOTAL_INVESTED]?: number;
   [FIELDS.PORTFOLIO.ENTRY_VALUATION]?: number | string;
   [FIELDS.PORTFOLIO.TECHNOLOGY_TYPE]?: string;
   [FIELDS.PORTFOLIO.MAIN_HEADQUARTER]?: string;
+  [FIELDS.PORTFOLIO.LATEST_FOLLOW_ON_ROUND]?: string;
+  [FIELDS.PORTFOLIO.CURRENT_STATUS]?: string;
 }
 
 // Normalized application types (to map airtable raw data into an object for use in this website's components)
@@ -94,8 +102,12 @@ export interface PortfolioCompany {
   announced: boolean;
   fund?: string | number | (string | number)[];
   dealValue?: number;
+  gbpFinalTicketInvested?: number;
+  gbpInitialRoundPreMoneyValuation?: number | string;
   totalInvested?: number;
   entryValuation?: number | string;
+  latestFollowOnRound?: string;
+  currentStatus?: string;
 }
 
 export interface FundStatistics {

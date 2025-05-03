@@ -22,8 +22,8 @@ export function usePortfolioStatistics(
     let totalInvestment = 0;
     let investmentsCount = 0;
     companies.forEach(c => {
-      if (c.totalInvested) {
-        totalInvestment += c.totalInvested;
+      if (c.gbpFinalTicketInvested) {
+        totalInvestment += c.gbpFinalTicketInvested;
         investmentsCount++;
       }
     });
@@ -37,7 +37,7 @@ export function usePortfolioStatistics(
     // Median valuation
     const vals: number[] = [];
     companies.forEach(c => {
-      const v = c.entryValuation;
+      const v = c.gbpInitialRoundPreMoneyValuation;
       if (v !== undefined) {
         if (typeof v === 'number') vals.push(v);
         else {

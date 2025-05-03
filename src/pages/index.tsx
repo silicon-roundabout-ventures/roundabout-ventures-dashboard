@@ -99,7 +99,7 @@ const IndexContent = () => {
                 <p className="text-xl text-white">
                   We are a Community-Driven VC firm backing{" "}
                   <span className="text-srv-yellow">Deep Tech</span>{" "}
-                  startups at{" "}
+                  startups from Europe at{" "}
                   <span className="text-srv-pink">pre-seed</span> and{" "}
                   <span className="text-srv-pink">seed</span> stages.
                 </p>
@@ -151,7 +151,7 @@ const IndexContent = () => {
             <div className="text-center">
               <Link to="/portfolio">
                 <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
-                  Radically transparent on our investments <ArrowRight className="ml-2 h-4 w-4" />
+                  Radically transparent on our cheques<ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
@@ -183,7 +183,7 @@ const IndexContent = () => {
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💸</span>
                 <p className="text-white">
-                  Providing super-early investment capital to deeply technical founders.
+                  Providing super-early investment capital to deeply technical founders based in Europe.
                 </p>
               </div>
               
@@ -208,7 +208,7 @@ const IndexContent = () => {
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💻</span>
                 <p className="text-white">
-                  Focusing on enterprises in{" "}
+                  Focusing on Europe-based enterprises in{" "}
                   <span className="text-srv-pink">Computing</span>,{" "}
                   <span className="text-srv-pink">Defence</span> and{" "}
                   <span className="text-srv-pink">Energy</span>.

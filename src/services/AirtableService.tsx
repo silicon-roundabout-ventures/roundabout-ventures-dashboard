@@ -19,6 +19,15 @@ const cache = new LRUCache<string, any>({
   ttl: 1000 * 60 * 5, // 5 minutes
 });
 
+/*
+* AirtableService.tsx
+* 
+* This file contains the AirtableService class which is used to fetch data from Airtable.
+* It uses the Airtable API to fetch data from Airtable and returns it as a Promise.
+* If you want to edit or add a field to fetch, make sure you update both the query and type here and the respective fields in airtableConfig.ts
+* 
+*/
+
 // Gatsby static query hook
 export function usePortfolioCompanies(): PortfolioCompany[] {
   const data = useStaticQuery<{ allAirtable: { nodes: AirtableGraphQLRecord[] } }>(graphql`
@@ -41,9 +50,13 @@ export function usePortfolioCompanies(): PortfolioCompany[] {
             Fund_numeral
             Deal_Value
             Total_Invested
+            GBP_Final_Ticket_Invested
             Entry_Valuation
+            GBP_Initial_Round_Pre_Money_Valuation
             Technology_Type
             Main_Headquarter
+            Latest_Follow_on_Round
+            Current_Status
             Logo {
               localFiles {
                 publicURL
@@ -86,9 +99,13 @@ export interface AirtableGraphQLRecord extends AirtableRecord<PortfolioFields> {
     Fund_numeral?: string | number | (string | number)[];
     Deal_Value?: number;
     Total_Invested?: number;
+    GBP_Final_Ticket_Invested?: number;
     Entry_Valuation?: number | string;
+    GBP_Initial_Round_Pre_Money_Valuation?: number;
     Technology_Type?: string;
     Main_Headquarter?: string;
+    Latest_Follow_on_Round?: string;
+    Current_Status?: string;
   };
 }
 
@@ -125,15 +142,19 @@ export function normalizePortfolioCompany(record: AirtableGraphQLRecord): Portfo
     announced: toBoolAnnounced(rawAnnounced),
     fund: pick(data.Fund_numeral, FIELDS.PORTFOLIO.FUND),
     dealValue: pick(data.Deal_Value, FIELDS.PORTFOLIO.DEAL_VALUE),
+    gbpFinalTicketInvested: pick(data.GBP_Final_Ticket_Invested, FIELDS.PORTFOLIO.GBP_FINAL_TICKET_INVESTED),
+    gbpInitialRoundPreMoneyValuation: pick(data.GBP_Initial_Round_Pre_Money_Valuation, FIELDS.PORTFOLIO.GBP_INITIAL_ROUND_PRE_MONEY_VALUATION),
     totalInvested: pick(data.Total_Invested, FIELDS.PORTFOLIO.TOTAL_INVESTED),
     entryValuation: pick(data.Entry_Valuation, FIELDS.PORTFOLIO.ENTRY_VALUATION),
+    latestFollowOnRound: pick(data.Latest_Follow_on_Round, FIELDS.PORTFOLIO.LATEST_FOLLOW_ON_ROUND),
+    currentStatus: pick(data.Current_Status, FIELDS.PORTFOLIO.CURRENT_STATUS),
   };
   // Stealth sanitization
   if (!base.announced) {
     return {
       ...base,
       name: '🔒 Stealth',
-      description: 'Stealth details',
+      description: 'Details to be announced soon...',
       logo: '',
       photo: undefined,
       website: '',

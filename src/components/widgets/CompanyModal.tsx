@@ -73,16 +73,28 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
                   : 'N/A'}
               </span>
             </div>
-            
-            <div className="flex justify-between">
-              <span className="text-white/70">Stage:</span>
-              <span className="text-white font-medium">{typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</span>
-            </div>
-            
+
             {company.fund && (
               <div className="flex justify-between">
                 <span className="text-white/70">Fund:</span>
                 <span className="text-white font-medium">{company.fund}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between">
+              <span className="text-white/70">Current Status:</span>
+              <span className="text-white font-medium">{typeof company.currentStatus === 'string' ? company.currentStatus : 'Unknown Status'}</span>
+            </div>        
+            
+            <div className="flex justify-between">
+              <span className="text-white/70">Backed at:</span>
+              <span className="text-white font-medium">{typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</span>
+            </div>   
+
+            {company.latestFollowOnRound && (
+              <div className="flex justify-between">
+                <span className="text-white/70">Latest Follow-on Round:</span>
+                <span className="text-white font-medium">{company.latestFollowOnRound}</span>
               </div>
             )}
           </div>

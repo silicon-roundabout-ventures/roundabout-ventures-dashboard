@@ -214,6 +214,8 @@ To contribute to the project:
 - [ ] Add interactive pages for LP client features and AI support 
 - [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
 - [ ] Consider adding a news feed for key portfolio updates (major scientific and TRL breakthroughs, key contracts announcements, funding round announcements)
+- [ ] Check that data processed is sanitised correctly
+- [ ] Add both Founder and LP testimonials
 
 ### UI / UX
 

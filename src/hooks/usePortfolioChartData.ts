@@ -4,7 +4,7 @@ import { usePortfolioCompanies } from '../services/AirtableService';
 type ChartData = { name: string; value: number }[];
 
 export function usePortfolioChartData() {
-  const companies = usePortfolioCompanies();
+  const companies = usePortfolioCompanies() || [];
 
   const industryData = useMemo<ChartData>(() => {
     const split: Record<string, number> = {};

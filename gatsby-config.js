@@ -80,7 +80,7 @@ module.exports = {
         // Configure error handling for Netlify builds
         errorHandling: 'skip',
         separateNodeType: false, // Use unified Airtable type for GraphQL queries
-        queryName: 'AIRTABLE',
+        queryName: 'Airtable',
         tables: [
           // Only process if environment variables are available and non-empty
           ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_API_KEY.trim() !== '' && 

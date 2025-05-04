@@ -1,6 +1,10 @@
-import { graphql, useStaticQuery } from 'gatsby';
+import { useStaticQuery, graphql } from 'gatsby';
 import { toast } from "sonner";
 import { LRUCache } from 'lru-cache';
+const cache = new LRUCache<string, any>({
+  max: 50,
+  ttl: 1000 * 60 * 5,
+});
 import { 
   getAirtableBase, 
   isAirtableConfigured,
@@ -13,12 +17,6 @@ import {
 } from '../config/airtableConfig';
 const { getMockPortfolioCompanies, getMockFundStatistics } = require('../mocks/mockPortfolioData');
 
-// Cache instance
-const cache = new LRUCache<string, any>({
-  max: 50,
-  ttl: 1000 * 60 * 5, // 5 minutes
-});
-
 /*
 * AirtableService.tsx
 * 
@@ -28,21 +26,20 @@ const cache = new LRUCache<string, any>({
 * 
 */
 
-// Gatsby static query hook
+// Fetch portfolio companies via GraphQL at build time
 export function usePortfolioCompanies(): PortfolioCompany[] {
   const data = useStaticQuery<{ allAirtable: { nodes: AirtableGraphQLRecord[] } }>(graphql`
-    query PortfolioPageQuery {
+    query PortfolioCompaniesQuery {
       allAirtable(filter: { table: { eq: "Startups" } }) {
         nodes {
           id
-          table
-          recordId
           data {
             Deal_Name
             Summary
             One_Line_Summary
-            Company
             domain__from_Company_
+            Logo { localFiles { publicURL } }
+            Photo { localFiles { publicURL } }
             Sector
             Stage
             Close_Date
@@ -57,29 +54,13 @@ export function usePortfolioCompanies(): PortfolioCompany[] {
             Main_Headquarter
             Latest_Follow_on_Round
             Current_Status
-            Logo {
-              localFiles {
-                publicURL
-              }
-            }
-            Photo {
-              localFiles {
-                publicURL
-              }
-            }
           }
         }
       }
     }
   `);
-  const nodes = data.allAirtable.nodes;
-  if (!nodes || nodes.length === 0) {
-    console.warn('No portfolio companies found in GraphQL data, using mock data');
-    return getMockPortfolioCompanies();
-  }
-  return nodes.map(normalizePortfolioCompany);
+  return data.allAirtable.nodes.map(normalizePortfolioCompany);
 };
-
 
 // Normalization functions
 // Properly type the record to include data property from GraphQL queries
@@ -251,6 +232,85 @@ export class AirtableService {
   static clearCache(): void {
     cache.clear();
   }
+}
+
+// Build-time helpers
+export async function fetchAllRawCompanies(): Promise<PortfolioCompany[]> {
+  return AirtableService.getPortfolioCompanies();
+}
+
+export function computeStats(
+  companies: PortfolioCompany[]
+): FundStatistics {
+  const filtered = companies.filter(c => c.announced);
+  let totalInvestment = 0;
+  let investmentsCount = 0;
+  filtered.forEach(c => {
+    if (c.gbpFinalTicketInvested) {
+      totalInvestment += c.gbpFinalTicketInvested;
+      investmentsCount++;
+    }
+  });
+  if (investmentsCount === 0 && filtered.length > 0) {
+    totalInvestment = filtered.length * 500000;
+  }
+
+  const averageInvestment =
+    investmentsCount > 0
+      ? totalInvestment / investmentsCount
+      : filtered.length > 0
+      ? totalInvestment / filtered.length
+      : 0;
+
+  const vals: number[] = [];
+  filtered.forEach(c => {
+    const v = c.gbpInitialRoundPreMoneyValuation;
+    if (v !== undefined) {
+      if (typeof v === 'number') vals.push(v);
+      else {
+        const m = v.match(/\d+(\.\d+)?/);
+        if (m) {
+          let num = parseFloat(m[0]);
+          if (v.includes('M')) num *= 1000000;
+          else if (v.includes('K')) num *= 1000;
+          vals.push(num);
+        }
+      }
+    }
+  });
+
+  let medianValuation = 0;
+  if (vals.length) {
+    vals.sort((a, b) => a - b);
+    const mid = Math.floor(vals.length / 2);
+    medianValuation =
+      vals.length % 2 === 0
+        ? (vals[mid - 1] + vals[mid]) / 2
+        : vals[mid];
+  }
+
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  let investmentsLast12Months = 0;
+  let companiesLast12Months = 0;
+  filtered.forEach(c => {
+    if (c.investmentDate) {
+      const d = new Date(c.investmentDate);
+      if (d >= oneYearAgo) {
+        companiesLast12Months++;
+        investmentsLast12Months += c.totalInvested ?? 500000;
+      }
+    }
+  });
+
+  return {
+    totalInvestments: totalInvestment,
+    totalCompanies: filtered.length,
+    averageInvestment,
+    medianValuation,
+    investmentsLast12Months,
+    companiesLast12Months,
+  };
 }
 
 export default AirtableService;

@@ -17,7 +17,7 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={company.announced ? company.name : '🔒 Stealth'}
+      title={company.name}
     >
       <div className="space-y-6">
         {/* Company Photo or Logo */}

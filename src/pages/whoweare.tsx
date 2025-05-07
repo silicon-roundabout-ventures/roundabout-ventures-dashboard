@@ -193,7 +193,8 @@ const WhoWeAre = () => {
           </h1>
           
           <div className="max-w-4xl mx-auto">
-            <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
+
+            <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-18 border border-[#4c566a]/20">
               <p className="text-xl text-srv-light mb-10">
                 We are a Community-Driven VC firm backing{" "}
                 <span className="text-srv-yellow">Deep Tech</span>{" "}
@@ -204,7 +205,7 @@ const WhoWeAre = () => {
                 stages.
               </p>
               <p className="text-xl text-srv-light">
-                We back founders starting our in Europe who are "sub-0.1% of the population" type of{" "}
+                We back founders starting out in Europe who are "sub-0.1% of the population" type of{" "}
                 <span className="text-srv-yellow">exceptional</span>,{" "}
                 obsessively building novel technology companies for the long term in critical areas like{" "}
                 <span className="text-srv-pink">
@@ -221,35 +222,6 @@ const WhoWeAre = () => {
                 .
               </p>
             </div>
-            
-            <h2 className="text-3xl font-bold text-white mb-8 font-mono">&lt;What makes us unique/&gt;</h2>
-            
-            <ul className="text-lg text-srv-light space-y-6 list-disc pl-6 mb-12">
-              <li>
-                We run a 15k member strong tech meetup community,{" "}
-                <span className="text-srv-yellow">
-                  Silicon Roundabout
-                </span>
-                , which gives us direct access to 5000+ startups and has
-                already helped grow 2 billion-dollar companies.
-              </li>
-              
-              <li>
-                We are a lean soloGP fund and key people all have{" "}
-                <span className="text-srv-yellow">
-                  technical backgrounds
-                </span>
-                , helping us understand and connect with deeply technical founders.
-              </li>
-              
-              <li>
-                We offer our portfolio companies access to our proprietary
-                community ecosystem to help with{" "}
-                <span className="text-srv-yellow">
-                  industry connections
-                </span>.
-              </li>
-            </ul>
             
             {/* Team Section */}
             <h2 className="text-3xl font-bold text-white mb-10 font-mono">&lt;Team/&gt;</h2>

@@ -19,6 +19,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "gatsby-*.js", "gatsby-*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "gatsby-*.js", "gatsby-*.ts", "backup/_portfolio.tsx", "backup/portfolio.tsx"],
   "exclude": ["node_modules"]
 }

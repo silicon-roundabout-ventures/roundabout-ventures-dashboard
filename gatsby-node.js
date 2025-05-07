@@ -1,6 +1,17 @@
-const path = require("path")
-const crypto = require("crypto")
+const path = require("path");
 
+/* 
+ * 
+ * GATSBY NODE FUNCS 
+ * 
+ */
+
+
+/* 
+ * AIRTABLE FUNCS 
+ */
+
+const { getMockPortfolioCompanies, getMockFundStatistics } = require("./src/mocks/mockPortfolioData.js");
 // Explicitly add custom fields to AirtableData for GraphQL schema
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -13,70 +24,140 @@ exports.createSchemaCustomization = ({ actions }) => {
   `);
 };
 
-/* 
-* Airtable node setup
-*/
-const { getMockPortfolioCompanies } = require("./src/mocks/mockPortfolioData.js");
-const mockPortfolioData = getMockPortfolioCompanies();
-
-// No custom schema - use gatsby-source-airtable's built-in schema inference
-
 // Create fallback data if Airtable plugin is not loaded
 exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter }) => {
   const { createNode } = actions;
-  
-  reporter.info('Checking if fallback mock data is needed');
-  
-  try {
-    // More detailed environment logging for Netlify debugging
-    reporter.info(`Build environment: ${process.env.NODE_ENV}`);
-    reporter.info(`Airtable API Key exists: ${!!process.env.AIRTABLE_API_KEY}`);
-    reporter.info(`Airtable Base ID exists: ${!!process.env.AIRTABLE_BASE_ID}`);
-    
-    // Always create mock data nodes - they'll only be used if Airtable fails
-    // This ensures we always have fallback data available
-    reporter.info('Creating mock portfolio data as fallback');
-    
-    // Create mock portfolio data nodes
-    mockPortfolioData.forEach(item => {
-      try {
-        const nodeContent = JSON.stringify(item);
-        const nodeMeta = {
-          id: createNodeId(`mock-portfolio-${item.id}`),
-          parent: null,
-          children: [],
-          internal: {
-            type: 'MockPortfolioData',
-            content: nodeContent,
-            contentDigest: createContentDigest(item),
-          },
-        };
-        
-        const node = { ...item, ...nodeMeta };
-        createNode(node);
-      } catch (nodeError) {
-        reporter.warn(`Failed to create mock node for ${item.id}: ${nodeError.message}`);
-        // Continue with other nodes even if one fails
-      }
-    });
-    
-    reporter.info(`Created ${mockPortfolioData.length} mock portfolio data nodes as fallback`);
-  } catch (error) {
-    reporter.error('Error in sourceNodes: ' + error.message);
-    // Prevent build failure by continuing despite errors
-  }
+  const mockData = getMockPortfolioCompanies();
+  reporter.info('Adding mock portfolio nodes fallback');
+  mockData.forEach(item => {
+    const nodeContent = JSON.stringify(item);
+    const nodeMeta = {
+      id: createNodeId(`mock-portfolio-${item.id}`),
+      parent: null,
+      children: [],
+      internal: { type: 'MockPortfolioData', content: nodeContent, contentDigest: createContentDigest(item) }
+    };
+    createNode({ ...item, ...nodeMeta });
+  });
 };
 
+// Programmatic creation of portfolio page
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions;
+  const result = await graphql(`
+    query {
+      allAirtable(filter: {table: {eq: "Startups"}}) {
+        nodes { 
+          recordId 
+          data { 
+            Deal_Name 
+            Summary 
+            One_Line_Summary 
+            domain__from_Company_ 
+            Sector Stage 
+            Close_Date 
+            Announced 
+            Fund_numeral 
+            Main_Headquarter 
+            Current_Status 
+            Technology_Type 
+            Logo { localFiles { publicURL } } 
+            Photo { localFiles { publicURL } } 
+            Latest_Follow_on_Round 
+            GBP_Final_Ticket_Invested 
+            Entry_Valuation 
+            GBP_Initial_Round_Pre_Money_Valuation
+          } 
+        }
+      }
+    }
+  `);
+
+  if (result.errors) throw result.errors;
+  
+  const nodes = result.data.allAirtable.nodes;
+  const companies = nodes.map(item => {
+    const d = item.data;
+    const rawDom = d.domain__from_Company_;
+    const dom = Array.isArray(rawDom) ? rawDom[0] : rawDom || '';
+    const website = /^https?:\/\//i.test(dom) ? dom : `https://${dom}`;
+    function toBoolAnnounced(val) {
+      const s = String(val).trim().toLowerCase();
+      return val === true || ["yes", "true", "1"].includes(s);
+    }
+    return {
+      id: item.recordId,
+      name: d.Deal_Name || '',
+      description: d.Summary || '',
+      oneLiner: d.One_Line_Summary || '',
+      logo: d.Logo?.localFiles?.[0]?.publicURL || '',
+      photo: d.Photo?.localFiles?.[0]?.publicURL || '',
+      website,
+      technology: d.Technology_Type || '',
+      hq: d.Main_Headquarter || '',
+      sectors: d.Sector || [],
+      stage: d.Stage || '',
+      investmentDate: d.Close_Date || '',
+      announced: toBoolAnnounced(d.Announced),
+      fund: d.Fund_numeral || null,
+      currentStatus: d.Current_Status || '',
+      latestFollowOnRound: d.Latest_Follow_on_Round || ''
+    };
+  });
+
+  const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes) : getMockFundStatistics();
+  
+  createPage({ 
+    path: '/portfolio/', 
+    component: path.resolve(__dirname, 'src/templates/portfolio.tsx'), 
+    context: { companies, portfolioStats } 
+  });
+};
+
+// Calculate portfolio stats
+function calculatePortfolioStats(nodes) {
+  const tickets = nodes.filter(n => n.data.GBP_Final_Ticket_Invested).map(n => n.data.GBP_Final_Ticket_Invested);
+  const totalInvestments = tickets.reduce((sum, n) => sum + (n || 0), 0);
+  const vals = nodes.filter(n => n.data.GBP_Initial_Round_Pre_Money_Valuation).map(n => n.data.GBP_Initial_Round_Pre_Money_Valuation);
+  const averageInvestment = tickets.length ? tickets.reduce((a, b) => a + b, 0) / tickets.length : 0;
+  const medianValuation = calculateMedian(vals);
+  const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const investmentsLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).reduce((s, n) => s + (n.data.GBP_Final_Ticket_Invested || 0), 0);
+  const companiesLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).length;
+  
+  return { 
+    totalInvestments, 
+    totalCompanies: nodes.length, 
+    averageInvestment, 
+    medianValuation, 
+    investmentsLast12Months: investmentsLast12, 
+    companiesLast12Months: companiesLast12 
+  };
+}
+
+
 /* 
-* Webpack setup
-*/
+ * HELPER FUNCS 
+ */
+
+// Calculate median
+function calculateMedian(arr) {
+  if (!arr.length) return 0;
+  const s = [...arr].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+
+
+/* 
+ * TYPESCRIPT / WEBPACK / BUILD-TIME SETUP
+ */
 
 // Add webpack alias for @ imports
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     resolve: {
       alias: { "@": path.resolve(__dirname, "src") },
-      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     },
   });
 };
@@ -89,13 +170,9 @@ exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
       alias: {
         "@": path.resolve(__dirname, "src"),
       },
-      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
     },
   })
-
-  /* 
-  * TypeScript & build-time setup
-  */
 
   // Configure TypeScript with JSX support
   actions.setWebpackConfig({
@@ -142,164 +219,3 @@ exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
     }
   }
 }
-
-// Build-time: generate sanitized JSONs using Gatsby's GraphQL
-const fs = require('fs');
-
-exports.onPostBuild = async ({ graphql, reporter }) => {
-  reporter.info('Generating stats.json and companies.json');
-  let companies = [];
-  try {
-    const result = await graphql(`
-      query AllPortfolioData {
-        allAirtable(filter: { table: { eq: "Startups" } }) {
-          nodes {
-            id
-            data {
-              Deal_Name
-              Summary
-              One_Line_Summary
-              domain__from_Company_
-              Logo { localFiles { publicURL } }
-              Photo { localFiles { publicURL } }
-              Sector
-              Stage
-              Close_Date
-              Announced
-              Fund_numeral
-              Deal_Value
-              Total_Invested
-              GBP_Final_Ticket_Invested
-              Entry_Valuation
-              GBP_Initial_Round_Pre_Money_Valuation
-              Technology_Type
-              Main_Headquarter
-              Latest_Follow_on_Round
-              Current_Status
-            }
-          }
-        }
-      }
-    `);
-    if (result.errors) {
-      throw result.errors;
-    }
-    const nodes = result.data.allAirtable.nodes;
-    companies = nodes.map(({ id, data: d }) => {
-      const rawDomain = d.domain__from_Company_;
-      const domain = Array.isArray(rawDomain) ? rawDomain[0] : rawDomain;
-      const website = domain
-        ? (/^https?:\/\//i.test(domain) ? domain : `https://${domain}`)
-        : '';
-      const announced =
-        typeof d.Announced === 'boolean'
-          ? d.Announced
-          : typeof d.Announced === 'string' && d.Announced.toLowerCase() === 'yes';
-      const base = {
-        id,
-        name: d.Deal_Name || '',
-        description: d.Summary || '',
-        oneLiner: d.One_Line_Summary,
-        logo: d.Logo?.localFiles?.[0]?.publicURL || '',
-        photo: d.Photo?.localFiles?.[0]?.publicURL,
-        website,
-        industry: d.Sector || [],
-        stage: d.Stage || '',
-        investmentDate: d.Close_Date || '',
-        announced,
-        fund: d.Fund_numeral,
-        dealValue: d.Deal_Value,
-        totalInvested: d.Total_Invested,
-        gbpFinalTicketInvested: d.GBP_Final_Ticket_Invested,
-        gbpInitialRoundPreMoneyValuation: d.GBP_Initial_Round_Pre_Money_Valuation,
-        entryValuation: d.Entry_Valuation,
-        technologyType: d.Technology_Type,
-        headquarter: d.Main_Headquarter,
-        latestFollowOnRound: d.Latest_Follow_on_Round,
-        currentStatus: d.Current_Status,
-      };
-      return announced
-        ? base
-        : {
-            ...base,
-            name: '🔒 Stealth',
-            description: 'Details to be announced soon.',
-            industry: base.industry,
-            stage: base.stage,
-          };
-    });
-  } catch (error) {
-    reporter.error('GraphQL query failed, falling back to mock data', error);
-    companies = mockPortfolioData;
-  }
-  // Compute stats
-  const announcedList = companies.filter(c => c.announced);
-  let totalInv = announcedList.reduce(
-    (sum, c) => sum + (c.gbpFinalTicketInvested || 0),
-    0
-  );
-  const invCount = announcedList.filter(c => c.gbpFinalTicketInvested).length;
-  if (invCount === 0 && announcedList.length) {
-    totalInv = announcedList.length * 500000;
-  }
-  const averageInvestment =
-    invCount > 0
-      ? totalInv / invCount
-      : announcedList.length
-      ? totalInv / announcedList.length
-      : 0;
-  const vals = announcedList
-    .map(c => c.gbpInitialRoundPreMoneyValuation)
-    .map(v => {
-      if (typeof v === 'number') return v;
-      if (typeof v === 'string') {
-        const m = v.match(/\d+(\.\d+)?/);
-        if (m) {
-          let num = parseFloat(m[0]);
-          if (v.includes('M')) num *= 1000000;
-          else if (v.includes('K')) num *= 1000;
-          return num;
-        }
-      }
-      return null;
-    })
-    .filter(v => v !== null);
-  let medianValuation = 0;
-  if (vals.length) {
-    vals.sort((a, b) => a - b);
-    const mid = Math.floor(vals.length / 2);
-    medianValuation =
-      vals.length % 2 === 0
-        ? (vals[mid - 1] + vals[mid]) / 2
-        : vals[mid];
-  }
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-  const investmentsLast12Months = announcedList.reduce(
-    (sum, c) => {
-      const d = new Date(c.investmentDate);
-      return d >= oneYearAgo ? sum + (c.totalInvested || 500000) : sum;
-    },
-    0
-  );
-  const companiesLast12Months = announcedList.filter(
-    c => new Date(c.investmentDate) >= oneYearAgo
-  ).length;
-  const stats = {
-    totalInvestments: totalInv,
-    totalCompanies: companies.length,
-    averageInvestment,
-    medianValuation,
-    investmentsLast12Months,
-    companiesLast12Months,
-  };
-  fs.writeFileSync(
-    path.join(__dirname, 'public', 'stats.json'),
-    JSON.stringify(stats)
-  );
-  fs.writeFileSync(
-    path.join(__dirname, 'public', 'companies.json'),
-    JSON.stringify(companies)
-  );
-  reporter.info('Wrote stats.json and companies.json');
-};

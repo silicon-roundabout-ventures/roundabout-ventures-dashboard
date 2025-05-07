@@ -4,14 +4,14 @@ import ChartComponent from '@/components/widgets/ChartComponent';
 type ChartData = { name: string; value: number }[];
 
 interface ChartsSectionProps {
-  industryData: ChartData;
+  sectorData: ChartData;
   stageData: ChartData;
   techData: ChartData;
   hqData: ChartData;
 }
 
 const ChartsSection: React.FC<ChartsSectionProps> = ({
-  industryData,
+  sectorData,
   stageData,
   techData,
   hqData,
@@ -23,8 +23,8 @@ const ChartsSection: React.FC<ChartsSectionProps> = ({
       colors={["#00A0A0", "#1A85B9", "#0F4C81", "#1F9C1F"]}
       chartType="pie"
     />
-    <ChartComponent title="Investment by Industry" 
-      data={industryData} 
+    <ChartComponent title="Investment by Sector" 
+      data={sectorData} 
       chartType="bar"
     />
     <ChartComponent

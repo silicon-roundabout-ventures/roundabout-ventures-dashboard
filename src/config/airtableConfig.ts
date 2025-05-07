@@ -96,7 +96,7 @@ export interface PortfolioCompany {
   website: string;
   technologyType?: string;
   headquarter?: string;
-  industry: string[];
+  sectors: string[];
   stage: string;
   investmentDate: string;
   announced: boolean;

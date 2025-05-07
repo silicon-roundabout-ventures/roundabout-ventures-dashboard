@@ -12,10 +12,10 @@ console.log("AIRTABLE_BASE_ID exists:", !!process.env.AIRTABLE_BASE_ID);
 
 module.exports = {
   siteMetadata: {
-    title: `Roundabout Ventures`,
-    description: `Community-Driven VC firm backing Deep Tech and Big Data startups`,
-    author: `@roundaboutvc`,
-    siteUrl: `https://roundabout.ventures`,
+    title: `Silicon Roundabout Ventures`,
+    description: `Community-Driven VC firm backing European Deep Tech startups with first cheques and high-conviction`,
+    author: `@siliconroundaboutvc`,
+    siteUrl: `https://siliconroundabout.ventures`,
   },
   // Gatsby configuration for optimal SSR and hydration
   flags: {

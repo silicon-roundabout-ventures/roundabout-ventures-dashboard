@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { PortfolioCompany } from '@/config/airtableConfig';
 import CompanyModal from './CompanyModal';
@@ -26,7 +25,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
           role="button"
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && handleCardClick()}
-          aria-label={`View stealth company details in ${company.industry?.join(', ') || 'Unknown'} industry`}
+          aria-label={`View stealth company details in ${company.sectors?.join(', ') || 'Unknown'} industry`}
         >
           <div className="absolute inset-0 bg-srv-teal/0 group-hover:bg-srv-teal/5 transition-colors rounded-lg"></div>
           <div className="flex flex-col items-center justify-center h-full relative z-10">
@@ -38,8 +37,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
             <div className="text-center">
               <p className="text-white/90 text-sm font-medium mb-2">🔒 Stealth</p>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-3 sm:mt-4">
-                {Array.isArray(company.industry) ? 
-                  company.industry.map((tag, index) => (
+                {Array.isArray(company.sectors) ? 
+                  company.sectors.map((tag, index) => (
                     <span key={index} className="border border-white/20 text-white/90 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                       {typeof tag === 'string' ? tag : 'Unknown'}
                     </span>
@@ -98,8 +97,8 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
           
           <div className="mt-auto">
             <div className="flex flex-wrap gap-1 mb-3">
-              {Array.isArray(company.industry) ? 
-                company.industry.map((tag, index) => (
+              {Array.isArray(company.sectors) ? 
+                company.sectors.map((tag, index) => (
                   <span key={index} className="border-2 border-srv-teal/40 text-srv-teal text-xs px-2 py-0.5 rounded-full bg-srv-teal/10">
                     {typeof tag === 'string' ? tag : 'Unknown'}
                   </span>

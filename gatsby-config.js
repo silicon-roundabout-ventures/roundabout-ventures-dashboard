@@ -88,7 +88,7 @@ module.exports = {
             {
               baseId: process.env.AIRTABLE_BASE_ID.trim(),
               tableName: `Startups`,
-              tableView: `Portfolio_websiteFeed`, // Use the specific Portfolio_websiteFeed view
+              tableView: `Portfolio_websiteFeed`, // Use the specific Portfolio_websiteFeed view for the records to show (all fields, inc hidden ones, remain available in the GraphQL schema)
               mapping: { Logo: 'fileNode', Photo: 'fileNode' }
             }
           ] : [])

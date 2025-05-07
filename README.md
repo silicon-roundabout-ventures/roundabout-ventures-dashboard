@@ -262,7 +262,7 @@ To contribute to the project:
 - [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
 - [ ] Consider adding a news feed for key portfolio updates (major scientific and TRL breakthroughs, key contracts announcements, funding round announcements)
 - [ x ] Check that data processed is sanitised correctly
-  - [  ] Check where is the stealthing sanitisation happening (build/client?)
+  - [ x ] Check where is the stealthing sanitisation happening (build/client?)
 - [ ] Add both Founder and LP testimonials
 
 ### UI / UX
@@ -309,8 +309,9 @@ To contribute to the project:
   - [ x ] Reduce duplicate data fetching
   - [ x ] Implement caching strategies
 - [  ] Add incremental builds for content updates
-- [ x ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
-- [ x ] Move all the Portfolio and Fund data pulling and procesing to build time (in `src/gatsby-node.js`) to avoid query leakages from graphQL in client-side services
+- [ x ] Refactoring Airtable 2.0 (deprecate client-side services and move all data fetching to build time)
+  - [ x ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
+  - [ x ] Move all the Portfolio and Fund data pulling and procesing to build time (in `src/gatsby-node.js`) to avoid query leakages from graphQL in client-side services
 
 
 ## 🎨 Design Inspiration
@@ -334,8 +335,8 @@ The particle system is customizable in density, speed, and connection distance, 
 The dashboard is configured to work with a specific Airtable structure:
 
 1. **Base**: The default base ID is the database to which the dashboard is connected
-2. **Table**: 
-3. **View**: "
+2. **Table**: Table listing portfolio companies
+3. **View**: Optimised view for the website
 
 ### Field Mapping
 

@@ -46,10 +46,10 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
             {typeof company.description === 'string' ? company.description : 'No summary available for this company.'}
           </div>
           
-          {/* Industry Tags */}
+          {/* Sector Tags */}
           <div className="flex flex-wrap gap-2 mt-4">
-            {Array.isArray(company.industry) ? 
-              company.industry.map((tag, index) => (
+            {Array.isArray(company.sectors) ? 
+              company.sectors.map((tag, index) => (
                 <span 
                   key={index} 
                   className="border-2 border-srv-teal/40 text-srv-teal text-xs px-2 py-0.5 rounded-full bg-srv-teal/10"
@@ -57,7 +57,7 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
                   {typeof tag === 'string' ? tag : 'Unknown'}
                 </span>
               ))
-            : <span className="text-white/70">No industry data available</span>}
+            : <span className="text-white/70">No sector data available</span>}
           </div>
           
           {/* Investment Info */}

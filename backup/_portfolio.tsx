@@ -1,52 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'gatsby';
 import { ArrowRight } from 'lucide-react';
-// Import hooks from centralized service
-import { usePortfolioCompanies } from '../services/AirtableService';
-import { usePortfolioStatistics } from '@/hooks/usePortfolioStatistics';
 import PortfolioCard from '@/components/widgets/PortfolioCard';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout'; 
 import { Button } from '@/components/parts/button';
 import ClientOnly from '@/components/layouts/ClientOnly';
-import { usePortfolioChartData } from '@/hooks/usePortfolioChartData';
 import StatisticsSection from '@/components/sections/StatisticsSection';
 import ChartsSection from '@/components/sections/ChartsSection';
 import { FeatureCard } from '@/components/parts/FeatureCard';
 import { GlassCard } from '@/components/parts/GlassCard';
+import { getMockPortfolioCompanies, getMockFundStatistics } from '@/mocks/mockPortfolioData';
 
-/**
- * Props for the Portfolio page component
- */
+// Removed Airtable hooks; using build-time supplied data via pageContext only
+
 interface PortfolioProps {
-  location: { pathname: string };
+  pageContext: {
+    companies: any[];
+    portfolioStats: any;
+  };
+  location: any;
 }
 
-/**
- * Portfolio page component
- */
-const Portfolio = ({ location }: PortfolioProps) => {
+const Portfolio = ({ pageContext, location }: PortfolioProps) => {
   const [filter, setFilter] = useState('all');
-  const portfolioCompanies = usePortfolioCompanies();
-  const statistics = usePortfolioStatistics(portfolioCompanies);
+  const companies = pageContext.companies?.length ? pageContext.companies : getMockPortfolioCompanies();
+  const statistics = pageContext.portfolioStats ?? getMockFundStatistics();
 
-  // Hook for chart data
-  const { industryData, stageData, techData, hqData } = usePortfolioChartData();
+  // Derive chart data from sanitized companies
+  const sectorData = useMemo(() => {
+    const map: Record<string, number> = {};
+    companies.forEach((c) => c.sectors?.forEach((s: string) => map[s] = (map[s]||0)+1));
+    return Object.entries(map).map(([name, value]) => ({ name, value }));
+  }, [companies]);
+  const stageData = useMemo(() => {
+    const map: Record<string, number> = {};
+    companies.forEach((c) => map[c.stage] = (map[c.stage]||0)+1);
+    return Object.entries(map).map(([name, value]) => ({ name, value }));
+  }, [companies]);
+  const techData = useMemo(() => {
+    const map: Record<string, number> = {};
+    companies.forEach((c) => { const t = c.technology || 'Unknown'; map[t] = (map[t] || 0) + 1; });
+    return Object.entries(map).map(([name, value]) => ({ name, value }));
+  }, [companies]);
+  const hqData = useMemo(() => {
+    const map: Record<string, number> = {};
+    companies.forEach((c) => { const h = c.hq || 'Unknown'; map[h] = (map[h] || 0) + 1; });
+    return Object.entries(map).map(([name, value]) => ({ name, value }));
+  }, [companies]);
 
   // Get unique funds for filter dropdown
-  const funds = portfolioCompanies
+  const funds = companies
     .filter(company => company.fund !== undefined && company.fund !== null)
     .map(company => String(company.fund)) // Get fund as string
     .filter((value, index, self) => self.indexOf(value) === index) // Remove duplicates
     .sort(); // Sort funds
   
   // Get unique industries for filter dropdown
-  const industries = Array.from(
-    new Set(portfolioCompanies.flatMap(company => company.industry))
-  );
+  const industries = Array.from(new Set(companies.flatMap(c => c.sectors ?? [])));
   
   // Filter companies based on selected filter
-  const filteredCompanies = portfolioCompanies.filter(company => {
+  const filteredCompanies = companies.filter(company => {
     if (filter === 'all') return true;
     if (filter === 'announced') return company.announced;
     if (filter === 'stealth') return !company.announced;
@@ -59,7 +73,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
     }
     
     // Otherwise filter by industry
-    return company.industry.includes(filter);
+    return company.sectors?.includes(filter);
   });
 
   return (
@@ -80,7 +94,7 @@ const Portfolio = ({ location }: PortfolioProps) => {
             
             <ClientOnly fallback={<div className="h-64 bg-muted animate-pulse rounded-lg"></div>}>
               <ChartsSection
-                industryData={industryData}
+                sectorData={sectorData}
                 stageData={stageData}
                 techData={techData}
                 hqData={hqData}

@@ -76,12 +76,58 @@ All data comes from Airtable via the `gatsby-source-airtable` plugin. To customi
    - `FIELDS.PORTFOLIO` defines Airtable column names.
    - `PortfolioFields` interface mirrors your Airtable schema.
 
-4. Data service (`src/services/AirtableService.tsx`):
-   - `usePortfolioCompanies()` queries Airtable (here: `allAirtable`).
-   - Attachments resolve at `data.Logo.localFiles[0].publicURL`.
-   - `normalizePortfolioCompany` maps nodes to `PortfolioCompany`.
+4. Data service 
+  a. Gatsby/Airtable sourcing (build time)
+    - gatsby-config.js
+      - Configures gatsby-source-airtable with your API key, Base ID, table “Startups” and view “Portfolio_websiteFeed.”
+    - createSchemaCustomization in gatsby-node.js
+      - Adds any custom GraphQL fields.
+  b. Page creation & raw → normalized data (build time in gatsby-node.js)
+    - exports.createPages
+      - Runs a GraphQL query
+      ```graphql    allAirtable(filter:{table:{eq:"Startups"}}){       nodes {         recordId         data {           Deal_Name...         }       }     }```
+      - Maps each node → a companies array of { id, name… }.
+    - calculatePortfolioStats(nodes)
+      - Sums d.GBP_Final_Ticket_Invested → totalInvestments
+      - Gathers d.Entry_Valuation → averageInvestment & medianValuation
+      - Filters by Close_Date for last-12-month investments & company count
+      - Falls back to getMockFundStatistics() if no Airtable rows
+    - createPage(…)
+      - Emits /portfolio/, passing companies and portfolioStats via `pageContext`
+  c. Portfolio template & filtering (runtime in `src/templates/portfolio.ts`)
+    - Reads `companies` and `statistics` from ` pageContext` (fallback to mock data if nothing is retrieved)
+    - Chart data (sectorData, stageData, etc.) via Gatsby's `useMemo` over companies
+    - Renders
+      ```tsx
+        <StatisticsSection data={input_data}.../>
+        <ChartsSection data={input_data}/>
+      ```
+    - Filter UI ([fileds used as filters])
+    - Grid of ```<PortfolioCard company={…}/>``` for `filtered`
+  d. Statistics rendering (`src/components/sections/StatisticsSection.tsx`)
+    - Formats and displays
+      - totalInvestments → “£X.XM”
+      - totalCompanies
+      - averageInvestment → “£Xk”
+      - medianValuation → “£X.XM”
+      - Last-12-month changes
+  e. [DEPRECATED] AirtableService (in `src/services/_AirtableService.deprecated.tsx`)
+    - AirtableService.getPortfolioCompanies() / getFundStatistics()
+      - Directly hit Airtable’s REST API with caching, but not currently wired into the portfolio page:
+      - NOW: Stats building lives in gatsby-node.js → calculatePortfolioStats
+      _(client-side services are only needed for operations that would take place in the browser, but this is currently not used as it could leak to information being leaked directly from Airtable and before any sanitisation)_
+    - It used to:
+      - `normalizePortfolioCompany(record)`
+      - Pick GraphQL data or fallback fields
+      - Coerce Announced via toBoolAnnounced(…)
+      - Sanitise stealth fields (name → “🔒 Stealth”, blank logo, etc.)
+      - `usePortfolioCompanies()` queries Airtable (here: `allAirtable`).
+    - Attachments resolve at `data.Logo.localFiles[0].publicURL`.
+    - `normalizePortfolioCompany` maps nodes to `PortfolioCompany`.
 
-To add/remove fields, update `FIELDS.PORTFOLIO` and adjust the GraphQL query and normalization logic.
+To add/remove fields, update `FIELDS.PORTFOLIO` in `src/config/airtableConfig.ts` and adjust the GraphQL query and normalization logic in `src/gatsby-node.js`.
+
+To adjust the rendering, update the `src/templates/portfolio.tsx` file or the components in `src/components`.
 
 ## 🔄 External Service Integrations
 
@@ -175,7 +221,7 @@ These variables are managed in the `.env.development` file (not committed to ver
 
 ## 🏗️ Project Structure
 
-src/ 
+src/
 ├── components/      # Reusable React components (UI & Processing)
 │   ├── layouts/     # Layout, backgrounds & navigation
 │   ├── sections/    # Page sections
@@ -186,6 +232,7 @@ src/
 ├── hooks/           # Custom hooks (e.g. filters)
 ├── mocks/           # Fallback mock data
 ├── pages/           # Gatsby page components (website pages)
+├── templates/       # Gatsby template components (website templates for dynamically generated or enriched pages)
 ├── images/          # Static images
 ├── utilis/          # Utility functions
 ├── types/           # Useful type definitions
@@ -214,12 +261,13 @@ To contribute to the project:
 - [ ] Add interactive pages for LP client features and AI support 
 - [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
 - [ ] Consider adding a news feed for key portfolio updates (major scientific and TRL breakthroughs, key contracts announcements, funding round announcements)
-- [ ] Check that data processed is sanitised correctly
+- [ x ] Check that data processed is sanitised correctly
+  - [  ] Check where is the stealthing sanitisation happening (build/client?)
 - [ ] Add both Founder and LP testimonials
 
 ### UI / UX
 
-- [ ] Replace pie chart for Industry with bar chart for clarity
+- [ x ] Replace pie chart for Industry with bar chart for clarity
 
 ### Refactoring
 - [ x ] Reorganize project structure for better code organization
@@ -262,6 +310,7 @@ To contribute to the project:
   - [ x ] Implement caching strategies
 - [  ] Add incremental builds for content updates
 - [ x ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
+- [ x ] Move all the Portfolio and Fund data pulling and procesing to build time (in `src/gatsby-node.js`) to avoid query leakages from graphQL in client-side services
 
 
 ## 🎨 Design Inspiration

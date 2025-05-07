@@ -76,7 +76,7 @@ exports.createPages = async ({ graphql, actions }) => {
   if (result.errors) throw result.errors;
   
   const nodes = result.data.allAirtable.nodes;
-  const companies = nodes.map(item => {
+  const rawCompanies = nodes.map(item => {
     const d = item.data;
     const rawDom = d.domain__from_Company_;
     const dom = Array.isArray(rawDom) ? rawDom[0] : rawDom || '';
@@ -106,15 +106,23 @@ exports.createPages = async ({ graphql, actions }) => {
   });
 
   const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes) : getMockFundStatistics();
+  const sanitizedCompanies = rawCompanies.map(sanitizeStealth);
   
+  // Emit portfolio page based on a template provided
   createPage({ 
     path: '/portfolio/', 
     component: path.resolve(__dirname, 'src/templates/portfolio.tsx'), 
-    context: { companies, portfolioStats } 
+    context: { 
+      companies: sanitizedCompanies, 
+      portfolioStats } 
   });
 };
 
-// Calculate portfolio stats
+/* 
+ * HELPER FUNCS 
+ */
+
+// Calculate portfolio stats helper
 function calculatePortfolioStats(nodes) {
   const tickets = nodes.filter(n => n.data.GBP_Final_Ticket_Invested).map(n => n.data.GBP_Final_Ticket_Invested);
   const totalInvestments = tickets.reduce((sum, n) => sum + (n || 0), 0);
@@ -135,12 +143,22 @@ function calculatePortfolioStats(nodes) {
   };
 }
 
+  // Stealth sanitisation helper
+  function sanitizeStealth(company) {
+    if (company.announced) {
+      return company;
+    }
+    return {
+      ...company,
+      name: '🔒 Stealth',
+      description: 'Details to be announced soon...',
+      logo: '',
+      photo: undefined,
+      website: '',
+    };
+  }
 
-/* 
- * HELPER FUNCS 
- */
-
-// Calculate median
+// Calculate median helper
 function calculateMedian(arr) {
   if (!arr.length) return 0;
   const s = [...arr].sort((a, b) => a - b);

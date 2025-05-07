@@ -16,51 +16,6 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  if (!company.announced) {
-    return (
-      <>
-        <div 
-          onClick={handleCardClick}
-          className="border-2 border-white/20 rounded-lg p-3 sm:p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && handleCardClick()}
-          aria-label={`View stealth company details in ${company.sectors?.join(', ') || 'Unknown'} industry`}
-        >
-          <div className="absolute inset-0 bg-srv-teal/0 group-hover:bg-srv-teal/5 transition-colors rounded-lg"></div>
-          <div className="flex flex-col items-center justify-center h-full relative z-10">
-            <div className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center mb-3">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m0 0v2m0-2h2m-2 0H9m3-3a3 3 0 100-6 3 3 0 000 6z" />
-              </svg>
-            </div>
-            <div className="text-center">
-              <p className="text-white/90 text-sm font-medium mb-2">🔒 Stealth</p>
-              <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-3 sm:mt-4">
-                {Array.isArray(company.sectors) ? 
-                  company.sectors.map((tag, index) => (
-                    <span key={index} className="border border-white/20 text-white/90 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
-                      {typeof tag === 'string' ? tag : 'Unknown'}
-                    </span>
-                  ))
-                : <span className="text-white/70">Stealth</span>}
-              </div>
-              <p className="text-white/80 text-xs mt-4 font-mono">🚀 Backed at: {typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</p>
-            </div>
-          </div>
-          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-srv-teal text-xs">View details →</span>
-          </div>
-        </div>
-        
-        <CompanyModal
-          company={company}
-          isOpen={isModalOpen}
-          onClose={closeModal}
-        />
-      </>
-    );
-  }
 
   return (
     <>

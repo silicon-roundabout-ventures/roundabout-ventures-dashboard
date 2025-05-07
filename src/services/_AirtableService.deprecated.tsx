@@ -1,3 +1,5 @@
+/* DEPRECATED - AirtableService.tsx - All Airtable processing happens in gatsby-node.js*/
+
 import { toast } from "sonner";
 import { LRUCache } from 'lru-cache';
 import { 

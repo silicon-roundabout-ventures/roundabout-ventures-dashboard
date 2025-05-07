@@ -28,6 +28,8 @@ interface PortfolioProps {
 }
 
 const Portfolio = ({ pageContext, location }: PortfolioProps) => {
+
+  /* Turn pageContext company data into chart-friendly format and memoise it for optimisation */ 
   const [filter, setFilter] = useState('all');
   const companies = pageContext.companies?.length ? pageContext.companies : getMockPortfolioCompanies();
   const statistics = pageContext.portfolioStats ?? getMockFundStatistics();
@@ -52,15 +54,13 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
     companies.forEach((c) => { const h = c.hq || 'Unknown'; map[h] = (map[h] || 0) + 1; });
     return Object.entries(map).map(([name, value]) => ({ name, value }));
   }, [companies]);
-
   const funds = companies
     .filter(company => company.fund !== undefined && company.fund !== null)
     .map(company => String(company.fund))
     .filter((value, index, self) => self.indexOf(value) === index)
     .sort();
-  
   const industries = Array.from(new Set(companies.flatMap(c => c.sectors ?? [])));
-  
+  //ready up company data for filtering
   const filteredCompanies = companies.filter(company => {
     if (filter === 'all') return true;
     if (filter === 'announced') return company.announced;
@@ -72,6 +72,7 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
     return company.sectors?.includes(filter);
   });
 
+  /* Render the page */
   return (
     <Layout title="Portfolio - Silicon Roundabout Ventures" location={location}>
       <div className="min-h-screen pt-28 pb-16">

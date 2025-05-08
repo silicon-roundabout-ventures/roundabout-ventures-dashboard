@@ -1,5 +1,7 @@
 /* DEPRECATED - AirtableService.tsx - All Airtable processing happens in gatsby-node.js*/
 
+// @ts-nocheck
+
 import { toast } from "sonner";
 import { LRUCache } from 'lru-cache';
 import { 
@@ -12,7 +14,7 @@ import {
   FundStatistics,
   AirtableRecord
 } from '../config/airtableConfig';
-const { getMockPortfolioCompanies, getMockFundStatistics } = require('../mocks/mockPortfolioData');
+const { getMockPortfolioCompanies, getMockFundStatistics } = require('../data/mockPortfolioData');
 
 // Cache instance
 const cache = new LRUCache<string, any>({

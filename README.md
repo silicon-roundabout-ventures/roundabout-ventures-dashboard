@@ -230,11 +230,11 @@ src/
 ├── config/          # Env & Airtable field/type definitions
 ├── services/        # API data & normalization (`AirtableService`)
 ├── hooks/           # Custom hooks (e.g. filters)
-├── mocks/           # Fallback mock data
+├── data/            # Fallback mock data
 ├── pages/           # Gatsby page components (website pages)
 ├── templates/       # Gatsby template components (website templates for dynamically generated or enriched pages)
 ├── images/          # Static images
-├── utilis/          # Utility functions
+├── utils/          # Utility functions
 ├── types/           # Useful type definitions
 └── styles/          # Global styles & Tailwind setup
 

@@ -67,7 +67,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({
       <h3 className="heading-3 text-white mb-1">{name}</h3>
       <p className="text-srv-teal text-sm mb-2">{role}</p>
       
-      <div className={`text-srv-gray text-sm text-center max-w-xs mb-3 overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
+      <div className={`text-srv-gray text-sm text-center max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl mb-3 overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
         {description}
       </div>
       
@@ -221,35 +221,6 @@ const WhoWeAre = () => {
                 .
               </p>
             </div>
-            
-            <h2 className="text-3xl font-bold text-white mb-8 font-mono">&lt;What makes us unique/&gt;</h2>
-            
-            <ul className="text-lg text-srv-light space-y-6 list-disc pl-6 mb-12">
-              <li>
-                We run a 15k member strong tech meetup community,{" "}
-                <span className="text-srv-yellow">
-                  Silicon Roundabout
-                </span>
-                , which gives us direct access to 5000+ startups and has
-                already helped grow 2 billion-dollar companies.
-              </li>
-              
-              <li>
-                We are a lean soloGP fund and key people all have{" "}
-                <span className="text-srv-yellow">
-                  technical backgrounds
-                </span>
-                , helping us understand and connect with deeply technical founders.
-              </li>
-              
-              <li>
-                We offer our portfolio companies access to our proprietary
-                community ecosystem to help with{" "}
-                <span className="text-srv-yellow">
-                  industry connections
-                </span>.
-              </li>
-            </ul>
             
             {/* Team Section */}
             <h2 className="text-3xl font-bold text-white mb-10 font-mono">&lt;Team/&gt;</h2>

@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import Layout from '@/components/layouts/Layout';
+import { PortfolioCompany, FundStatistics } from '@/config/airtableConfig';
 
 //Data Components
-import { getMockPortfolioCompanies, getMockFundStatistics } from '@/mocks/mockPortfolioData';
-import ClientOnly from '@/components/layouts/ClientOnly';
+import { groupByCount } from '@/utils/groupBy';
 
 //UI Portfolio Components
 import PortfolioCard from '@/components/widgets/PortfolioCard';
@@ -21,8 +21,8 @@ import { ArrowRight } from 'lucide-react';
 
 interface PortfolioProps {
   pageContext: {
-    companies: any[];
-    portfolioStats: any;
+    companies: PortfolioCompany[];
+    portfolioStats: FundStatistics;
   };
   location: any;
 }
@@ -31,35 +31,36 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
 
   /* Turn pageContext company data into chart-friendly format and memoise it for optimisation */ 
   const [filter, setFilter] = useState('all');
-  const companies = pageContext.companies?.length ? pageContext.companies : getMockPortfolioCompanies();
-  const statistics = pageContext.portfolioStats ?? getMockFundStatistics();
+  const companies = pageContext.companies ?? [];
+  const statistics = pageContext.portfolioStats;
 
-  const sectorData = useMemo(() => {
-    const map: Record<string, number> = {};
-    companies.forEach((c) => c.sectors?.forEach((s: string) => map[s] = (map[s]||0)+1));
-    return Object.entries(map).map(([name, value]) => ({ name, value }));
-  }, [companies]);
-  const stageData = useMemo(() => {
-    const map: Record<string, number> = {};
-    companies.forEach((c) => map[c.stage] = (map[c.stage]||0)+1);
-    return Object.entries(map).map(([name, value]) => ({ name, value }));
-  }, [companies]);
-  const techData = useMemo(() => {
-    const map: Record<string, number> = {};
-    companies.forEach((c) => { const t = c.technology || 'Unknown'; map[t] = (map[t] || 0) + 1; });
-    return Object.entries(map).map(([name, value]) => ({ name, value }));
-  }, [companies]);
-  const hqData = useMemo(() => {
-    const map: Record<string, number> = {};
-    companies.forEach((c) => { const h = c.hq || 'Unknown'; map[h] = (map[h] || 0) + 1; });
-    return Object.entries(map).map(([name, value]) => ({ name, value }));
-  }, [companies]);
-  const funds = companies
+  const sectorData = useMemo(
+    () => groupByCount<string>(companies.flatMap(c => c.sectors), s => s),
+    [companies]
+  );
+  const stageData = useMemo(
+    () => groupByCount(companies, c => c.stage),
+    [companies]
+  );
+  const techData = useMemo(
+    () => groupByCount(companies, c => c.technology),
+    [companies]
+  );
+  const hqData = useMemo(
+    () => groupByCount(companies, c => c.hq),
+    [companies]
+  );
+
+  const funds = useMemo(() => companies
     .filter(company => company.fund !== undefined && company.fund !== null)
     .map(company => String(company.fund))
     .filter((value, index, self) => self.indexOf(value) === index)
-    .sort();
-  const industries = Array.from(new Set(companies.flatMap(c => c.sectors ?? [])));
+    .sort(), [companies]);
+  const industries = useMemo(
+    () => Array.from(new Set(companies.flatMap(c => c.sectors ?? []))),
+    [companies]
+  );
+
   //ready up company data for filtering
   const filteredCompanies = companies.filter(company => {
     if (filter === 'all') return true;
@@ -87,9 +88,7 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
 
           {/* Statistics */}
           <StatisticsSection statistics={statistics} />
-          <ClientOnly fallback={<div className="h-64 bg-muted animate-pulse rounded-lg"></div>}>
-            <ChartsSection sectorData={sectorData} stageData={stageData} techData={techData} hqData={hqData} />
-          </ClientOnly>
+          <ChartsSection sectorData={sectorData} stageData={stageData} techData={techData} hqData={hqData} />
 
           {/* Portfolio Section */}
           <div className="mb-8">
@@ -112,11 +111,9 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
             </div>
 
             {/* Portfolio Cards */}
-            <ClientOnly fallback={<div className="h-60 bg-muted animate-pulse rounded-lg"></div>}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {filteredCompanies.length > 0 ? filteredCompanies.map((company) => (<PortfolioCard key={company.id} company={company}/>)) : (<div className="col-span-full text-center py-12"><p className="text-srv-gray">No companies found matching the selected filter.</p></div>)}
-              </div>
-            </ClientOnly>           
+              </div>           
           </div>
 
           {/* CTA */}

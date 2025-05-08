@@ -29,7 +29,7 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
               className="w-full h-full object-contain" 
             />
           ) : (
-            <div className="text-white/50 text-lg">No image available</div>
+            <div className="text-white/50 text-lg">Coming Soon...</div>
           )}
         </div>
         

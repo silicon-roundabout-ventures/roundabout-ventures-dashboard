@@ -8,10 +8,51 @@ const path = require("path");
 
 
 /* 
+ * HELPER FUNCS 
+ */
+
+// Helper functions hoisted
+function toBoolAnnounced(val) {
+  const s = String(val).trim().toLowerCase();
+  return val === true || ["yes", "true", "1"].includes(s);
+}
+
+function calculateMedian(arr) {
+  if (!arr.length) return 0;
+  const s = [...arr].sort((a, b) => a - b);
+  const m = Math.floor(s.length / 2);
+  return arr.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+
+function sanitizeStealth(company) {
+  if (company.announced) return company;
+  return {
+    ...company,
+    name: '🔒 Stealth',
+    description: 'Details to be announced soon...',
+    logo: '',
+    photo: undefined,
+    website: '',
+  };
+}
+
+function calculatePortfolioStats(nodes) {
+  const tickets = nodes.filter(n => n.data.GBP_Final_Ticket_Invested).map(n => n.data.GBP_Final_Ticket_Invested);
+  const totalInvestments = tickets.reduce((sum, n) => sum + (n || 0), 0);
+  const vals = nodes.filter(n => n.data.GBP_Initial_Round_Pre_Money_Valuation).map(n => n.data.GBP_Initial_Round_Pre_Money_Valuation);
+  const averageInvestment = tickets.length ? tickets.reduce((a, b) => a + b, 0) / tickets.length : 0;
+  const medianValuation = calculateMedian(vals);
+  const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  const investmentsLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).reduce((s, n) => s + (n.data.GBP_Final_Ticket_Invested || 0), 0);
+  const companiesLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).length;
+  return { totalInvestments, totalCompanies: nodes.length, averageInvestment, medianValuation, investmentsLast12Months: investmentsLast12, companiesLast12Months: companiesLast12 };
+}
+
+/* 
  * AIRTABLE FUNCS 
  */
 
-const { getMockPortfolioCompanies, getMockFundStatistics } = require("./src/mocks/mockPortfolioData.js");
+const { getMockPortfolioCompanies, getMockFundStatistics } = require("./src/data/mockPortfolioData.js");
 // Explicitly add custom fields to AirtableData for GraphQL schema
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -81,10 +122,6 @@ exports.createPages = async ({ graphql, actions }) => {
     const rawDom = d.domain__from_Company_;
     const dom = Array.isArray(rawDom) ? rawDom[0] : rawDom || '';
     const website = /^https?:\/\//i.test(dom) ? dom : `https://${dom}`;
-    function toBoolAnnounced(val) {
-      const s = String(val).trim().toLowerCase();
-      return val === true || ["yes", "true", "1"].includes(s);
-    }
     return {
       id: item.recordId,
       name: d.Deal_Name || '',
@@ -119,68 +156,10 @@ exports.createPages = async ({ graphql, actions }) => {
 };
 
 /* 
- * HELPER FUNCS 
- */
-
-// Calculate portfolio stats helper
-function calculatePortfolioStats(nodes) {
-  const tickets = nodes.filter(n => n.data.GBP_Final_Ticket_Invested).map(n => n.data.GBP_Final_Ticket_Invested);
-  const totalInvestments = tickets.reduce((sum, n) => sum + (n || 0), 0);
-  const vals = nodes.filter(n => n.data.GBP_Initial_Round_Pre_Money_Valuation).map(n => n.data.GBP_Initial_Round_Pre_Money_Valuation);
-  const averageInvestment = tickets.length ? tickets.reduce((a, b) => a + b, 0) / tickets.length : 0;
-  const medianValuation = calculateMedian(vals);
-  const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-  const investmentsLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).reduce((s, n) => s + (n.data.GBP_Final_Ticket_Invested || 0), 0);
-  const companiesLast12 = nodes.filter(n => new Date(n.data.Close_Date) >= oneYearAgo).length;
-  
-  return { 
-    totalInvestments, 
-    totalCompanies: nodes.length, 
-    averageInvestment, 
-    medianValuation, 
-    investmentsLast12Months: investmentsLast12, 
-    companiesLast12Months: companiesLast12 
-  };
-}
-
-  // Stealth sanitisation helper
-  function sanitizeStealth(company) {
-    if (company.announced) {
-      return company;
-    }
-    return {
-      ...company,
-      name: '🔒 Stealth',
-      description: 'Details to be announced soon...',
-      logo: '',
-      photo: undefined,
-      website: '',
-    };
-  }
-
-// Calculate median helper
-function calculateMedian(arr) {
-  if (!arr.length) return 0;
-  const s = [...arr].sort((a, b) => a - b);
-  const m = Math.floor(s.length / 2);
-  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
-}
-
-
-/* 
  * TYPESCRIPT / WEBPACK / BUILD-TIME SETUP
  */
 
-// Add webpack alias for @ imports
-exports.onCreateWebpackConfig = ({ actions }) => {
-  actions.setWebpackConfig({
-    resolve: {
-      alias: { "@": path.resolve(__dirname, "src") },
-    },
-  });
-};
-
-// Setup path aliases and handle browser-only modules
+// Add webpack path alias for @ imports and handle browser-only modules
 exports.onCreateWebpackConfig = ({ actions, stage, loaders, getConfig }) => {
   // Set up path aliases
   actions.setWebpackConfig({

@@ -19,6 +19,10 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
   colors = ['#00A0A0', '#0F4C81', '#19598E', '#367BA3', '#5A9EB8', '#7EC1CD'],
   chartType = 'pie'
 }) => {
+  // Compute a color for each data entry, falling back to HSL if beyond provided colors
+  const entryColors = data.map((_, i) =>
+    colors[i] || `hsl(${Math.round((i * 360) / data.length)}, 60%, 60%)`
+  );
   return (
     <div className="border-2 border-white/20 rounded-lg p-6 bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-white/30 hover:shadow-md h-full">
       <h3 className="text-white font-medium mb-4 flex items-center">
@@ -46,7 +50,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
                 dataKey="value"
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                  <Cell key={`cell-${index}`} fill={entryColors[index]} />
                 ))}
               </Pie>
               <Tooltip 
@@ -82,7 +86,11 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
                   fontWeight: '500'
                 }}
               />
-              <Bar dataKey="value" fill={colors[0]} />
+              <Bar dataKey="value">
+                {data.map((entry, index) => (
+                  <Cell key={`bar-cell-${index}`} fill={entryColors[index]} />
+                ))}
+              </Bar>
             </BarChart>
           )}
         </ResponsiveContainer>
@@ -93,7 +101,7 @@ const ChartComponent: React.FC<ChartComponentProps> = ({
           <div key={index} className="flex items-center">
             <div 
               className="w-3 h-3 rounded-full mr-2" 
-              style={{ backgroundColor: colors[index % colors.length] }}
+              style={{ backgroundColor: entryColors[index] }}
             />
             <span className="text-white/90 text-xs font-medium truncate" title={item.name}>{item.name.length > 15 ? `${item.name.substring(0, 15)}...` : item.name}</span>
           </div>

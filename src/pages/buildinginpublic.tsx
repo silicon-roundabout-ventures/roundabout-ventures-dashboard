@@ -52,7 +52,7 @@ const BuildingInPublicContent = () => {
             <SubstackFeed />
             
             <div className="text-center mt-12">
-              <p className="text-white mb-6">Check out more articles:</p>
+              <p className="text-white mb-6">Check out more articles and Sign up:</p>
               <a 
                 href="https://blog.siliconroundabout.ventures" 
                 target="_blank"

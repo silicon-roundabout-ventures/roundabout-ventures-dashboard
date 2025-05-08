@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import Layout from '@/components/layouts/Layout';
 import { PortfolioCompany, FundStatistics } from '@/config/airtableConfig';
 
@@ -9,8 +9,8 @@ import { groupByCount } from '@/utils/groupBy';
 import PortfolioCard from '@/components/widgets/PortfolioCard';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 
-import StatisticsSection from '@/components/sections/StatisticsSection';
-import ChartsSection from '@/components/sections/ChartsSection';
+const StatisticsSection = lazy(() => import('@/components/sections/StatisticsSection'));
+const ChartsSection = lazy(() => import('@/components/sections/ChartsSection'));
 
 //CTA UI Components
 import { Link } from 'gatsby';
@@ -73,6 +73,8 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
     return company.sectors?.includes(filter);
   });
 
+  const handleFilterChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => setFilter(e.target.value), []);
+
   /* Render the page */
   return (
     <Layout title="Portfolio - Silicon Roundabout Ventures" location={location}>
@@ -87,8 +89,10 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
           </div>
 
           {/* Statistics */}
-          <StatisticsSection statistics={statistics} />
-          <ChartsSection sectorData={sectorData} stageData={stageData} techData={techData} hqData={hqData} />
+          <Suspense fallback={<div className="text-white/80 text-center py-6">Loading charts...</div>}>
+            <StatisticsSection statistics={statistics} />
+            <ChartsSection sectorData={sectorData} stageData={stageData} techData={techData} hqData={hqData} />
+          </Suspense>
 
           {/* Portfolio Section */}
           <div className="mb-8">
@@ -97,7 +101,7 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-white flex items-center"><span className="mr-2">🏢</span>Portfolio Companies</h2>
               <div className="relative">
-                <select value={filter} onChange={(e) => setFilter(e.target.value)} className="appearance-none bg-black/40 text-white border-2 border-white/20 rounded-md px-4 py-2 pr-10 focus:outline-none focus:border-srv-teal/60 focus:ring-0 hover:border-white/30 transition-colors cursor-pointer">
+                <select value={filter} onChange={handleFilterChange} className="appearance-none bg-black/40 text-white border-2 border-white/20 rounded-md px-4 py-2 pr-10 focus:outline-none focus:border-srv-teal/60 focus:ring-0 hover:border-white/30 transition-colors cursor-pointer">
                   <option value="all">🔍 All Companies</option>
                   <option value="announced">🚀 Announced Only</option>
                   <option value="stealth">🔒 Stealth Only</option>

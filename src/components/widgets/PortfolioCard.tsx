@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { PortfolioCompany } from '@/config/airtableConfig';
 import CompanyModal from './CompanyModal';
+import { Card } from '@/components/parts/Card';
+import Tag from '@/components/parts/Tag';
+import ViewDetailsText from '@/components/parts/ViewDetailsText';
 
 interface PortfolioCardProps {
   company: PortfolioCompany;
@@ -23,7 +26,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
   if (!company.announced) {
     return (
       <>
-        <div 
+        <Card
           onClick={handleCardClick}
           className="border-2 border-white/20 rounded-lg p-3 sm:p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
           role="button"
@@ -41,21 +44,19 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
             <div className="text-center">
               <p className="text-white/90 text-sm font-medium mb-2">🔒 Stealth</p>
               <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-3 sm:mt-4">
-                {Array.isArray(company.sectors) ? 
-                  company.sectors.map((tag, index) => (
-                    <span key={index} className="border border-white/20 text-white/90 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
-                      {typeof tag === 'string' ? tag : 'Unknown'}
-                    </span>
-                  ))
-                : <span className="text-white/70">Stealth</span>}
+                {Array.isArray(company.sectors) ? company.sectors.map((tag, index) => (
+                  <Tag key={index} className="border border-white/20 text-white/90">
+                    {typeof tag === 'string' ? tag : 'Unknown'}
+                  </Tag>
+                )) : <Tag className="text-white/70">Stealth</Tag>}
               </div>
               <p className="text-white/80 text-xs mt-4 font-mono">🚀 Backed at: {typeof company.stage === 'string' ? company.stage : 'Unknown Stage'}</p>
             </div>
           </div>
           <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-srv-teal text-xs">View details →</span>
+            <ViewDetailsText />
           </div>
-        </div>
+        </Card>
         
         <CompanyModal
           company={company}
@@ -68,7 +69,7 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
 
   return (
     <>
-      <div 
+      <Card
         onClick={handleCardClick}
         className="border-2 border-white/20 rounded-lg p-3 sm:p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] cursor-pointer relative group"
         role="button"
@@ -101,13 +102,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
           
           <div className="mt-auto">
             <div className="flex flex-wrap gap-1 mb-3">
-              {Array.isArray(company.sectors) ? 
-                company.sectors.map((tag, index) => (
-                  <span key={index} className="border-2 border-srv-teal/40 text-srv-teal text-xs px-2 py-0.5 rounded-full bg-srv-teal/10">
-                    {typeof tag === 'string' ? tag : 'Unknown'}
-                  </span>
-                ))
-              : <span className="border-2 border-srv-teal/40 text-srv-teal text-xs px-2 py-0.5 rounded-full bg-srv-teal/10">Tech</span>}
+              {Array.isArray(company.sectors) ? company.sectors.map((tag, index) => (
+                <Tag key={index} className="border-2 border-srv-teal/40 text-srv-teal bg-srv-teal/10">
+                  {typeof tag === 'string' ? tag : 'Unknown'}
+                </Tag>
+              )) : <Tag className="border-2 border-srv-teal/40 text-srv-teal bg-srv-teal/10">Tech</Tag>}
             </div>
             
             <div className="flex justify-between items-center pt-2 border-t-2 border-white/10">
@@ -128,11 +127,11 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
                 )}
               </div>
               
-              <span className="text-srv-teal text-xs">View details →</span>
+              <ViewDetailsText />
             </div>
           </div>
         </div>
-      </div>
+      </Card>
 
       <CompanyModal
         company={company}

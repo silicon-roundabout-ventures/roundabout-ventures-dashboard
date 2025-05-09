@@ -1,6 +1,7 @@
 import React from 'react';
 import { PortfolioCompany } from '@/config/airtableConfig';
 import Modal from '@/components/parts/Modal';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 interface CompanyModalProps {
   company: PortfolioCompany;
@@ -22,12 +23,14 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
       <div className="space-y-6">
         {/* Company Photo or Logo */}
         <div className="w-full aspect-video bg-black/30 rounded-lg overflow-hidden border border-white/10 flex items-center justify-center">
-          {company.photo || company.logo ? (
-            <img 
-              src={company.photo || company.logo} 
-              alt={`${company.name}`} 
-              className="w-full h-full object-contain" 
-            />
+          {company.photoImageData ? (
+            <GatsbyImage image={company.photoImageData} alt={company.name} className="w-full h-full object-contain" />
+          ) : company.photo ? (
+            <img src={company.photo} alt={`${company.name}`} className="w-full h-full object-contain" />
+          ) : company.logoImageData ? (
+            <GatsbyImage image={company.logoImageData} alt={`${company.name}`} className="w-full h-full object-contain" />
+          ) : company.logo ? (
+            <img src={company.logo} alt={`${company.name}`} className="w-full h-full object-contain" />
           ) : (
             <div className="text-white/50 text-lg">Coming Soon...</div>
           )}

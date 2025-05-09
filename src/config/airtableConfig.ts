@@ -1,10 +1,14 @@
+import { IGatsbyImageData } from 'gatsby-plugin-image';
+
 export interface PortfolioCompany {
   id: string;
   name: string;
   description: string;
   oneLiner?: string;
   logo: string;
+  logoImageData?: IGatsbyImageData;
   photo?: string;
+  photoImageData?: IGatsbyImageData;
   website: string;
   technology: string;
   hq: string;

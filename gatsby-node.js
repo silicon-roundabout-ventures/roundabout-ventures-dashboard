@@ -1,4 +1,5 @@
 const path = require("path");
+const { createRemoteFileNode } = require('gatsby-source-filesystem');
 
 /* 
  * 
@@ -102,8 +103,8 @@ exports.createPages = async ({ graphql, actions }) => {
             Main_Headquarter 
             Current_Status 
             Technology_Type 
-            Logo { localFiles { publicURL } } 
-            Photo { localFiles { publicURL } } 
+            Logo { localFiles { childImageSharp { gatsbyImageData(width:200, height:200, layout: CONSTRAINED, quality:80) } } } 
+            Photo { localFiles { childImageSharp { gatsbyImageData(width:600, height:400, layout: CONSTRAINED, quality:80) } } } 
             Latest_Follow_on_Round 
             GBP_Final_Ticket_Invested 
             Entry_Valuation 
@@ -127,6 +128,8 @@ exports.createPages = async ({ graphql, actions }) => {
       name: d.Deal_Name || '',
       description: d.Summary || '',
       oneLiner: d.One_Line_Summary || '',
+      logoImageData: d.Logo?.localFiles?.[0]?.childImageSharp?.gatsbyImageData || null,
+      photoImageData: d.Photo?.localFiles?.[0]?.childImageSharp?.gatsbyImageData || null,
       logo: d.Logo?.localFiles?.[0]?.publicURL || '',
       photo: d.Photo?.localFiles?.[0]?.publicURL || '',
       website,
@@ -153,6 +156,53 @@ exports.createPages = async ({ graphql, actions }) => {
       companies: sanitizedCompanies, 
       portfolioStats } 
   });
+};
+
+// Fetch remote logos/photos and expose as File nodes for gatsby-plugin-image
+exports.createResolvers = ({ actions, cache, createNodeId, createResolvers, store }) => {
+  const { createNode } = actions;
+  createResolvers({
+    MockPortfolioData: {
+      logoImage: {
+        type: 'File',
+        resolve: async (source) => {
+          if (!source.logo) return null;
+          return await createRemoteFileNode({
+            url: source.logo,
+            store,
+            cache,
+            createNode,
+            createNodeId: id => createNodeId(`remote-logo-${source.id}`),
+            parentNodeId: source.id,
+          });
+        },
+      },
+      photoImage: {
+        type: 'File',
+        resolve: async (source) => {
+          if (!source.photo) return null;
+          return await createRemoteFileNode({
+            url: source.photo,
+            store,
+            cache,
+            createNode,
+            createNodeId: id => createNodeId(`remote-photo-${source.id}`),
+            parentNodeId: source.id,
+          });
+        },
+      },
+    },
+  });
+};
+
+// Extend schema for remote image fields
+exports.createSchemaCustomization = ({ actions }) => {
+  actions.createTypes(`
+    type MockPortfolioData implements Node {
+      logoImage: File @link
+      photoImage: File @link
+    }
+  `);
 };
 
 /* 

@@ -33,6 +33,8 @@ function sanitizeStealth(company) {
     description: 'Details to be announced soon...',
     logo: '',
     photo: undefined,
+    logoImageData: null,
+    photoImageData: null,
     website: '',
   };
 }

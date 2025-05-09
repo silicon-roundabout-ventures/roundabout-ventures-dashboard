@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, lazy, Suspense } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Layout from '@/components/layouts/Layout';
 import { PortfolioCompany, FundStatistics } from '@/config/airtableConfig';
 
@@ -8,9 +8,8 @@ import { groupByCount } from '@/utils/groupBy';
 //UI Portfolio Components
 import PortfolioCard from '@/components/widgets/PortfolioCard';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
-
-const StatisticsSection = lazy(() => import('@/components/sections/StatisticsSection'));
-const ChartsSection = lazy(() => import('@/components/sections/ChartsSection'));
+import StatisticsSection from '@/components/sections/StatisticsSection';
+import ChartsSection from '@/components/sections/ChartsSection';
 
 //CTA UI Components
 import { Link } from 'gatsby';
@@ -89,10 +88,8 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
           </div>
 
           {/* Statistics */}
-          <Suspense fallback={<div className="text-white/80 text-center py-6">Loading charts...</div>}>
             <StatisticsSection statistics={statistics} />
             <ChartsSection sectorData={sectorData} stageData={stageData} techData={techData} hqData={hqData} />
-          </Suspense>
 
           {/* Portfolio Section */}
           <div className="mb-8">

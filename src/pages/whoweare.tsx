@@ -204,7 +204,7 @@ const WhoWeAre = () => {
                 stages.
               </p>
               <p className="text-xl text-srv-light">
-                We back founders starting our in Europe who are "sub-0.1% of the population" type of{" "}
+                We back founders starting out in Europe who are "sub-0.1% of the population" type of{" "}
                 <span className="text-srv-yellow">exceptional</span>,{" "}
                 obsessively building novel technology companies for the long term in critical areas like{" "}
                 <span className="text-srv-pink">

@@ -4,6 +4,7 @@ import CompanyModal from './CompanyModal';
 import { Card } from '@/components/parts/Card';
 import Tag from '@/components/parts/Tag';
 import ViewDetailsText from '@/components/parts/ViewDetailsText';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 interface PortfolioCardProps {
   company: PortfolioCompany;
@@ -81,7 +82,9 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
         <div className="flex flex-col h-full relative z-10">
           <div className="flex items-center mb-3">
             <div className="w-10 h-10 bg-white/90 rounded-md flex items-center justify-center mr-3 overflow-hidden border-2 border-white/20 shadow-sm">
-              {company.logo ? (
+              {company.logoImageData ? (
+                <GatsbyImage image={company.logoImageData} alt={`${company.name} logo`} className="w-full h-full object-contain" />
+              ) : company.logo ? (
                 <img src={company.logo} alt={`${company.name} logo`} className="w-full h-full object-contain" />
               ) : (
                 <span className="text-srv-dark font-semibold">{company.name.substring(0, 2)}</span>

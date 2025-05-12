@@ -105,8 +105,20 @@ exports.createPages = async ({ graphql, actions }) => {
             Main_Headquarter 
             Current_Status 
             Technology_Type 
-            Logo { localFiles { childImageSharp { gatsbyImageData(width:200, height:200, layout: CONSTRAINED, quality:80) } } } 
-            Photo { localFiles { childImageSharp { gatsbyImageData(width:600, height:400, layout: CONSTRAINED, quality:80) } } } 
+            Logo {
+              localFiles {
+                publicURL
+                childImageSharp {
+                  gatsbyImageData(
+                    layout: FIXED
+                    width: 40
+                    placeholder: NONE
+                    transformOptions: { fit: INSIDE }
+                  )
+                }
+              }
+            }
+            Photo { localFiles { childImageSharp { gatsbyImageData(width:600, layout: CONSTRAINED, quality:80) } } }
             Latest_Follow_on_Round 
             GBP_Final_Ticket_Invested 
             Entry_Valuation 

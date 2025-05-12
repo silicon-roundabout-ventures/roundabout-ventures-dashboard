@@ -83,9 +83,17 @@ const PortfolioCard: React.FC<PortfolioCardProps> = ({ company }) => {
           <div className="flex items-center mb-3">
             <div className="w-10 h-10 bg-white/90 rounded-md flex items-center justify-center mr-3 overflow-hidden border-2 border-white/20 shadow-sm">
               {company.logoImageData ? (
-                <GatsbyImage image={company.logoImageData} alt={`${company.name} logo`} className="w-full h-full object-contain" />
+                <GatsbyImage
+                  image={company.logoImageData}
+                  alt={`${company.name} logo`}
+                  imgClassName="object-contain object-center"
+                />
               ) : company.logo ? (
-                <img src={company.logo} alt={`${company.name} logo`} className="w-full h-full object-contain" />
+                <img
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  className="block max-w-full max-h-full object-contain object-center"
+                />
               ) : (
                 <span className="text-srv-dark font-semibold">{company.name.substring(0, 2)}</span>
               )}

@@ -11,7 +11,7 @@ import { CircularImage } from '@/components/parts/CircularImage';
 import ImageSlider from '@/components/sections/ImageSlider';
 import TypedAnimationWrapper from '@/components/parts/TypedAnimationWrapper';
 import ScrollChevrons from '@/components/parts/ScrollChevrons';
-import SEO from '@/components/SEO';
+import SEO from '@/components/parts/SEO';
 
 // Content component to separate from layout
 const IndexContent = () => {
@@ -287,7 +287,7 @@ export { IndexContent };
 export const Head = () => (
   <SEO
     title="Roundabout Ventures"
-    description="Silicon Roundabout Ventures - Investing in Deep Tech and Big Data startups"
+    description="Silicon Roundabout Ventures - Investing in European Deeptech With Conviction As Early As We Can"
     image="/images/previews/og-index.png"
   />
 );

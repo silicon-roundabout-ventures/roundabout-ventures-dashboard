@@ -11,6 +11,7 @@ import { CircularImage } from '@/components/parts/CircularImage';
 import ImageSlider from '@/components/sections/ImageSlider';
 import TypedAnimationWrapper from '@/components/parts/TypedAnimationWrapper';
 import ScrollChevrons from '@/components/parts/ScrollChevrons';
+import SEO from '@/components/SEO';
 
 // Content component to separate from layout
 const IndexContent = () => {
@@ -284,8 +285,9 @@ export { IndexContent };
 
 // Add SEO metadata for this page using Gatsby's built-in Head API
 export const Head = () => (
-  <>
-    <title>Roundabout Ventures</title>
-    <meta name="description" content="Silicon Roundabout Ventures - Investing in Deep Tech and Big Data startups" />
-  </>
+  <SEO
+    title="Roundabout Ventures"
+    description="Silicon Roundabout Ventures - Investing in Deep Tech and Big Data startups"
+    image="/images/previews/og-index.png"
+  />
 );

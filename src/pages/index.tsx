@@ -62,8 +62,8 @@ const IndexContent = () => {
         
           <div className="flex flex-wrap gap-4 justify-center mt-4 px-4 w-full">
             <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
-              <Link to="/apply">
-                Apply For Funding <ArrowRight className="ml-2 h-4 w-4" />
+              <Link to="/portfolio">
+                Live Portfolio Dashboard <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             
@@ -149,9 +149,9 @@ const IndexContent = () => {
             </div>
             
             <div className="text-center">
-              <Link to="/portfolio">
+              <Link to="/apply">
                 <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
-                  Radically transparent on our cheques<ArrowRight className="ml-2 h-4 w-4" />
+                  Apply for funding<ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>

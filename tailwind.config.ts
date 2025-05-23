@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -57,7 +56,17 @@ export default {
           darkAlt: '#1E1E1E',       // Secondary dark (editor background)
           panel: '#252526',         // Panel/widget background
           blue: '#61AFEF',          // Terminal blue - for code-like accents
-          teal: '#56B6C2',          // Terminal cyan - for highlights
+          teal: '#56B6C2',
+          'teal-0': 'rgba(86,182,194,0)', // 0% opacity
+          'teal-5': 'rgba(86,182,194,0.05)', // 5% opacity
+          'teal-10': 'rgba(86,182,194,0.1)', // 10% opacity
+          'teal-20': 'rgba(86,182,194,0.2)', // 20% opacity
+          'teal-30': 'rgba(86,182,194,0.3)', // 30% opacity
+          'teal-40': 'rgba(86,182,194,0.4)', // 40% opacity
+          'teal-50': 'rgba(86,182,194,0.5)', // 50% opacity
+          'teal-60': 'rgba(86,182,194,0.6)', // 60% opacity
+          'teal-80': 'rgba(86,182,194,0.8)', // 80% opacity
+          'teal-90': 'rgba(86,182,194,0.9)', // 90% opacity
           light: '#DCDFE4',         // Light text (foreground)
           gray: '#BBBBBB',          // Muted text for less important elements
           pink: '#C678DD',          // Terminal magenta - for code highlights

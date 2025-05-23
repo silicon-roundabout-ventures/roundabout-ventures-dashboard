@@ -49,7 +49,7 @@ export default function Navbar({ location }: NavbarProps) {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Who We Are', path: '/whoweare' },
-    { name: 'Portfolio', path: '/portfolio' },
+    { name: 'Portfolio Dashboard', path: '/portfolio' },
     { name: 'Building in Public', path: '/buildinginpublic' },
     { name: 'Community', path: '/community' },
     { name: 'For Investors', path: '/forinvestors' },

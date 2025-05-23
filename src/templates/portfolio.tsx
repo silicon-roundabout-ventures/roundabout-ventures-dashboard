@@ -77,15 +77,15 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
 
   /* Render the page */
   return (
-    <Layout title="Portfolio - Silicon Roundabout Ventures" location={location}>
+    <Layout title="Portfolio Dashboard - Silicon Roundabout Ventures" location={location}>
       <div className="min-h-screen pt-28 pb-16">
         <ParticleBackground />
         <div className="container mx-auto px-4">
 
           {/* Title & Subtitle */}
           <div className="mb-16 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Our Portfolio/&gt;</h1>
-            <p className="text-white/90 max-w-2xl mx-auto">Don't trust our PR words, see for yourself what we invest in:</p>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Portfolio Dashboard/&gt;</h1>
+            <p className="text-white/90 max-w-2xl mx-auto">Welcome to the public version of our portfolio dashboard, feeding directly from our database. Don't trust our PR words, see for yourself what we invest in:</p>
           </div>
 
           {/* Statistics */}

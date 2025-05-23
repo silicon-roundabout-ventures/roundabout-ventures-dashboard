@@ -1,19 +1,24 @@
 import React from 'react';
 import { cn } from "@/utils/utils"
 
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
+// Allow Card to render as any element (e.g., 'div' or 'button')
+type CardProps<C extends React.ElementType = 'div'> = {
+  as?: C;
+  className?: string;
+} & React.ComponentPropsWithoutRef<C>;
+
+const Card = React.forwardRef<any, CardProps>(
+  ({ as: Component = 'div', className, ...props }, ref) => (
+    <Component
+      ref={ref}
+      className={cn(
+        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        className
+      )}
+      {...props}
+    />
+  )
+)
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<

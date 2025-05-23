@@ -110,7 +110,7 @@ exports.createPages = async ({ graphql, actions }) => {
                 publicURL
                 childImageSharp {
                   gatsbyImageData(
-                    layout: FIXED
+                    layout: CONSTRAINED
                     width: 40
                     placeholder: NONE
                     transformOptions: { fit: INSIDE }
@@ -118,7 +118,7 @@ exports.createPages = async ({ graphql, actions }) => {
                 }
               }
             }
-            Photo { localFiles { childImageSharp { gatsbyImageData(width:600, layout: CONSTRAINED, quality:80) } } }
+            Photo { localFiles { childImageSharp { gatsbyImageData(layout: CONSTRAINED, quality:80) } } }
             Latest_Follow_on_Round 
             GBP_Final_Ticket_Invested 
             Entry_Valuation 

@@ -115,7 +115,7 @@ All data comes from Airtable via the `gatsby-source-airtable` plugin. To customi
     - AirtableService.getPortfolioCompanies() / getFundStatistics()
       - Directly hit Airtable’s REST API with caching, but not currently wired into the portfolio page:
       - NOW: Stats building lives in gatsby-node.js → calculatePortfolioStats
-      _(client-side services are only needed for operations that would take place in the browser, but this is currently not used as it could leak to information being leaked directly from Airtable and before any sanitisation)_
+    _(client-side services are only needed for operations that would take place in the browser, but this is currently not used as it could leak to information being leaked directly from Airtable and before any sanitisation)_
     - It used to:
       - `normalizePortfolioCompany(record)`
       - Pick GraphQL data or fallback fields
@@ -256,63 +256,55 @@ To contribute to the project:
 
 ### Functionality
 
-- [ x ] Account for currency exchange rates in fund & portfolio stats
-- [ ] Add login for LPs and Founders
-- [ ] Add interactive pages for LP client features and AI support 
-- [ ] Add interactive pages for Founders to help them warm-connect with top community relevant connections + access exclusive resources
-- [ ] Consider adding a news feed for key portfolio updates (major scientific and TRL breakthroughs, key contracts announcements, funding round announcements)
-- [ x ] Check that data processed is sanitised correctly
-  - [ x ] Check where is the stealthing sanitisation happening (build/client?)
-- [ ] Add both Founder and LP testimonials
+- [x] Account for currency exchange rates in fund & portfolio stats  
+- [x] Check that data processed is sanitised correctly  
+- [ ] Add login for LPs and Founders  
+- [ ] Add interactive pages for LP client features and AI support  
+- [ ] Add interactive pages for Founders to warm-connect with the community  
+- [ ] Consider adding a news feed for key portfolio updates  
+- [ ] Add both Founder and LP testimonials  
 
-### UI / UX
+### Refactoring TODOs
 
-- [ x ] Replace pie chart for Industry with bar chart for clarity
+- [ ] Prune & clean up dependencies and npm scripts  
+- [ ] Enhance performance & SEO (sitemap, PWA/offline, rel=canonical, preload, preconnect)  
+- [ ] Harden security & caching headers (CSP, cache-control)  
+- [ ] Consolidate config & enforce code quality (alias paths, remove console logs, ESLint + Prettier)  
+- [ ] Styling & Theming Improvements
 
-### Refactoring
-- [ x ] Reorganize project structure for better code organization
-  - [ x ] Standardize directory naming conventions
-  - [ x ] Create dedicated directories for page-specific components
-  - [ x ] Separate layouts from common components
-- [ x ] Implement standardized component patterns
-  - [ x ] Create compound components for related UI elements
-  - [ x ] Use React Context for state sharing rather than prop drilling
-  - [ x ] Implement proper memoization for expensive calculations
-- [ x ] Create reusable UI components for common patterns
-  - [ x ] Build a `DataCard` base component
-  - [ x ] Create a standardized `StatsDisplay` component
-  - [ x ] Implement a reusable filtering system
-- [ x ] Apply consistent error handling throughout the application
-  - [ x ] Wrap all data-fetching components in error boundaries
-  - [ x ] Create standardized error display components
-  - [ x ] Implement graceful degradation for failed API calls
-- [ x ] Add comprehensive comments and documentation
-- [ ] Remove unused code and dependencies
-- [ ] Check  and review above
+#### Detailed TODO
 
-### Improving Airtable Import Data Flow
-- [ x ] Centralize Airtable data fetching
-  - [ x ] Create a dedicated `AirtableeService` component as a data provider, a schema file and a config file for the setup
-  - [ x ] Implement custom fragments for data access
-  - [ x ] Standardize GraphQL queries
-- [ x ] Implement robust error handling for API failures
-  - [ x ] Add retry mechanisms
-  - [ x ] Create graceful fallbacks to mock data
-- [ x ] Create better data transformation utilities
-  - [ x ] Implement a standard data transformation function in `AirtableService`
-  - [ x] Build a `sanitizeCompanyData` function for consistent data cleaning
-  - [ x ] Create a `usePortfolioStats` hook for consistent statistics
-- [ x ] Improve type safety for Airtable data
-  - [ x ] Define strict TypeScript interfaces for all data structures
-  - [ x ] Implement runtime type checking
-- [ x ] Optimize build-time data processing
-  - [ x ] Reduce duplicate data fetching
-  - [ x ] Implement caching strategies
-- [  ] Add incremental builds for content updates
-- [ x ] Refactoring Airtable 2.0 (deprecate client-side services and move all data fetching to build time)
-  - [ x ] Review centralisation to ensure it's a simple and best practice as possible to edit, read, and use
-  - [ x ] Move all the Portfolio and Fund data pulling and procesing to build time (in `src/gatsby-node.js`) to avoid query leakages from graphQL in client-side services
+##### Prune & clean up dependencies and npm scripts
+- Remove unused dependencies (`react-type-animation`, `next-themes`)
+- Consolidate npm scripts (`dev`, `start`, `develop`)
 
+##### Enhance performance & SEO
+- Configure `gatsby-plugin-sitemap`
+- Configure `gatsby-plugin-offline` or `gatsby-plugin-preload-fonts`
+- Add `<link rel="preconnect">` for external domains (Airtable, analytics)
+- Extend SEO component:
+  - Add `<link rel="canonical">`
+  - Include `og:locale` and alternate language tags (if applicable)
+
+##### Harden security & caching headers
+- Tighten CSP in `gatsby-plugin-netlify` (remove `'unsafe-inline'`/`eval`)
+- Adjust `Cache-Control` settings for HTML vs static assets
+
+##### Consolidate config & enforce code quality
+- Consolidate alias-imports and TypeScript path configurations (e.g. switch to `gatsby-plugin-tsconfig-paths`)
+- Remove `console.log` statements from `gatsby-config.js` and production code
+- Add ESLint rules (import ordering, no-unused-vars, no-console)
+- Add Prettier (`.prettierrc`) and enforce formatting on commit
+- Audit Radix/UI imports to tree-shake only what you use (consider `@radix-ui/react-core`)
+
+##### Styling & Theming Improvements
+- Audit Tailwind config: enable JIT mode and purge unused classes
+- Define custom Tailwind theme (colors, spacing, typography)
+- Extract repeated utility classes using `@apply`-based CSS modules or components
+- Move inline styles (e.g. modals, animation wrappers) into Tailwind or CSS modules
+- Consolidate global styles via `styles/` directory or shared layout CSS
+- Add Stylelint with a Tailwind plugin to enforce consistency
+- Ensure responsive breakpoints are consistently applied across layouts
 
 ## 🎨 Design Inspiration
 

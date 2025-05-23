@@ -8,6 +8,8 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { Link } from 'gatsby';
 import Timeline from '@/components/widgets/Timeline';
 import { Button } from '@/components/parts/button';
+import SEO from '@/components/SEO';
+import { HeadFC } from 'gatsby';
 
 interface TeamMemberProps {
   name: string;
@@ -316,13 +318,21 @@ const WhoWeAre = () => {
                 The people we backed so far <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-          </div>`
+          </div>
           </div>
         </div>
       </div>
     </Layout>
   );
 };
+
+export const Head: HeadFC = () => (
+  <SEO
+    title="Who We Are - Silicon Roundabout Ventures"
+    description="Learn about our investment philosophy and team"
+    image="/images/previews/og-whoweare.png"
+  />
+)
 
 export default WhoWeAre;
 export { TeamMember };

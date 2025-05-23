@@ -16,6 +16,7 @@ module.exports = {
     description: `Community-Driven VC firm backing European Deep Tech startups with first cheques and high-conviction`,
     author: `@siliconroundaboutvc`,
     siteUrl: `https://siliconroundabout.ventures`,
+    socialImage: `/images/previews/og-index.png`,
   },
   // Gatsby configuration for optimal SSR and hydration
   flags: {

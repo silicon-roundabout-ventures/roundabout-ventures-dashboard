@@ -2,6 +2,8 @@ import { useState, useMemo, useCallback } from 'react';
 import Layout from '@/components/layouts/Layout';
 import ClientOnly from '@/components/layouts/ClientOnly';
 import { PortfolioCompany, FundStatistics } from '@/config/airtableConfig';
+import SEO from '@/components/SEO';
+import { HeadFC } from 'gatsby';
 
 //Data Components
 import { groupByCount } from '@/utils/groupBy';
@@ -141,5 +143,14 @@ const Portfolio = ({ pageContext, location }: PortfolioProps) => {
     </Layout>
   );
 };
+
+export const Head: HeadFC = ({ location }) => (
+  <SEO
+    title="Portfolio Dashboard - Silicon Roundabout Ventures"
+    description="Live portfolio dashboard of our Deep Tech investments"
+    image="/images/previews/og-portfolio.png"
+    pathname={location.pathname}
+  />
+)
 
 export default Portfolio;

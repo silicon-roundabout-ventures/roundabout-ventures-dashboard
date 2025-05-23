@@ -106,7 +106,7 @@ const TypedAnimationWrapper: React.FC<TypedAnimationWrapperProps> = ({
         wordBreak: 'break-word',
         overflowWrap: 'break-word',
         maxWidth: '100%',
-        textAlign: 'left',
+        // inherit text alignment from parent (centered container)
       }}
     >
       <span 

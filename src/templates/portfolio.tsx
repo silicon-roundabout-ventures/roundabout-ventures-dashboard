@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from 'react';
 import Layout from '@/components/layouts/Layout';
 import ClientOnly from '@/components/layouts/ClientOnly';
 import { PortfolioCompany, FundStatistics } from '@/config/airtableConfig';
-import SEO from '@/components/SEO';
+import SEO from '@/components/parts/SEO';
 import { HeadFC } from 'gatsby';
 
 //Data Components

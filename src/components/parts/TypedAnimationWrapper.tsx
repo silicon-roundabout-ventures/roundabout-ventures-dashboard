@@ -65,17 +65,17 @@ const TypedAnimationWrapper: React.FC<TypedAnimationWrapperProps> = ({
           // Set the parent container to use proper text wrapping
           const parent = typedWithEl.el.parentElement;
           if (parent) {
-            parent.style.display = 'inline-block';
-            parent.style.width = '100%';
+            parent.style.display = 'block';
             parent.style.whiteSpace = 'normal';
             parent.style.wordBreak = 'break-word';
             parent.style.overflowWrap = 'break-word';
-            
-            // Improve mobile readability
-            const fontSize = window.innerWidth < 768 ? 
-              Math.max(16, parseInt(window.getComputedStyle(parent).fontSize)) : 
-              parseInt(window.getComputedStyle(parent).fontSize);
-            parent.style.fontSize = `${fontSize}px`;
+            // Style the cursor inline with text
+            const cursorEl = typedWithEl.el.nextSibling as HTMLElement;
+            if (cursorEl && cursorEl.classList.contains('typed-cursor')) {
+              cursorEl.style.display = 'inline-block';
+              // align cursor at text bottom for inline effect
+              cursorEl.style.verticalAlign = 'text-bottom';
+            }
           }
         }
       },
@@ -99,22 +99,21 @@ const TypedAnimationWrapper: React.FC<TypedAnimationWrapperProps> = ({
   }, [strings, typeSpeed, startDelay, backSpeed, backDelay, loop, loopCount, showCursor, cursorChar, smartBackspace]);
 
   return (
-    <div 
-      className={`typed-animation-wrapper ${className}`} 
+    <span 
+      className={`typed-animation-wrapper ${className} text-center inline-block`} 
       style={{ 
         whiteSpace: 'normal', 
         wordBreak: 'break-word',
         overflowWrap: 'break-word',
+        width: '100%',
         maxWidth: '100%',
-        // inherit text alignment from parent (centered container)
       }}
     >
       <span 
         ref={typedElement} 
         className="typed-text"
-        style={{ display: 'inline-block', maxWidth: '100%' }}
       ></span>
-    </div>
+    </span>
   );
 };
 

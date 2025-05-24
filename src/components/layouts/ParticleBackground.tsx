@@ -155,12 +155,12 @@ const ParticleBackgroundContent = () => {
     // Pointer event handlers
     const handleMouseMove = (e: MouseEvent) => { pointer.current = { x: e.clientX, y: e.clientY, active: true }; };
     const handleMouseLeave = () => { pointer.current.active = false; };
-    const handleTouchMove = (e: TouchEvent) => { e.preventDefault(); const t = e.touches[0]; pointer.current = { x: t.clientX, y: t.clientY, active: true }; };
+    const handleTouchMove = (e: TouchEvent) => { const t = e.touches[0]; pointer.current = { x: t.clientX, y: t.clientY, active: true }; };
     const handleTouchEnd = () => { pointer.current.active = false; };
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('touchend', handleTouchEnd);
 
     // Click repulsion explosion

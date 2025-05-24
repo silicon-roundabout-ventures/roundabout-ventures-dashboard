@@ -14,6 +14,8 @@ interface Particle {
 // The actual particle background implementation
 const ParticleBackgroundContent = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Track pointer position in a ref
+  const pointer = useRef<{ x: number; y: number; active: boolean }>({ x: 0, y: 0, active: false });
   
   useEffect(() => {
     // Check if we're in a browser environment
@@ -78,6 +80,19 @@ const ParticleBackgroundContent = () => {
         particle.x += particle.speedX;
         particle.y += particle.speedY;
         
+        // Pointer attraction force (use it for pointer interaction)
+        if (pointer.current.active) {
+          const dx = pointer.current.x - particle.x;
+          const dy = pointer.current.y - particle.y;
+          const dist = Math.hypot(dx, dy);
+          const ptrRadius = 200;
+          if (dist < ptrRadius) {
+            const force = (ptrRadius - dist) * 0.0025;
+            particle.speedX += (dx / dist) * force;
+            particle.speedY += (dy / dist) * force;
+          }
+        }
+        
         // Check boundaries and reverse direction if needed
         if (particle.x < 0 || particle.x > canvas.width) {
           particle.speedX *= -1;
@@ -137,6 +152,36 @@ const ParticleBackgroundContent = () => {
       animationFrameId = requestAnimationFrame(animate);
     };
     
+    // Pointer event handlers
+    const handleMouseMove = (e: MouseEvent) => { pointer.current = { x: e.clientX, y: e.clientY, active: true }; };
+    const handleMouseLeave = () => { pointer.current.active = false; };
+    const handleTouchMove = (e: TouchEvent) => { e.preventDefault(); const t = e.touches[0]; pointer.current = { x: t.clientX, y: t.clientY, active: true }; };
+    const handleTouchEnd = () => { pointer.current.active = false; };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+
+    // Click repulsion explosion
+    const handleClick = (e: MouseEvent) => {
+      const cx = e.clientX;
+      const cy = e.clientY;
+      const expRadius = 200;
+      const expStrength = 0.08;
+      particles.forEach(p => {
+        const dx = p.x - cx;
+        const dy = p.y - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist < expRadius) {
+          const strength = (expRadius - dist) * expStrength;
+          p.speedX += (dx / dist) * strength;
+          p.speedY += (dy / dist) * strength;
+        }
+      });
+    };
+    window.addEventListener('click', handleClick);
+
     // Initialize and start the animation
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -146,6 +191,11 @@ const ParticleBackgroundContent = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('click', handleClick);
     };
   }, []);
   

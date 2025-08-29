@@ -43,7 +43,7 @@ const CommunityContent = () => {
               </div>
               {/* Embed lu.ma events here */}
               <iframe 
-                src="https://lu.ma/embed/calendar/cal-LtL994FHFsKgfPv/events" 
+                src="https://luma.com/embed/calendar/cal-LtL994FHFsKgfPv/events" 
                 width="100%" 
                 height="100%" 
                 frameBorder="0" 
@@ -69,7 +69,7 @@ const CommunityContent = () => {
                 <div className="animate-pulse-slow text-srv-teal bg-black/70 px-6 py-3 rounded-lg backdrop-blur-sm">Loading community events...</div>
               </div>
               <iframe 
-                src="https://lu.ma/embed/calendar/cal-LbyWro3ZdQSojJX/events" 
+                src="https://luma.com/embed/calendar/cal-LbyWro3ZdQSojJX/events" 
                 width="100%" 
                 height="100%" 
                 frameBorder="0" 

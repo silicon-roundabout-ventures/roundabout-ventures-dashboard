@@ -240,7 +240,26 @@ src/
 
 ## 📦 Deployment
 
-The project is deployed using Netlify
+The project is deployed using Netlify with production-ready security headers.
+
+### Security Configuration
+
+The application implements comprehensive security headers following 2025 best practices:
+
+- **Content Security Policy (CSP)**: Configured in `netlify.toml` with specific allowlists for iframe embedding (Lu.ma/Luma, Airtable, Google Forms)
+- **HSTS**: Strict-Transport-Security with preload for secure connections
+- **Frame Protection**: X-Frame-Options set to SAMEORIGIN to prevent clickjacking
+- **Modern Headers**: Includes Permissions-Policy and proper Referrer-Policy
+
+### CSP and Iframe Configuration
+
+The CSP is configured to support:
+- **Lu.ma/Luma calendar embeds** for community events
+- **Airtable forms** for startup applications  
+- **Google Forms** for LP inquiries
+- **Substack RSS integration** for Building in Public blog
+
+**Important**: Security headers are controlled by `netlify.toml` in production, not `gatsby-config.js`. This ensures proper header precedence and prevents configuration conflicts.
 
 ## 📝 Contributing
 

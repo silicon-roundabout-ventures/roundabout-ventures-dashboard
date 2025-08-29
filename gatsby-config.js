@@ -103,8 +103,7 @@ module.exports = {
       options: {
         headers: {
           '/*': [
-            'Cache-Control: public, max-age=0, must-revalidate',
-            "Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' https://netlify-cdp-loader.netlify.app https://airtable.com https://lu.ma https://*.substack.com https://substackapi.com https://*.google.com https://*.googleapis.com;"
+            'Cache-Control: public, max-age=0, must-revalidate'
           ]
         },
         mergeSecurityHeaders: false,

@@ -33,6 +33,9 @@ export const onRenderBody = ({ setPostBodyComponents }) => {
         };
       ` }}
     />,
-    <script key="substack-feed" src="https://substackapi.com/embeds/feed.js" async />,
+    <script key="substack-feed" src="https://js.supascribe.com/v1/loader/9HiLKgCn0wTKSjpJwu2fHbigpDx2.js" async />,
   ]);
 };
+
+
+

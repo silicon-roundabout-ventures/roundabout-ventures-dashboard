@@ -117,6 +117,7 @@ export const query = graphql`
         link
         pubDate
         contentSnippet
+        image
       }
     }
   }

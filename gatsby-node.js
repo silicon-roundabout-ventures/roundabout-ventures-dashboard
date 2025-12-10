@@ -83,10 +83,32 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, repor
 
     feed.items.forEach((item, index) => {
       const nodeId = createNodeId(`substack-post-${item.guid || index}`);
+
+      // Extract image from enclosure or fallback to content
+      let image = item.enclosure?.url;
+      if (!image && (item['content:encoded'] || item.content)) {
+        const content = item['content:encoded'] || item.content;
+        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        if (imgMatch) image = imgMatch[1];
+      }
+
+      // Ensure date is ISO 8601 for sorting
+      // RSS pubDate is usually RFC-822 (e.g. "Tue, 10 Dec 2024 10:00:00 GMT")
+      let isoDate = item.isoDate; // rss-parser often provides this
+      if (!isoDate && item.pubDate) {
+        try {
+          isoDate = new Date(item.pubDate).toISOString();
+        } catch (e) {
+          isoDate = new Date().toISOString(); // Fallback
+        }
+      }
+
       const nodeContent = JSON.stringify(item);
 
       createNode({
         ...item,
+        pubDate: isoDate, // Overwrite with sortable ISO date
+        image, // Add the extracted image URL
         id: nodeId,
         parent: null,
         children: [],

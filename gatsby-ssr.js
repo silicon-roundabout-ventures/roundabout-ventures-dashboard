@@ -15,27 +15,7 @@ export const wrapRootElement = ({ element }) => {
   )
 }
 
-// Inject Substack feed config and script at end of body
-export const onRenderBody = ({ setPostBodyComponents }) => {
-  setPostBodyComponents([
-    <script
-      key="substack-feed-config"
-      dangerouslySetInnerHTML={{ __html: `
-        window.SubstackFeedWidget = {
-          substackUrl: "blog.siliconroundabout.ventures",
-          posts: 8,
-          layout: "right",
-          colors: {
-            primary: "#FFFFFF",
-            secondary: "#DBDBDB",
-            background: "#000000",
-          }
-        };
-      ` }}
-    />,
-    <script key="substack-feed" src="https://js.supascribe.com/v1/loader/9HiLKgCn0wTKSjpJwu2fHbigpDx2.js" async />,
-  ]);
-};
+// Removed Substack feed config and script injection as we are now using build-time RSS fetching
 
 
 

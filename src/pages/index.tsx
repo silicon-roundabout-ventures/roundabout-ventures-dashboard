@@ -38,19 +38,19 @@ const IndexContent = () => {
   return (
     <div className="min-h-screen">
       <ParticleBackground />
-      
+
       {/* Hero Section */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center justify-center min-h-[100vh] text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
             &lt;Silicon Roundabout Ventures/&gt;
           </h1>
-          
+
           <div className="font-mono text-xl md:text-2xl mb-12 text-white w-full max-w-4xl mx-auto px-4">
             {/* Professional typing animation using Typed.js */}
             <TypedAnimationWrapper
               strings={[
-                'Investing(<span class="text-srv-yellow">First</span>) <span class="text-srv-pink">in</span> { Frontier_Technology.<span class="text-srv-yellow">Founders</span> } <span class="text-srv-pink">building</span> the future Computing &amp; Physical <span class="text-srv-yellow">Infrastructure</span>'
+                'The First(<span class="text-srv-yellow">Investor</span>) <span class="text-srv-pink">in</span> { Frontier_Technology.<span class="text-srv-yellow">Founders</span> } <span class="text-srv-pink">building</span> the future Computing &amp; Physical <span class="text-srv-yellow">Infrastructure</span>'
               ]}
               typeSpeed={40}
               startDelay={800}
@@ -60,37 +60,37 @@ const IndexContent = () => {
               loop={false}
             />
           </div>
-        
+
           <div className="flex flex-wrap gap-4 justify-center mt-4 px-4 w-full">
             <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
               <Link to="/portfolio">
                 Live Portfolio Dashboard <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            
+
             <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
               <Link to="/whoweare">
                 About Us <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
-          
+
           {/* Animated scroll chevrons */}
           <div className="absolute bottom-8 left-0 right-0 flex justify-center">
             <ScrollChevrons targetId="who-we-are" />
           </div>
         </div>
       </div>
-      
+
       {/* Who We Are Section with Tech Image Slider */}
       <div id="who-we-are" className="relative">
         {/* Technology image slider background */}
-        <ImageSlider 
+        <ImageSlider
           imagePathPattern="community\/technologies"
           transitionSpeed={4000}
           overlayOpacity={70}
         />
-        
+
         {/* Content overlay */}
         <div className="relative z-20 py-24">
           <Section background="transparent" title="Who we are">
@@ -105,7 +105,7 @@ const IndexContent = () => {
                   <span className="text-srv-pink">seed</span> stages.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-teal text-2xl mr-3 mt-1">👥</span>
                 <p className="text-xl text-white">
@@ -113,7 +113,7 @@ const IndexContent = () => {
                   live pitching competitions featuring winners now worth over £7 Billion.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-teal text-2xl mr-3 mt-1">🔬️</span>
                 <p className="text-xl text-white">
@@ -121,34 +121,34 @@ const IndexContent = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex flex-wrap justify-around gap-10 mb-16">
               {/* Community images using our specialized CircularImage component */}
               {data.communityImage1?.childImageSharp?.gatsbyImageData && (
-                <CircularImage 
-                  image={data.communityImage1.childImageSharp.gatsbyImageData} 
-                  alt="Community member presenting" 
-                  size={180} 
+                <CircularImage
+                  image={data.communityImage1.childImageSharp.gatsbyImageData}
+                  alt="Community member presenting"
+                  size={180}
                 />
               )}
-              
+
               {data.communityImage2?.childImageSharp?.gatsbyImageData && (
-                <CircularImage 
-                  image={data.communityImage2.childImageSharp.gatsbyImageData} 
-                  alt="Community meetup" 
-                  size={180} 
+                <CircularImage
+                  image={data.communityImage2.childImageSharp.gatsbyImageData}
+                  alt="Community meetup"
+                  size={180}
                 />
               )}
-              
+
               {data.communityImage3?.childImageSharp?.gatsbyImageData && (
-                <CircularImage 
-                  image={data.communityImage3.childImageSharp.gatsbyImageData} 
-                  alt="Community presenter pitching" 
-                  size={180} 
+                <CircularImage
+                  image={data.communityImage3.childImageSharp.gatsbyImageData}
+                  alt="Community presenter pitching"
+                  size={180}
                 />
               )}
             </div>
-            
+
             <div className="text-center">
               <Link to="/apply">
                 <Button variant="outline" className="border-srv-yellow text-srv-yellow hover:bg-srv-yellow hover:text-black">
@@ -156,7 +156,7 @@ const IndexContent = () => {
                 </Button>
               </Link>
             </div>
-            
+
             {/* Add scroll chevrons at the bottom of the Who We Are section */}
             <div className="flex justify-center mt-10 mb-6">
               <ScrollChevrons targetId="our-mission" />
@@ -164,7 +164,7 @@ const IndexContent = () => {
           </Section>
         </div>
       </div>
-     
+
       {/* Our Mission Section */}
       <div id="our-mission"></div>
       <Section title="Our Mission">
@@ -180,14 +180,14 @@ const IndexContent = () => {
                   <span className="text-srv-pink">Community</span>.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💸</span>
                 <p className="text-white">
                   Providing super-early investment capital to deeply technical founders based in Europe.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">📲</span>
                 <p className="text-white">
@@ -196,7 +196,7 @@ const IndexContent = () => {
               </div>
             </div>
           </GlassCard>
-          
+
           <GlassCard>
             <div className="space-y-4">
               <div className="flex items-start">
@@ -205,7 +205,7 @@ const IndexContent = () => {
                   We see this VC firm as a search function to spot <span className="text-srv-pink">unusually exceptional</span> technical founders from all over Europe.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💻</span>
                 <p className="text-white">
@@ -215,7 +215,7 @@ const IndexContent = () => {
                   <span className="text-srv-pink">Energy</span>.
                 </p>
               </div>
-              
+
               <div className="flex items-start">
                 <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">🚀</span>
                 <p className="text-white">
@@ -225,38 +225,38 @@ const IndexContent = () => {
             </div>
           </GlassCard>
         </div>
-        
+
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-white mb-8 font-mono">
             &lt;We write 1st cheques in Next-Generation technology startups/&gt;
           </h3>
-          
+
           <div className="grid grid-cols-1 text-srv-yellow md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard 
+            <FeatureCard
               title={<>[ <span className="text-srv-pink">Deeply Technical</span> ]</>}
               description="Leveraging in-house science and engineering expertise to challenge the status-quo"
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               title={<>&#123; <span className="text-srv-pink">Infrastructural</span> &#125;</>}
               description="They solve large scale global problems at a 'picks and shovel' infrastructure level"
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               title={<>· <span className="text-srv-pink">Defensible</span> ·</>}
               description="They build fundamental hardware or low level software tech with a strong IP moat against challengers"
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               title={<>/ <span className="text-srv-pink">Trend-Setting</span> /</>}
               description="Disrupt internationally the way an industry operates (1B+ potential revenue in 10+ years)"
             />
-            
-            <FeatureCard 
+
+            <FeatureCard
               title={<>&lt; <span className="text-srv-pink">Global Impact</span> &gt;</>}
               description="Focused on solving key infrastructural challenges in areas like Computing, Climate or Health, and Defence"
             />
-            
+
             <GlassCard className="flex items-center justify-center p-10">
               <Link to="/buildinginpublic">
                 <Button className="bg-srv-yellow text-black hover:bg-srv-yellow/80">

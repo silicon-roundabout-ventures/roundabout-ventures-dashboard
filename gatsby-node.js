@@ -69,8 +69,40 @@ exports.createSchemaCustomization = ({ actions }) => {
 };
 
 // Create fallback data if Airtable plugin is not loaded
-exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter }) => {
+exports.sourceNodes = async ({ actions, createNodeId, createContentDigest, reporter }) => {
   const { createNode } = actions;
+
+  // 1. Fetch RSS Feed
+  const Parser = require('rss-parser');
+  const parser = new Parser();
+  const RSS_URL = 'https://blog.siliconroundabout.ventures/feed';
+
+  try {
+    reporter.info(`Fetching RSS feed from ${RSS_URL}`);
+    const feed = await parser.parseURL(RSS_URL);
+
+    feed.items.forEach((item, index) => {
+      const nodeId = createNodeId(`substack-post-${item.guid || index}`);
+      const nodeContent = JSON.stringify(item);
+
+      createNode({
+        ...item,
+        id: nodeId,
+        parent: null,
+        children: [],
+        internal: {
+          type: 'SubstackPost',
+          content: nodeContent,
+          contentDigest: createContentDigest(item),
+        },
+      });
+    });
+    reporter.info(`Successfully created ${feed.items.length} SubstackPost nodes`);
+  } catch (error) {
+    reporter.warn(`Error fetching RSS feed: ${error.message}`);
+  }
+
+  // 2. Mock Portfolio Data Fallback
   const mockData = getMockPortfolioCompanies();
   reporter.info('Adding mock portfolio nodes fallback');
   mockData.forEach(item => {
@@ -86,52 +118,127 @@ exports.sourceNodes = ({ actions, createNodeId, createContentDigest, reporter })
 };
 
 // Programmatic creation of portfolio page
-exports.createPages = async ({ graphql, actions }) => {
+exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions;
-  const result = await graphql(`
-    query {
-      allAirtable(filter: {table: {eq: "Startups"}}) {
-        nodes { 
-          recordId 
-          data { 
-            Deal_Name 
-            Summary 
-            One_Line_Summary 
-            domain__from_Company_ 
-            Sector Stage 
-            Close_Date 
-            Announced 
-            Fund_numeral 
-            Main_Headquarter 
-            Current_Status 
-            Technology_Type 
-            Logo {
-              localFiles {
-                publicURL
-                childImageSharp {
-                  gatsbyImageData(
-                    layout: CONSTRAINED
-                    width: 40
-                    placeholder: NONE
-                    transformOptions: { fit: INSIDE }
-                  )
+
+  const hasAirtable = process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID;
+  let nodes = [];
+
+  if (hasAirtable) {
+    try {
+      const result = await graphql(`
+        query {
+          allAirtable(filter: {table: {eq: "Startups"}}) {
+            nodes { 
+              recordId 
+              data { 
+                Deal_Name 
+                Summary 
+                One_Line_Summary 
+                domain__from_Company_ 
+                Sector Stage 
+                Close_Date 
+                Announced 
+                Fund_numeral 
+                Main_Headquarter 
+                Current_Status 
+                Technology_Type 
+                Logo {
+                  localFiles {
+                    publicURL
+                    childImageSharp {
+                      gatsbyImageData(
+                        layout: CONSTRAINED
+                        width: 40
+                        placeholder: NONE
+                        transformOptions: { fit: INSIDE }
+                      )
+                    }
+                  }
                 }
-              }
+                Photo { localFiles { childImageSharp { gatsbyImageData(layout: CONSTRAINED, quality:80) } } }
+                Latest_Follow_on_Round 
+                GBP_Final_Ticket_Invested 
+                Entry_Valuation 
+                GBP_Initial_Round_Pre_Money_Valuation
+              } 
             }
-            Photo { localFiles { childImageSharp { gatsbyImageData(layout: CONSTRAINED, quality:80) } } }
-            Latest_Follow_on_Round 
-            GBP_Final_Ticket_Invested 
-            Entry_Valuation 
-            GBP_Initial_Round_Pre_Money_Valuation
-          } 
+          }
+        }
+      `);
+
+      if (result.errors) {
+        reporter.warn('Airtable query failed despite credentials. using mock data.');
+      } else {
+        nodes = result.data.allAirtable.nodes;
+      }
+    } catch (e) {
+      reporter.warn(`Error querying Airtable: ${e.message}`);
+    }
+  }
+
+  // If no Airtable nodes (or no keys), try Mock data
+  if (nodes.length === 0) {
+    if (hasAirtable) reporter.info('Falling back to Mock Data');
+    else reporter.info('No Airtable credentials found. using Mock Data.');
+
+    const mockResult = await graphql(`
+      query {
+        allMockPortfolioData {
+          nodes {
+            id
+            name
+            description
+            oneLiner
+            website
+            sectors
+            stage
+            investmentDate
+            announced
+            fund
+            logo
+            photo
+            logoImage {
+              publicURL
+              childImageSharp { gatsbyImageData(layout: CONSTRAINED, width: 40, placeholder: NONE, transformOptions: { fit: INSIDE }) }
+            }
+            photoImage {
+              publicURL
+              childImageSharp { gatsbyImageData(layout: CONSTRAINED, quality:80) }
+            }
+          }
         }
       }
-    }
-  `);
+    `);
 
-  if (result.errors) throw result.errors;
-  
-  const nodes = result.data.allAirtable.nodes;
+    if (!mockResult.errors && mockResult.data.allMockPortfolioData) {
+      // Map mock nodes to the shape expected by the normalizer
+      nodes = mockResult.data.allMockPortfolioData.nodes.map(n => ({
+        recordId: n.id,
+        data: {
+          Deal_Name: n.name,
+          Summary: n.description,
+          One_Line_Summary: n.oneLiner,
+          domain__from_Company_: n.website,
+          Sector: n.sectors,
+          Stage: n.stage,
+          Close_Date: n.investmentDate,
+          Announced: n.announced,
+          Fund_numeral: n.fund,
+          Main_Headquarter: 'London, UK', // Default for mock
+          Current_Status: 'Active', // Default for mock
+          Technology_Type: n.sectors?.[0] || 'Tech',
+          Logo: { localFiles: n.logoImage ? [n.logoImage] : [] },
+          Photo: { localFiles: n.photoImage ? [n.photoImage] : [] },
+          Latest_Follow_on_Round: '',
+          GBP_Final_Ticket_Invested: 0,
+          Entry_Valuation: 0,
+          GBP_Initial_Round_Pre_Money_Valuation: 0,
+        }
+      }));
+    }
+  }
+
   const rawCompanies = nodes.map(item => {
     const d = item.data;
     const rawDom = d.domain__from_Company_;
@@ -161,14 +268,15 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes) : getMockFundStatistics();
   const sanitizedCompanies = rawCompanies.map(sanitizeStealth);
-  
+
   // Emit portfolio page based on a template provided
-  createPage({ 
-    path: '/portfolio/', 
-    component: path.resolve(__dirname, 'src/templates/portfolio.tsx'), 
-    context: { 
-      companies: sanitizedCompanies, 
-      portfolioStats } 
+  createPage({
+    path: '/portfolio/',
+    component: path.resolve(__dirname, 'src/templates/portfolio.tsx'),
+    context: {
+      companies: sanitizedCompanies,
+      portfolioStats
+    }
   });
 };
 

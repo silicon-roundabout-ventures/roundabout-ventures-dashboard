@@ -18,6 +18,12 @@ function toBoolAnnounced(val) {
   return val === true || ["yes", "true", "1"].includes(s);
 }
 
+// Helper to handle Airtable Lookup fields which come as Arrays
+function normalizeAirtableField(val) {
+  if (Array.isArray(val)) return val[0];
+  return val;
+}
+
 function calculateMedian(arr) {
   if (!arr.length) return 0;
   const s = [...arr].sort((a, b) => a - b);
@@ -55,7 +61,7 @@ function calculatePortfolioStats(nodes) {
  * AIRTABLE FUNCS 
  */
 
-const { getMockPortfolioCompanies, getMockFundStatistics } = require("./src/data/mockPortfolioData.js");
+const { getMockPortfolioCompanies, getMockFundStatistics, getMockFunds } = require("./src/data/mockPortfolioData.js");
 // Explicitly add custom fields to AirtableData for GraphQL schema
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
@@ -64,6 +70,10 @@ exports.createSchemaCustomization = ({ actions }) => {
       Technology_Type: String
       Main_Headquarter: String
       Details: String
+      Name: String
+      Status: String
+      Fund_numeral: [String]
+      Numeral: String
     }
   `);
 };
@@ -145,6 +155,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   const hasAirtable = process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_BASE_ID;
   let nodes = [];
+  let fundNodes = [];
 
   if (hasAirtable) {
     try {
@@ -186,6 +197,16 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               } 
             }
           }
+          allAirtableFunds: allAirtable(filter: {table: {eq: "SRV Funds"}}) {
+            nodes {
+              recordId
+              data {
+                Name
+                Status
+                Numeral
+              }
+            }
+          }
         }
       `);
 
@@ -193,6 +214,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         reporter.warn('Airtable query failed despite credentials. using mock data.');
       } else {
         nodes = result.data.allAirtable.nodes;
+        fundNodes = result.data.allAirtableFunds.nodes;
       }
     } catch (e) {
       reporter.warn(`Error querying Airtable: ${e.message}`);
@@ -246,9 +268,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           Stage: n.stage,
           Close_Date: n.investmentDate,
           Announced: n.announced,
-          Fund_numeral: n.fund,
-          Main_Headquarter: 'London, UK', // Default for mock
-          Current_Status: 'Active', // Default for mock
+          Fund_numeral: [n.fund], // Mock array to match Airtable behavior
+          Main_Headquarter: 'London, UK',
+          Current_Status: 'Active',
           Technology_Type: n.sectors?.[0] || 'Tech',
           Logo: { localFiles: n.logoImage ? [n.logoImage] : [] },
           Photo: { localFiles: n.photoImage ? [n.photoImage] : [] },
@@ -256,6 +278,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           GBP_Final_Ticket_Invested: 0,
           Entry_Valuation: 0,
           GBP_Initial_Round_Pre_Money_Valuation: 0,
+        }
+      }));
+    }
+
+    // Also use mock funds if airtable failed
+    if (fundNodes.length === 0) {
+      fundNodes = getMockFunds().map((f, i) => ({
+        recordId: f.div_id || `mock-fund-${i}`,
+        data: {
+          Name: f.name,
+          Status: f.status,
+          Numeral: f.name // Use name as numeral for mock
         }
       }));
     }
@@ -282,7 +316,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       stage: d.Stage || '',
       investmentDate: d.Close_Date || '',
       announced: toBoolAnnounced(d.Announced),
-      fund: d.Fund_numeral || null,
+      fund: normalizeAirtableField(d.Fund_numeral) || null,
       currentStatus: d.Current_Status || '',
       latestFollowOnRound: d.Latest_Follow_on_Round || ''
     };
@@ -291,13 +325,31 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes) : getMockFundStatistics();
   const sanitizedCompanies = rawCompanies.map(sanitizeStealth);
 
+  // Process Funds and calculate per-fund statistics
+  const funds = fundNodes.map(f => ({
+    id: f.recordId,
+    // Use Numeral as the display name (e.g. "Fund I"), fallback to Name
+    name: f.data.Numeral || f.data.Name || 'Unknown Fund',
+    status: f.data.Status || 'Active'
+  })).sort((a, b) => a.name.localeCompare(b.name));
+
+  const perFundStats = {};
+  funds.forEach(fund => {
+    // MATCHING LOGIC: Startups.Fund_numeral (normalized string) === SRV Funds.Numeral (string)
+    const fundNodesFiltered = nodes.filter(n => normalizeAirtableField(n.data.Fund_numeral) === fund.name);
+    // Calculate stats for this subset
+    perFundStats[fund.name] = calculatePortfolioStats(fundNodesFiltered);
+  });
+
   // Emit portfolio page based on a template provided
   createPage({
     path: '/portfolio/',
     component: path.resolve(__dirname, 'src/templates/portfolio.tsx'),
     context: {
       companies: sanitizedCompanies,
-      portfolioStats
+      portfolioStats, // Aggregate stats
+      funds,          // Fund metadata
+      perFundStats    // Specific stats
     }
   });
 };

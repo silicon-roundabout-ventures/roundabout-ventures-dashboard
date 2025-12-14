@@ -55,9 +55,19 @@ function getMockFundStatistics() {
   return mockFundStatistics;
 }
 
+const mockFunds = [
+  { div_id: 'fund-1', name: 'Fund I', status: 'Active' },
+  { div_id: 'fund-2', name: 'Fund II', status: 'Launching soon...' }
+];
+
+function getMockFunds() {
+  return mockFunds;
+}
+
 module.exports = {
   mockPortfolioCompanies,
   mockFundStatistics,
   getMockPortfolioCompanies,
   getMockFundStatistics,
+  getMockFunds
 };

@@ -30,7 +30,7 @@ module.exports = {
   plugins: [
     // Gatsby v5 has built-in Head API, so react-helmet is redundant
     // See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
-    
+
     // Core image processing plugins
     `gatsby-plugin-image`,
     `gatsby-transformer-sharp`,
@@ -43,7 +43,7 @@ module.exports = {
         stripMetadata: true, // Reduces image size
       }
     },
-    
+
     // Source filesystem for images and other static assets
     {
       resolve: `gatsby-source-filesystem`,
@@ -52,13 +52,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    
+
     // Styling plugins
     `gatsby-plugin-postcss`,
-    
+
     // TypeScript support
     `gatsby-plugin-typescript`,
-    
+
     // Alias imports plugin
     {
       resolve: `gatsby-plugin-alias-imports`,
@@ -69,7 +69,7 @@ module.exports = {
         extensions: ["js", "jsx", "ts", "tsx"],
       },
     },
-    
+
     // Airtable source plugin with simplified configuration for Netlify compatibility
     {
       resolve: `gatsby-source-airtable`,
@@ -84,19 +84,24 @@ module.exports = {
         queryName: 'Airtable',
         tables: [
           // Only process if environment variables are available and non-empty
-          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_API_KEY.trim() !== '' && 
-             process.env.AIRTABLE_BASE_ID && process.env.AIRTABLE_BASE_ID.trim() !== '' ? [
+          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_API_KEY.trim() !== '' &&
+            process.env.AIRTABLE_BASE_ID && process.env.AIRTABLE_BASE_ID.trim() !== '' ? [
             {
               baseId: process.env.AIRTABLE_BASE_ID.trim(),
               tableName: `Startups`,
               tableView: `Portfolio_websiteFeed`, // Use the specific Portfolio_websiteFeed view for the records to show (all fields, inc hidden ones, remain available in the GraphQL schema)
               mapping: { Logo: 'fileNode', Photo: 'fileNode' }
+            },
+            {
+              baseId: process.env.AIRTABLE_BASE_ID.trim(),
+              tableName: `SRV Funds`,
+              // No specific view needed, default grid view is fine
             }
           ] : [])
         ]
       }
     },
-    
+
     // Cache control headers for better performance
     {
       resolve: 'gatsby-plugin-netlify',
@@ -109,7 +114,7 @@ module.exports = {
         mergeSecurityHeaders: false,
       }
     },
-    
+
     // Uncomment when we have proper icons
     {
       resolve: `gatsby-plugin-manifest`,

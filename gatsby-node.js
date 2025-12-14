@@ -66,7 +66,7 @@ const { getMockPortfolioCompanies, getMockFundStatistics, getMockFunds } = requi
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions;
   createTypes(`
-    type AirtableData {
+    type AirtableData @infer {
       Technology_Type: String
       Main_Headquarter: String
       Details: String
@@ -74,6 +74,12 @@ exports.createSchemaCustomization = ({ actions }) => {
       Status: String
       Fund_numeral: [String]
       Numeral: String
+      Logo: [AirtableAttachment]
+      Photo: [AirtableAttachment]
+    }
+
+    type AirtableAttachment {
+      localFiles: [File] @link(from: "localFiles___NODE")
     }
   `);
 };

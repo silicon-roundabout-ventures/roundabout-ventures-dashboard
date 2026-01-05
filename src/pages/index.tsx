@@ -42,7 +42,7 @@ const IndexContent = () => {
       {/* Hero Section */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center justify-center min-h-[100vh] text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-8">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 font-mono drop-shadow-[0_0_15px_rgba(86,182,194,0.9)]">
             &lt;Silicon Roundabout Ventures/&gt;
           </h1>
 
@@ -50,7 +50,7 @@ const IndexContent = () => {
             {/* Professional typing animation using Typed.js */}
             <TypedAnimationWrapper
               strings={[
-                'The First(<span class="text-srv-yellow">Investor</span>) <span class="text-srv-pink">in</span> { Frontier_Technology.<span class="text-srv-yellow">Founders</span> } <span class="text-srv-pink">building</span> the future Computing &amp; Physical <span class="text-srv-yellow">Infrastructure</span>'
+                '<span class="text-srv-blue">the</span> <span class="text-srv-yellow-light">First</span><span class="text-srv-pink">(</span><span class="text-srv-teal">Investor</span><span class="text-srv-pink">)</span> <span class="text-srv-blue">in</span> <span class="text-srv-pink">{</span> <span class="text-srv-teal">Frontier_Technology</span><span class="text-white">.</span><span class="text-srv-teal">Founders</span> <span class="text-srv-pink">}</span> <span class="text-white">building the future</span> <span class="text-srv-teal">Computing &amp; Physical</span> <span class="text-srv-yellow-light">Infrastructure</span>'
               ]}
               typeSpeed={40}
               startDelay={800}
@@ -99,7 +99,7 @@ const IndexContent = () => {
                 <span className="text-srv-teal text-2xl mr-3 mt-1">⚛️</span>
                 <p className="text-xl text-white">
                   We are a Community-Driven VC firm backing{" "}
-                  <span className="text-srv-yellow">Deep Tech</span>{" "}
+                  <span className="text-srv-yellow-light">Deep Tech</span>{" "}
                   startups from Europe at{" "}
                   <span className="text-srv-pink">pre-seed</span> and{" "}
                   <span className="text-srv-pink">seed</span> stages.
@@ -117,7 +117,7 @@ const IndexContent = () => {
               <div className="flex items-start">
                 <span className="text-srv-teal text-2xl mr-3 mt-1">🔬️</span>
                 <p className="text-xl text-white">
-                  We spot fundamental <span className="text-srv-yellow">Computing</span>, <span className="text-srv-yellow">Defence</span> and <span className="text-srv-yellow">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
+                  We spot fundamental <span className="text-srv-yellow-light">Computing</span>, <span className="text-srv-yellow-light">Defence</span> and <span className="text-srv-yellow-light">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
                 </p>
               </div>
             </div>

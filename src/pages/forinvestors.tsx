@@ -7,7 +7,7 @@ const ForInvestorsContent = () => {
   return (
     <div className="min-h-screen pt-28 pb-16">
       <ParticleBackground />
-      
+
       <div className="container mx-auto px-4 z-10 relative">
         <div className="mb-16 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;For Investors/&gt;</h1>
@@ -15,12 +15,12 @@ const ForInvestorsContent = () => {
             If you are interested in exposure to next generation technology builders from Europe on a mission to build titanic global companies, let us know.
           </p>
         </div>
-        
+
         <div className="max-w-4xl mx-auto">
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
             <h2 className="text-2xl font-bold text-white mb-6">&lt;Join Our Fund/&gt;</h2>
             <p className="text-white mb-6">
-              Silicon Roundabout Ventures focuses exclusively on <span className='text-srv-yellow'>deeptech</span> founders from the UK and Europe, in critical sectors that are reshaping our world during this century, such as <span className='text-srv-pink'>Computing </span>, <span className='text-srv-pink'>Defence</span>, and <span className='text-srv-pink'>Energy</span>. Our techical backgrounds and <span className='text-srv-yellow'>community-driven approach</span> allows us to meet and assess founders very early on that others may miss.
+              Silicon Roundabout Ventures focuses exclusively on <span className='text-srv-yellow-light'>deeptech</span> founders from the UK and Europe, in critical sectors that are reshaping our world during this century, such as <span className='text-srv-pink'>Computing </span>, <span className='text-srv-pink'>Defence</span>, and <span className='text-srv-pink'>Energy</span>. Our techical backgrounds and <span className='text-srv-yellow-light'>community-driven approach</span> allows us to meet and assess founders very early on that others may miss.
             </p>
 
             <p className="text-white mb-6">
@@ -33,10 +33,10 @@ const ForInvestorsContent = () => {
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💼</span> <span>Proprietary deal flow from our 15,000+ community</span></li>
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">🛠️</span> <span>Technical team and agile soloGP approach</span></li>
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">📈</span> <span>Institutional-grade administration & back-office management</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Backed by 50+ active angel investors, Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li> 
+              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Backed by 50+ active angel investors, Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li>
               <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💰</span> <span>Co-investment opportunities in select portfolio companies</span></li>
             </ul>
-            
+
             <div className="mt-8 text-center mb-12">
               <Link
                 to="/lpenquiries"
@@ -49,7 +49,7 @@ const ForInvestorsContent = () => {
             <br />
 
             <p className="text-white mb-6 text-sm">
-            <i>Silicon Roundabout Ventures Advisers Ltd is regulated in the UK by the Financial Conduct Authority, Small UK AIFM license n# 969137</i>
+              <i>Silicon Roundabout Ventures Advisers Ltd is regulated in the UK by the Financial Conduct Authority, Small UK AIFM license n# 969137</i>
             </p>
 
           </div>

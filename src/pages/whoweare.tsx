@@ -23,9 +23,9 @@ interface TeamMemberProps {
   blog?: string | null;
 }
 
-const TeamMember: React.FC<TeamMemberProps> = ({ 
-  name, 
-  role, 
+const TeamMember: React.FC<TeamMemberProps> = ({
+  name,
+  role,
   description,
   image = null,
   imageSrc = null,
@@ -35,16 +35,16 @@ const TeamMember: React.FC<TeamMemberProps> = ({
   blog = null
 }) => {
   const [showDetails, setShowDetails] = useState(false);
-  
+
   const toggleDetails = (e: MouseEvent) => {
     e.preventDefault();
     setShowDetails(!showDetails);
   };
-  
+
   return (
     <div className="flex-col-center">
       {image && (
-        <CircularImage 
+        <CircularImage
           image={image.childImageSharp.gatsbyImageData}
           alt={name}
           size={120}
@@ -54,9 +54,9 @@ const TeamMember: React.FC<TeamMemberProps> = ({
       {!image && (
         <div className="w-32 h-32 md:w-36 md:h-36 overflow-hidden rounded-full border-2 border-[#4c566a]/40 mb-4">
           {imageSrc ? (
-            <img 
-              src={imageSrc} 
-              alt={name} 
+            <img
+              src={imageSrc}
+              alt={name}
               className="w-full h-full object-cover"
             />
           ) : (
@@ -68,13 +68,13 @@ const TeamMember: React.FC<TeamMemberProps> = ({
       )}
       <h3 className="heading-3 text-white mb-1">{name}</h3>
       <p className="text-srv-teal text-sm mb-2">{role}</p>
-      
+
       <div className={`text-srv-gray text-sm text-center max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl mb-3 overflow-hidden transition-all duration-300 ${typeof description === 'string' && description.length > 100 && !showDetails ? 'max-h-20' : 'max-h-[2000px]'}`}>
         {description}
       </div>
-      
+
       {typeof description === 'string' && description.length > 100 && (
-        <button 
+        <button
           onClick={toggleDetails}
           className="mt-2 text-srv-teal text-sm hover:underline focus:outline-none mb-3"
           aria-expanded={showDetails}
@@ -82,7 +82,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({
           {showDetails ? 'Show less' : 'Read more'}
         </button>
       )}
-      
+
       <div className="flex space-x-3">
         {linkedin && (
           <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white hover:text-srv-teal transition-colors">
@@ -141,17 +141,17 @@ const WhoWeAre = () => {
       }
     }
   `);
-  
+
   // Team data
   const teamData: TeamData = {
     leads: [
       {
         name: "Francesco Perticarari",
         role: "General Partner",
-        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days. In total I wrote 17 personal cheques including the likes of edge & GPU cloud leader <b><u><a target="_blank" href="https://ori.co">Ori Industries</a></u></b>, Quantum Photonics pioneer <b><u><a target="_blank" href="https://aegiq.com">Aegiq</a></u></b>, or holography world-leader <b><u><a target="_blank" href="https://www.vividq.com">Vivid-Q</a></u></b>.<br/><br/>
-        In 2023 I launched Silicon Roundabout Ventures as a soloGP fund in the UK from which I'm now investing from. We focus on writing first cheques in pre-seed and angel rounds (which we sometimes lead). I closed the fund at just over its £5m target and got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br/><br/>
-        My mission? To build Europe's first community-driven and truly pan-European VC firm built by technical folks exclusively for deeptech pre-seed and seed founders.<br/><br/>
-        Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
+        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days. In total I wrote 17 personal cheques including the likes of edge & GPU cloud leader <b><u><a target="_blank" href="https://ori.co">Ori Industries</a></u></b>, Quantum Photonics pioneer <b><u><a target="_blank" href="https://aegiq.com">Aegiq</a></u></b>, or holography world-leader <b><u><a target="_blank" href="https://www.vividq.com">Vivid-Q</a></u></b>.<br /><br />
+          In 2023 I launched Silicon Roundabout Ventures as a soloGP fund in the UK from which I'm now investing from. We focus on writing first cheques in pre-seed and angel rounds (which we sometimes lead). I closed the fund at just over its £5m target and got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br /><br />
+          My mission? To build Europe's first community-driven and truly pan-European VC firm built by technical folks exclusively for deeptech pre-seed and seed founders.<br /><br />
+          Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
         image: data.francescoImage, // Using Gatsby image
         linkedin: "https://www.linkedin.com/in/fperticarari/",
         twitter: "https://twitter.com/francesco_srv",
@@ -188,17 +188,17 @@ const WhoWeAre = () => {
     <Layout title="Who We Are | Roundabout Ventures">
       <div className="min-h-screen pt-28 pb-16">
         <ParticleBackground />
-        
+
         <div className="container mx-auto z-10 relative">
           <h1 className="text-5xl md:text-6xl font-bold text-white text-center mb-16">
             &lt;Who We Are/&gt;
           </h1>
-          
+
           <div className="max-w-4xl mx-auto">
             <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
               <p className="text-xl text-srv-light mb-10">
                 We are a Community-Driven VC firm backing{" "}
-                <span className="text-srv-yellow">Deep Tech</span>{" "}
+                <span className="text-srv-yellow-light">Deep Tech</span>{" "}
                 founders with extreme conviction at{" "}
                 <span className="text-srv-pink">
                   pre-seed and seed{" "}
@@ -207,7 +207,7 @@ const WhoWeAre = () => {
               </p>
               <p className="text-xl text-srv-light">
                 We back founders starting out in Europe who are "sub-0.1% of the population" type of{" "}
-                <span className="text-srv-yellow">exceptional</span>,{" "}
+                <span className="text-srv-yellow-light">exceptional</span>,{" "}
                 obsessively building novel technology companies for the long term in critical areas like{" "}
                 <span className="text-srv-pink">
                   Computing
@@ -223,10 +223,10 @@ const WhoWeAre = () => {
                 .
               </p>
             </div>
-            
+
             {/* Team Section */}
             <h2 className="text-3xl font-bold text-white mb-10 font-mono">&lt;Team/&gt;</h2>
-            
+
             {/* General Partner */}
             <div className="mb-12">
               <h3 className="text-3xl font-bold text-white mb-6 text-center">General Partner</h3>
@@ -248,11 +248,11 @@ const WhoWeAre = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Our Story Timeline Section */}
             <h2 className="text-3xl font-bold text-white mb-10 font-mono">&lt;Our Story/&gt;</h2>
-            
-            <Timeline 
+
+            <Timeline
               items={[
                 {
                   year: '2011',
@@ -304,21 +304,21 @@ const WhoWeAre = () => {
               ]}
               className="mb-16"
             />
-            
+
             {/* Call to action */}
-          <div className="flex flex-wrap gap-4 justify-center mt-6 mb-12 px-4 w-full">
-            <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
-              <Link to="/buildinginpublic">
-                Check out our Build in Public blog <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            
-            <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
-              <Link to="/portfolio">
-                The people we backed so far <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
+            <div className="flex flex-wrap gap-4 justify-center mt-6 mb-12 px-4 w-full">
+              <Button asChild size="lg" className="bg-srv-teal text-black hover:bg-srv-teal/80">
+                <Link to="/buildinginpublic">
+                  Check out our Build in Public blog <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+
+              <Button asChild variant="outline" size="lg" className="border-srv-pink text-srv-pink hover:bg-srv-pink/20">
+                <Link to="/portfolio">
+                  The people we backed so far <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -55,8 +55,8 @@ export default {
           dark: '#000000',          // Pitch black background (VS Code Minimal Dark style)
           darkAlt: '#1E1E1E',       // Secondary dark (editor background)
           panel: '#252526',         // Panel/widget background
-          blue: '#61AFEF',          // Terminal blue - for code-like accents
-          teal: '#56B6C2',
+          blue: '#569dd6',          // Terminal blue - for code-like accents
+          teal: '#9cdcfc',
           'teal-0': 'rgba(86,182,194,0)', // 0% opacity
           'teal-5': 'rgba(86,182,194,0.05)', // 5% opacity
           'teal-10': 'rgba(86,182,194,0.1)', // 10% opacity
@@ -69,10 +69,11 @@ export default {
           'teal-90': 'rgba(86,182,194,0.9)', // 90% opacity
           light: '#DCDFE4',         // Light text (foreground)
           gray: '#BBBBBB',          // Muted text for less important elements
-          pink: '#C678DD',          // Terminal magenta - for code highlights
-          yellow: '#E5C07B',        // Terminal yellow - for code highlights
+          pink: '#c586c0',          // Terminal magenta - for code highlights
+          yellow: '#ffd800',        // Terminal yellow - for code highlights
+          'yellow-light': '#dcdcaa', //dcdcaa
           red: '#E06C75',           // Terminal red - for errors/warnings
-          green: '#98C379',         // Terminal green - for success elements
+          green: '#6a904d',         // Terminal green - for success elements
           comment: '#546E7A'        // Comment text color as in VS Code theme
         }
       },

@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +12,8 @@
  * Base styles and CSS variables
  * These define the color scheme and basic styling for the application
  */
-@layer base {  
+@layer base {
+
   /* Improve font rendering to be closer to Safari's appearance */
   html {
     -webkit-font-smoothing: antialiased;
@@ -21,47 +21,61 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "cv02", "cv03", "cv04", "cv09", "cv11";
   }
+
   :root {
     /* Main colors - VS Code Minimal Dark theme */
-    --background: #000000; /* Pitch black background */
-    --foreground: #DCDFE4; /* Light foreground text */
+    --background: #000000;
+    /* Pitch black background */
+    --foreground: #DCDFE4;
+    /* Light foreground text */
 
     /* Card styles */
-    --card: #1E1E1E; /* Editor background color */
+    --card: #1E1E1E;
+    /* Editor background color */
     --card-foreground: #DCDFE4;
 
     /* Popover styles */
-    --popover: #252526; /* Dropdown/popup background */
+    --popover: #252526;
+    /* Dropdown/popup background */
     --popover-foreground: #DCDFE4;
 
     /* Primary colors */
-    --primary: #56B6C2; /* Terminal cyan */
+    --primary: #56B6C2;
+    /* Terminal cyan */
     --primary-foreground: #000000;
 
     /* Secondary colors */
-    --secondary: #C678DD; /* Terminal magenta */
+    --secondary: #C678DD;
+    /* Terminal magenta */
     --secondary-foreground: #000000;
 
     /* Muted colors */
-    --muted: #383838; /* Input background */
-    --muted-foreground: #BBBBBB; /* Muted text */
+    --muted: #383838;
+    /* Input background */
+    --muted-foreground: #BBBBBB;
+    /* Muted text */
 
     /* Accent colors */
-    --accent: #61AFEF; /* Terminal blue */
+    --accent: #61AFEF;
+    /* Terminal blue */
     --accent-foreground: #000000;
 
     /* Destructive colors */
-    --destructive: #E06C75; /* Terminal red */
+    --destructive: #E06C75;
+    /* Terminal red */
     --destructive-foreground: #DCDFE4;
 
     /* Other UI elements */
-    --border: #383B3D; /* Border color */
-    --input: #383838; /* Input background */
-    --ring: #56B6C2; /* Focus ring color */
+    --border: #383B3D;
+    /* Border color */
+    --input: #383838;
+    /* Input background */
+    --ring: #56B6C2;
+    /* Focus ring color */
 
     /* Border radius */
     --radius: 0.5rem;
-    
+
     /* Note: SRV colors are defined in tailwind.config.ts */
     /* This ensures a single source of truth for all colors */
     /* Use Tailwind classes like bg-srv-teal, text-srv-pink, etc. */
@@ -73,33 +87,34 @@
  * Reusable component styles using @apply to reduce utility class repetition
  */
 @layer components {
+
   /* Button styles */
   .btn {
     @apply px-4 py-2 rounded font-medium transition-colors;
   }
-  
+
   .btn-primary {
     @apply bg-srv-teal text-black hover:bg-srv-blue;
   }
-  
+
   .btn-secondary {
     @apply bg-srv-pink text-black hover:bg-opacity-90;
   }
-  
+
   /* Card styles */
   .card {
     @apply bg-card rounded-lg shadow-md p-6;
   }
-  
+
   /* Navigation styles */
   .nav-link {
     @apply transition-colors font-medium;
   }
-  
+
   .nav-link-active {
     @apply text-srv-pink;
   }
-  
+
   /* Container styles */
   .container-narrow {
     @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
@@ -114,11 +129,11 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .bg-gradient-brand {
     @apply bg-gradient-to-r from-srv-blue to-srv-teal;
   }
@@ -128,12 +143,18 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-srv-dark text-foreground;
-    font-family: 'JetBrains Mono', monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'IBM Plex Mono', monospace, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold;
   }
 }
@@ -151,18 +172,37 @@
 
 /* Animations */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0
+  }
+
+  to {
+    width: 100%
+  }
 }
 
 .animate-fade-in {

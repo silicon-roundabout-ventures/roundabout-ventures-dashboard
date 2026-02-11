@@ -78,8 +78,8 @@ export default {
         }
       },
       fontFamily: {
-        mono: ['"Source Code Pro"', 'Menlo', 'SF Mono', 'Monaco', 'monospace'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'Menlo', 'SF Mono', 'Monaco', 'monospace'],
+        sans: ['IBM Plex Mono', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',

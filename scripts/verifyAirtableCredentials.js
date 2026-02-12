@@ -6,12 +6,17 @@
  */
 
 const https = require('https');
-const dotenv = require('dotenv');
 
 // Load environment variables based on environment
-dotenv.config({
-  path: `.env.${process.env.NODE_ENV || 'development'}`,
-});
+try {
+  const dotenv = require('dotenv');
+  dotenv.config({
+    path: `.env.${process.env.NODE_ENV || 'development'}`,
+  });
+} catch (e) {
+  // dotenv might not be available in production/CI environments where env vars are injected directly
+  console.log('✓ dotenv module not found, relying on system environment variables');
+}
 
 // Check if Airtable credentials exist
 const apiKey = process.env.AIRTABLE_API_KEY ? process.env.AIRTABLE_API_KEY.trim() : '';
@@ -44,11 +49,11 @@ console.log('✓ Testing Airtable API connection...');
 
 const req = https.request(options, (res) => {
   let data = '';
-  
+
   res.on('data', (chunk) => {
     data += chunk;
   });
-  
+
   res.on('end', () => {
     if (res.statusCode === 200) {
       console.log('✓ Airtable API connection successful!');

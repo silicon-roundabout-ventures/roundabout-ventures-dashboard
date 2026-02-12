@@ -1,7 +1,11 @@
 // Load environment variables based on the environment
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-});
+try {
+  require("dotenv").config({
+    path: `.env.${process.env.NODE_ENV}`,
+  });
+} catch (e) {
+  // dotenv might not be available in production/CI environments where env vars are injected directly
+}
 
 const path = require("path");
 

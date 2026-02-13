@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "build:ts": "tsc -p tsconfig.build.custom.json",
+    "netlify:build": "npm ci && node ./scripts/verifyAirtableCredentials.js && npm run build",
     "dev": "npm run build:ts && NODE_OPTIONS=\"--no-deprecation\" gatsby develop",
     "build": "npm run build:ts && NODE_OPTIONS=\"--no-deprecation\" gatsby build",
     "build:dev": "npm run build:ts && NODE_OPTIONS=\"--no-deprecation\" gatsby build --mode development",

@@ -50,6 +50,7 @@ export default function Navbar({ location }: NavbarProps) {
     { name: 'Home', path: '/' },
     { name: 'Who We Are', path: '/whoweare' },
     { name: 'Portfolio Dashboard', path: '/portfolio' },
+    { name: 'Co-Investors', path: '/investors/' },
     { name: 'Building in Public', path: '/buildinginpublic' },
     { name: 'Community', path: '/community' },
     { name: 'For Investors', path: '/forinvestors' },

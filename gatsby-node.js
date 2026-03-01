@@ -72,6 +72,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       Details: String
       Name: String
       Status: String
+      Stage: JSON
       Fund_numeral: [String]
       Numeral: String
       Logo: [AirtableAttachment]
@@ -80,6 +81,11 @@ exports.createSchemaCustomization = ({ actions }) => {
 
     type AirtableAttachment {
       localFiles: [File] @link(from: "localFiles___NODE")
+    }
+
+    type MockPortfolioData implements Node {
+      logoImage: File @link
+      photoImage: File @link
     }
   `);
 };
@@ -358,6 +364,76 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       perFundStats    // Specific stats
     }
   });
+
+  // VC Investors page
+  let investorRecords = [];
+  if (hasAirtable) {
+    try {
+      const investorsResult = await graphql(`
+        query {
+          vcInvestors: allAirtable(filter: {table: {eq: "VC Investors"}}) {
+            nodes {
+              recordId
+              data {
+                Co_Investor_Name__Deal_
+                Type
+                Stage
+                Industry_Tags
+                Target_Geography
+                Cheque_Size
+                Company_Country
+                Website { value }
+                domain__from_Firm_
+                Notes
+                True_False
+              }
+            }
+          }
+        }
+      `);
+
+      if (investorsResult.errors) {
+        reporter.warn('VC Investors query failed: ' + JSON.stringify(investorsResult.errors));
+      } else {
+        investorRecords = investorsResult.data.vcInvestors.nodes;
+        reporter.info(`Fetched ${investorRecords.length} VC Investor records from Airtable`);
+      }
+    } catch (e) {
+      reporter.warn(`Error querying VC Investors: ${e.message}`);
+    }
+  }
+
+  const investors = investorRecords
+    .filter(n => String(n.data.True_False || '').trim().toUpperCase() === 'TRUE')
+    .map(item => {
+      const d = item.data;
+      const rawWebsite = d.Website?.[0]?.value || '';
+      const rawDomain = normalizeAirtableField(d.domain__from_Firm_) || '';
+      const urlSource = rawWebsite || rawDomain;
+      const website = urlSource && !/^https?:\/\//i.test(urlSource) ? `https://${urlSource}` : urlSource;
+      const stageVal = d.Stage;
+      return {
+        id: item.recordId,
+        name: normalizeAirtableField(d.Co_Investor_Name__Deal_) || '',
+        type: normalizeAirtableField(d.Type) || '',
+        stage: Array.isArray(stageVal) ? stageVal : (stageVal ? [String(stageVal)] : []),
+        industryTags: Array.isArray(d.Industry_Tags) ? d.Industry_Tags : (d.Industry_Tags ? [d.Industry_Tags] : []),
+        targetGeography: Array.isArray(d.Target_Geography) ? d.Target_Geography : (d.Target_Geography ? [d.Target_Geography] : []),
+        chequeSize: Array.isArray(d.Cheque_Size) ? d.Cheque_Size : (d.Cheque_Size ? [d.Cheque_Size] : []),
+        companyCountry: Array.isArray(d.Company_Country) ? d.Company_Country : (d.Company_Country ? [d.Company_Country] : []),
+        website,
+        domain: normalizeAirtableField(d.domain__from_Firm_) || '',
+        notes: normalizeAirtableField(d.Notes) || '',
+      };
+    });
+
+  reporter.info(`Creating /investors/ page with ${investors.length} investors`);
+
+  createPage({
+    path: '/investors/',
+    component: path.resolve(__dirname, 'src/templates/investors.tsx'),
+    context: { investors }
+  });
 };
 
 // Fetch remote logos/photos and expose as File nodes for gatsby-plugin-image
@@ -398,14 +474,8 @@ exports.createResolvers = ({ actions, cache, createNodeId, createResolvers, stor
 };
 
 // Extend schema for remote image fields
-exports.createSchemaCustomization = ({ actions }) => {
-  actions.createTypes(`
-    type MockPortfolioData implements Node {
-      logoImage: File @link
-      photoImage: File @link
-    }
-  `);
-};
+// NOTE: createSchemaCustomization for MockPortfolioData is merged into the
+// main createSchemaCustomization block at the top of this file.
 
 /* 
  * TYPESCRIPT / WEBPACK / BUILD-TIME SETUP

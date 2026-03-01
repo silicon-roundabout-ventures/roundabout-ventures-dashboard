@@ -100,6 +100,10 @@ module.exports = {
               baseId: process.env.AIRTABLE_BASE_ID.trim(),
               tableName: `SRV Funds`,
               // No specific view needed, default grid view is fine
+            },
+            {
+              baseId: process.env.AIRTABLE_BASE_ID.trim(),
+              tableName: `VC Investors`,
             }
           ] : [])
         ]

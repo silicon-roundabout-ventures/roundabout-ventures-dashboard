@@ -21,6 +21,20 @@ export interface PortfolioCompany {
   latestFollowOnRound?: string;
 }
 
+export interface VCInvestor {
+  id: string;
+  name: string;
+  type: string;
+  stage: string[];
+  industryTags: string[];
+  targetGeography: string[];
+  chequeSize: string[];
+  companyCountry: string[];
+  website: string;
+  domain: string;
+  notes: string;
+}
+
 export interface FundStatistics {
   totalInvestments: number;
   totalCompanies: number;

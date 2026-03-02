@@ -45,7 +45,7 @@ module.exports = {
         failOnError: false, // Prevents build failures on image processing errors
         defaultQuality: 80, // Good balance between quality and size
         stripMetadata: true, // Reduces image size
-      }
+      },
     },
 
     // Source filesystem for images and other static assets
@@ -79,44 +79,50 @@ module.exports = {
       resolve: `gatsby-source-airtable`,
       options: {
         // Make sure to trim any whitespace from the API key
-        apiKey: process.env.AIRTABLE_API_KEY ? process.env.AIRTABLE_API_KEY.trim() : '',
+        apiKey: process.env.AIRTABLE_API_KEY ? process.env.AIRTABLE_API_KEY.trim() : "",
         concurrency: 1, // Set to 1 to avoid rate limiting on Netlify
         requestTimeout: 60000, // 60 seconds timeout for Netlify builds
         // Configure error handling for Netlify builds
-        errorHandling: 'skip',
+        errorHandling: "skip",
         separateNodeType: false, // Use unified Airtable type for GraphQL queries
-        queryName: 'Airtable',
+        queryName: "Airtable",
         tables: [
           // Only process if environment variables are available and non-empty
-          ...(process.env.AIRTABLE_API_KEY && process.env.AIRTABLE_API_KEY.trim() !== '' &&
-            process.env.AIRTABLE_BASE_ID && process.env.AIRTABLE_BASE_ID.trim() !== '' ? [
-            {
-              baseId: process.env.AIRTABLE_BASE_ID.trim(),
-              tableName: `Startups`,
-              tableView: `Portfolio_websiteFeed`, // Use the specific Portfolio_websiteFeed view for the records to show (all fields, inc hidden ones, remain available in the GraphQL schema)
-              mapping: { Logo: 'fileNode', Photo: 'fileNode' }
-            },
-            {
-              baseId: process.env.AIRTABLE_BASE_ID.trim(),
-              tableName: `SRV Funds`,
-              // No specific view needed, default grid view is fine
-            }
-          ] : [])
-        ]
-      }
+          ...(process.env.AIRTABLE_API_KEY &&
+          process.env.AIRTABLE_API_KEY.trim() !== "" &&
+          process.env.AIRTABLE_BASE_ID &&
+          process.env.AIRTABLE_BASE_ID.trim() !== ""
+            ? [
+                {
+                  baseId: process.env.AIRTABLE_BASE_ID.trim(),
+                  tableName: `Startups`,
+                  tableView: `Portfolio_websiteFeed`, // Use the specific Portfolio_websiteFeed view for the records to show (all fields, inc hidden ones, remain available in the GraphQL schema)
+                  mapping: { Logo: "fileNode", Photo: "fileNode" },
+                },
+                {
+                  baseId: process.env.AIRTABLE_BASE_ID.trim(),
+                  tableName: `SRV Funds`,
+                  // No specific view needed, default grid view is fine
+                },
+                {
+                  baseId: process.env.AIRTABLE_BASE_ID.trim(),
+                  tableName: `VC Investors`,
+                },
+              ]
+            : []),
+        ],
+      },
     },
 
     // Cache control headers for better performance
     {
-      resolve: 'gatsby-plugin-netlify',
+      resolve: "gatsby-plugin-netlify",
       options: {
         headers: {
-          '/*': [
-            'Cache-Control: public, max-age=0, must-revalidate'
-          ]
+          "/*": ["Cache-Control: public, max-age=0, must-revalidate"],
         },
         mergeSecurityHeaders: false,
-      }
+      },
     },
 
     // Uncomment when we have proper icons
@@ -133,4 +139,4 @@ module.exports = {
       },
     },
   ],
-} 
+};

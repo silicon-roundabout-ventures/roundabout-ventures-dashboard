@@ -5,6 +5,7 @@ import SEO from '@/components/parts/SEO';
 import { HeadFC } from 'gatsby';
 import InvestorCard from '@/components/widgets/InvestorCard';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
+import { Link } from 'gatsby';
 
 interface InvestorsProps {
   pageContext: {
@@ -116,9 +117,15 @@ const Investors = ({ pageContext, location }: InvestorsProps) => {
               {chevron}
             </div>
 
-            <span className="text-white/60 text-sm ml-auto">
+            <span className="text-white/60 text-sm ml-auto mr-3">
               {displayedInvestors.length} of {allInvestors.length} investors
             </span>
+            <Link
+              to="/addinvestor/"
+              className="px-4 py-2 rounded-full font-mono text-sm transition-all border bg-black/40 text-white border-white/20 hover:border-srv-teal/50"
+            >
+              + Add Your Firm
+            </Link>
           </div>
 
           {/* Investor Cards Grid */}

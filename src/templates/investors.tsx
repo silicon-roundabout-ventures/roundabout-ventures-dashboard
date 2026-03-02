@@ -67,16 +67,16 @@ const Investors = ({ pageContext, location }: InvestorsProps) => {
   );
 
   return (
-    <Layout title="Co-Investors - Silicon Roundabout Ventures" location={location}>
+    <Layout title="Deeptech Investors - Silicon Roundabout Ventures" location={location}>
       <div className="min-h-screen pt-28 pb-16">
         <ParticleBackground />
         <div className="container mx-auto px-4">
 
           {/* Title */}
           <div className="mb-10 text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Co-Investors/&gt;</h1>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">&lt;Deeptech Investors/&gt;</h1>
             <p className="text-white/90 max-w-2xl mx-auto mb-8">
-              Explore the VC firms, angels, and investors we've co-invested alongside.
+              Explore the deeptech VC firms, angels, and investors in our network.
             </p>
           </div>
 
@@ -142,7 +142,7 @@ const Investors = ({ pageContext, location }: InvestorsProps) => {
 
 export const Head: HeadFC = ({ location }) => (
   <SEO
-    title="Co-Investors - Silicon Roundabout Ventures"
+    title="Deeptech Investors - Silicon Roundabout Ventures"
     description="Explore the VC firms, angels, and investors we've co-invested alongside"
     pathname={location.pathname}
   />

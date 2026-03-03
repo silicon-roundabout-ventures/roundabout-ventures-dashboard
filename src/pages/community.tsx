@@ -89,8 +89,8 @@ const CommunityContent = () => {
           </div>
 
           <div className="flex justify-center mb-16">
-              <Link 
-                to="/buildinginpublic" 
+              <Link
+                to="/buildinginpublic"
                 className="px-8 py-4 bg-srv-yellow hover:bg-srv-yellow/80 text-black font-bold rounded-lg transition-colors flex items-center gap-2"
               >
                 Hear about new events through our Build in Public blog
@@ -99,6 +99,23 @@ const CommunityContent = () => {
                 </svg>
               </Link>
             </div>
+
+          {/* Deeptech Investors Section */}
+          <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
+            <h2 className="text-2xl font-bold text-white mb-4">&lt;Deeptech Investors/&gt;</h2>
+            <p className="text-white/90 mb-6">
+              Explore the deeptech VC firms, angels, and investors in our network. Browse by stage, industry, and geography.
+            </p>
+            <Link
+              to="/investors/"
+              className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+            >
+              Browse Deeptech Investors
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </Link>
+          </div>
 
         </div>
       </div>

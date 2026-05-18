@@ -14,8 +14,8 @@ export default function DashboardPage() {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-muted-foreground">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-srv-dark">
+        <p className="text-srv-gray">Loading...</p>
       </div>
     );
   }
@@ -23,7 +23,7 @@ export default function DashboardPage() {
   return (
     <DashboardLayout activeItem="Dashboard">
       <div className="container mx-auto px-4 py-12">
-        <p className="text-muted-foreground">Welcome, {user?.name || user?.email}.</p>
+        <p className="text-srv-gray">Welcome, {user?.name || user?.email}.</p>
       </div>
     </DashboardLayout>
   );

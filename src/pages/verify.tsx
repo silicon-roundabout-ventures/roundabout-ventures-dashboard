@@ -27,19 +27,17 @@ export default function VerifyPage() {
   }, [verify]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+    <div className="min-h-screen flex items-center justify-center bg-srv-dark px-4">
       <div className="text-center space-y-2">
         {status === "verifying" ? (
           <>
-            <p className="text-foreground font-medium">Verifying...</p>
-            <p className="text-sm text-muted-foreground">Please wait</p>
+            <p className="text-white font-medium">Verifying...</p>
+            <p className="text-sm text-srv-gray">Please wait</p>
           </>
         ) : (
           <>
-            <p className="text-destructive font-medium">Verification failed</p>
-            <p className="text-sm text-muted-foreground">
-              Redirecting to login...
-            </p>
+            <p className="text-srv-pink font-medium">Verification failed</p>
+            <p className="text-sm text-srv-gray">Redirecting to login...</p>
           </>
         )}
       </div>

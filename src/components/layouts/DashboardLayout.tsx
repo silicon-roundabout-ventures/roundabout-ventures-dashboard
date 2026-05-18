@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, navigate } from "gatsby";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "@/components/parts/button";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -22,18 +21,18 @@ const DashboardLayout = ({ children, activeItem }: DashboardLayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-input">
+    <div className="min-h-screen bg-srv-dark">
+      <header className="border-b border-white/10">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
           <nav className="flex items-center gap-6">
             {navItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`text-sm font-medium transition-colors hover:text-foreground ${
+                className={`text-sm font-medium transition-colors hover:text-white ${
                   activeItem === item.label
-                    ? "text-foreground"
-                    : "text-muted-foreground"
+                    ? "text-white"
+                    : "text-white/50"
                 }`}
               >
                 {item.label}
@@ -41,10 +40,13 @@ const DashboardLayout = ({ children, activeItem }: DashboardLayoutProps) => {
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">{user?.email}</span>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
+            <span className="text-sm text-srv-gray">{user?.email}</span>
+            <button
+              onClick={handleLogout}
+              className="text-sm px-3 py-1.5 rounded-md border border-white/20 text-white hover:bg-white/10 transition-colors"
+            >
               Sign out
-            </Button>
+            </button>
           </div>
         </div>
       </header>

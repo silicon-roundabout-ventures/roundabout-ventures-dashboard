@@ -27,8 +27,8 @@ export default function VCConnectionsPage() {
 
   if (authLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-muted-foreground">Loading...</p>
+      <div className="min-h-screen flex items-center justify-center bg-srv-dark">
+        <p className="text-srv-gray">Loading...</p>
       </div>
     );
   }
@@ -37,10 +37,10 @@ export default function VCConnectionsPage() {
     <DashboardLayout activeItem="VC Connections">
       <div className="container mx-auto px-4 py-8">
         {investorsLoading && (
-          <p className="text-muted-foreground">Loading investors...</p>
+          <p className="text-srv-gray">Loading investors...</p>
         )}
         {error && (
-          <p className="text-destructive">Failed to load investors. Please try again.</p>
+          <p className="text-srv-pink">Failed to load investors. Please try again.</p>
         )}
         {investors && (
           <InvestorDirectory
@@ -48,8 +48,8 @@ export default function VCConnectionsPage() {
             showContacts
             headerSlot={
               <div className="mb-8">
-                <h1 className="text-2xl font-bold text-foreground mb-2">VC Connections</h1>
-                <p className="text-sm text-muted-foreground">
+                <h1 className="text-2xl font-bold text-white mb-2">VC Connections</h1>
+                <p className="text-sm text-srv-gray">
                   Browse deeptech investors in our network, including contact details.
                 </p>
               </div>

@@ -1,6 +1,7 @@
 import React from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { TooltipProvider } from "./src/components/parts/tooltip"
+import { AuthProvider } from "./src/context/AuthContext"
 
 const queryClient = new QueryClient()
 
@@ -8,9 +9,11 @@ const queryClient = new QueryClient()
 export const wrapRootElement = ({ element }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        {element}
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          {element}
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }

@@ -2,13 +2,21 @@ import React from 'react';
 import { VCInvestor } from '@/config/airtableConfig';
 import { Card } from '@/components/parts/Card';
 import Tag from '@/components/parts/Tag';
-import { ExternalLink, Globe, MapPin, DollarSign } from 'lucide-react';
+import { ExternalLink, Globe, MapPin, DollarSign, Mail, Linkedin, User } from 'lucide-react';
 
-interface InvestorCardProps {
-  investor: VCInvestor;
+interface InvestorWithContacts extends VCInvestor {
+  contacts?: string[];
+  contactEmail?: string[];
+  contactLinkedIn?: string[];
+  contactLocation?: string[];
 }
 
-const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
+interface InvestorCardProps {
+  investor: InvestorWithContacts;
+  showContacts?: boolean;
+}
+
+const InvestorCard: React.FC<InvestorCardProps> = ({ investor, showContacts }) => {
   const displayUrl = investor.domain || (investor.website ? investor.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : '');
 
   return (
@@ -84,6 +92,42 @@ const InvestorCard: React.FC<InvestorCardProps> = ({ investor }) => {
             </a>
           )}
         </div>
+
+        {/* Contact details — only shown for authenticated users */}
+        {showContacts && investor.contacts && investor.contacts.length > 0 && (
+          <div className="mt-2 pt-2 border-t border-white/10 space-y-1.5">
+            {investor.contacts.map((name, i) => (
+              <div key={i} className="space-y-0.5">
+                <div className="flex items-center gap-1.5 text-white/80 text-xs">
+                  <User size={12} className="shrink-0" />
+                  <span>{name}</span>
+                </div>
+                {investor.contactEmail?.[i] && (
+                  <a
+                    href={`mailto:${investor.contactEmail[i]}`}
+                    className="flex items-center gap-1.5 text-srv-teal text-xs hover:text-srv-teal/80 transition-colors ml-[18px]"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Mail size={11} className="shrink-0" />
+                    <span className="truncate">{investor.contactEmail[i]}</span>
+                  </a>
+                )}
+                {investor.contactLinkedIn?.[i] && (
+                  <a
+                    href={investor.contactLinkedIn[i]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-srv-teal text-xs hover:text-srv-teal/80 transition-colors ml-[18px]"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Linkedin size={11} className="shrink-0" />
+                    <span className="truncate">LinkedIn</span>
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </Card>
   );

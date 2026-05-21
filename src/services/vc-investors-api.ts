@@ -68,11 +68,12 @@ function mapResponseToInvestor(raw: VCInvestorResponse, index: number): VCInvest
 }
 
 export async function fetchVCInvestors(): Promise<VCInvestorWithContacts[]> {
-  const res = await fetch(`${API_URL}/api/vc-investors`, {
+  const res = await fetch(`${API_URL}/vc-investors`, {
     credentials: "include",
     mode: "cors",
   });
   if (!res.ok) throw new Error(`Failed to fetch VC investors: ${res.status}`);
-  const data: VCInvestorResponse[] = await res.json();
+  const json = await res.json();
+  const data: VCInvestorResponse[] = json.data;
   return data.map(mapResponseToInvestor);
 }

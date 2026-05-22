@@ -45,7 +45,7 @@ export default function VCConnectionsPage() {
         {investors && (
           <InvestorDirectory
             investors={investors}
-            showContacts
+            linkPrefix="/dashboard/vc-connections"
             headerSlot={
               <div className="mb-8">
                 <h1 className="text-2xl font-bold text-white mb-2">VC Connections</h1>

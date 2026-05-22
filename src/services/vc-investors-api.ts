@@ -40,16 +40,20 @@ function normalizeFirst(val: string | string[] | undefined): string {
   return Array.isArray(val) ? val[0] || "" : val;
 }
 
+function slugify(str: string): string {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 function mapResponseToInvestor(raw: VCInvestorResponse, index: number): VCInvestorWithContacts {
   const rawWebsite = normalizeFirst(raw["Website"]);
   const website = rawWebsite && !/^https?:\/\//i.test(rawWebsite)
     ? `https://${rawWebsite}`
     : rawWebsite;
 
-  const domain = normalizeFirst(raw["Firm"]);
+  const domain = rawWebsite ? rawWebsite.replace(/^https?:\/\//, '').replace(/\/.*$/, '') : "";
 
   return {
-    id: String(index),
+    id: slugify(raw["Co-Investor Name (Deal)"] || String(index)),
     name: raw["Co-Investor Name (Deal)"] || "",
     type: raw["Type"] || "",
     stage: normalizeArray(raw["Stage"]),

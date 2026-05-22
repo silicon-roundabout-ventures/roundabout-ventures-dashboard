@@ -1,26 +1,20 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import { VCInvestor } from '@/config/airtableConfig';
 import { Card } from '@/components/parts/Card';
 import Tag from '@/components/parts/Tag';
-import { ExternalLink, Globe, MapPin, DollarSign, Mail, Linkedin, User } from 'lucide-react';
-
-interface InvestorWithContacts extends VCInvestor {
-  contacts?: string[];
-  contactEmail?: string[];
-  contactLinkedIn?: string[];
-  contactLocation?: string[];
-}
+import { ExternalLink, Globe, MapPin, DollarSign } from 'lucide-react';
 
 interface InvestorCardProps {
-  investor: InvestorWithContacts;
-  showContacts?: boolean;
+  investor: VCInvestor;
+  linkTo?: string;
 }
 
-const InvestorCard: React.FC<InvestorCardProps> = ({ investor, showContacts }) => {
+const InvestorCard: React.FC<InvestorCardProps> = ({ investor, linkTo }) => {
   const displayUrl = investor.domain || (investor.website ? investor.website.replace(/^https?:\/\//, '').replace(/\/$/, '') : '');
 
-  return (
-    <Card className="border-2 border-white/20 rounded-lg p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] relative group">
+  const card = (
+    <Card className={`border-2 border-white/20 rounded-lg p-4 h-full bg-black/30 backdrop-blur-sm transition-all duration-200 hover:border-srv-teal/30 hover:shadow-lg hover:translate-y-[-2px] relative group ${linkTo ? 'cursor-pointer' : ''}`}>
       <div className="absolute inset-0 bg-srv-teal/0 group-hover:bg-srv-teal/5 transition-colors rounded-lg"></div>
       <div className="flex flex-col h-full relative z-10">
         {/* Header: Name + Type */}
@@ -92,45 +86,15 @@ const InvestorCard: React.FC<InvestorCardProps> = ({ investor, showContacts }) =
             </a>
           )}
         </div>
-
-        {/* Contact details — only shown for authenticated users */}
-        {showContacts && investor.contacts && investor.contacts.length > 0 && (
-          <div className="mt-2 pt-2 border-t border-white/10 space-y-1.5">
-            {investor.contacts.map((name, i) => (
-              <div key={i} className="space-y-0.5">
-                <div className="flex items-center gap-1.5 text-white/80 text-xs">
-                  <User size={12} className="shrink-0" />
-                  <span>{name}</span>
-                </div>
-                {investor.contactEmail?.[i] && (
-                  <a
-                    href={`mailto:${investor.contactEmail[i]}`}
-                    className="flex items-center gap-1.5 text-srv-teal text-xs hover:text-srv-teal/80 transition-colors ml-[18px]"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Mail size={11} className="shrink-0" />
-                    <span className="truncate">{investor.contactEmail[i]}</span>
-                  </a>
-                )}
-                {investor.contactLinkedIn?.[i] && (
-                  <a
-                    href={investor.contactLinkedIn[i]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-srv-teal text-xs hover:text-srv-teal/80 transition-colors ml-[18px]"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Linkedin size={11} className="shrink-0" />
-                    <span className="truncate">LinkedIn</span>
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </Card>
   );
+
+  if (linkTo) {
+    return <Link to={linkTo} className="block h-full">{card}</Link>;
+  }
+
+  return card;
 };
 
 export default InvestorCard;

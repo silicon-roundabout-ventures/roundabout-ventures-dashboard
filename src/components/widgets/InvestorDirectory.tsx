@@ -4,11 +4,11 @@ import InvestorCard from '@/components/widgets/InvestorCard';
 
 interface InvestorDirectoryProps {
   investors: VCInvestor[];
-  showContacts?: boolean;
+  linkPrefix?: string;
   headerSlot?: React.ReactNode;
 }
 
-const InvestorDirectory = ({ investors, showContacts, headerSlot }: InvestorDirectoryProps) => {
+const InvestorDirectory = ({ investors, linkPrefix, headerSlot }: InvestorDirectoryProps) => {
   const [typeFilter, setTypeFilter] = useState('all');
   const [stageFilter, setStageFilter] = useState('all');
   const [industryFilter, setIndustryFilter] = useState('all');
@@ -103,7 +103,11 @@ const InvestorDirectory = ({ investors, showContacts, headerSlot }: InvestorDire
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {displayed.length > 0 ? (
           displayed.map(investor => (
-            <InvestorCard key={investor.id} investor={investor} showContacts={showContacts} />
+            <InvestorCard
+              key={investor.id}
+              investor={investor}
+              linkTo={linkPrefix ? `${linkPrefix}/${investor.id}` : undefined}
+            />
           ))
         ) : (
           <div className="col-span-full text-center py-12">

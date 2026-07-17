@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout';
 import ImageSlider from '@/components/sections/ImageSlider';
 
 const CommunityContent = () => {
+  const [showSubscribe, setShowSubscribe] = useState(false);
 
   return (
     <div className="min-h-screen pt-20 pb-16">
@@ -33,6 +34,51 @@ const CommunityContent = () => {
       <div className="container mx-auto px-4 z-10 relative">
         
         <div className="max-w-5xl mx-auto">
+          {/* Join Community Section */}
+          <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12 text-center">
+            <h2 className="text-2xl font-bold text-white mb-6">&lt;Join Our Community/&gt;</h2>
+            {!showSubscribe ? (
+              <button
+                onClick={() => setShowSubscribe(true)}
+                className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+              >
+                Join Community
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </button>
+            ) : (
+              <div className="flex justify-center">
+                {/* Substack embed form: free email subscription only, no paid tiers shown */}
+                <iframe
+                  src="https://blog.siliconroundabout.ventures/embed"
+                  width="480"
+                  height="150"
+                  frameBorder="0"
+                  scrolling="no"
+                  title="Subscribe to Silicon Roundabout Ventures"
+                  style={{ borderRadius: '8px', border: 'none', maxWidth: '100%' }}
+                />
+              </div>
+            )}
+
+            <div className="text-white text-left mt-8 max-w-3xl mx-auto">
+              <p className="font-bold mb-4">Here is what you&apos;ll find inside our community:</p>
+              <ul className="space-y-4">
+                <li>
+                  📅 Access to private dinners, roundtables and public events across Europe
+                </li>
+                <li>
+                  🛠️ <span className="font-bold">The Toolkit:</span> From our proprietary Investor Directory to hiring frameworks for PhD-heavy teams - we are preparing a lot of crazy stuff.
+                </li>
+                <li>
+                  🦄 <span className="font-bold">Lessons from most exceptional Founders:</span> Raw scaling playbooks from the CEOs of Europe&apos;s biggest deeptech successes.
+                </li>
+              </ul>
+              <p className="mt-6">If you&apos;re building at the edge of what&apos;s possible, you belong here.</p>
+            </div>
+          </div>
+
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
            <h2 className="text-2xl font-bold text-white mb-6">&lt;Upcoming Events/&gt;</h2>
             <p className="text-white mb-6">Connect with like-minded innovators and industry leaders at our upcoming events.</p>

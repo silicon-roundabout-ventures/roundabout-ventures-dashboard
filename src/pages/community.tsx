@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout';
-import ImageSlider from '@/components/sections/ImageSlider';
 
 const CommunityContent = () => {
   const [showSubscribe, setShowSubscribe] = useState(false);
@@ -11,23 +10,13 @@ const CommunityContent = () => {
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
       
-      {/* Hero Section with Background Image */}
-      <div className="relative mb-16">
-        <div className="w-full h-[50vh] overflow-hidden rounded-lg relative">
-          {/* Use the reusable ImageSlider component */}
-          <ImageSlider 
-            imagePathPattern="community\/events"
-            transitionSpeed={4000}
-            overlayOpacity={50}
-          />
-          
-          {/* Text content */}
-          <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
-            <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center bg-black/40 backdrop-blur-sm p-4 rounded-lg">
-              Join our vibrant community of founders, engineers, and investors passionate about deep tech and innovation.
-            </p>
-          </div>
+      {/* Hero Section */}
+      <div className="mb-16 pt-8">
+        <div className="flex items-center justify-center flex-col">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
+          <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center">
+            Join our vibrant community of founders, engineers, and investors passionate about deep tech and innovation.
+          </p>
         </div>
       </div>
       

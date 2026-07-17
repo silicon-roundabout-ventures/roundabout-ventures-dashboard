@@ -25,32 +25,7 @@ const CommunityContent = () => {
         <div className="max-w-5xl mx-auto">
           {/* Join Community Section */}
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12 text-center">
-            {!showSubscribe ? (
-              <button
-                onClick={() => setShowSubscribe(true)}
-                className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors inline-flex items-center gap-2"
-              >
-                Join Community
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </button>
-            ) : (
-              <div className="flex justify-center">
-                {/* Substack embed form: free email subscription only, no paid tiers shown */}
-                <iframe
-                  src="https://blog.siliconroundabout.ventures/embed"
-                  width="480"
-                  height="150"
-                  frameBorder="0"
-                  scrolling="no"
-                  title="Subscribe to Silicon Roundabout Ventures"
-                  style={{ borderRadius: '8px', border: 'none', maxWidth: '100%' }}
-                />
-              </div>
-            )}
-
-            <div className="text-white text-left mt-16 max-w-3xl mx-auto">
+            <div className="text-white text-left max-w-3xl mx-auto">
               <p className="font-bold mb-4">Here is what you&apos;ll find inside our community:</p>
               <ul className="space-y-4">
                 <li>
@@ -63,6 +38,33 @@ const CommunityContent = () => {
                   🛠️ A proprietary Investor Directory, hiring frameworks, and other tools we&apos;re launching soon.
                 </li>
               </ul>
+            </div>
+
+            <div className="mt-16">
+              {!showSubscribe ? (
+                <button
+                  onClick={() => setShowSubscribe(true)}
+                  className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+                >
+                  Join Community
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </button>
+              ) : (
+                <div className="flex justify-center">
+                  {/* Substack embed form: free email subscription only, no paid tiers shown */}
+                  <iframe
+                    src="https://blog.siliconroundabout.ventures/embed"
+                    width="480"
+                    height="150"
+                    frameBorder="0"
+                    scrolling="no"
+                    title="Subscribe to Silicon Roundabout Ventures"
+                    style={{ borderRadius: '8px', border: 'none', maxWidth: '100%' }}
+                  />
+                </div>
+              )}
             </div>
           </div>
 

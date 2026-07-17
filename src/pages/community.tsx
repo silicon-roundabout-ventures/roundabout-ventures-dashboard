@@ -25,7 +25,6 @@ const CommunityContent = () => {
         <div className="max-w-5xl mx-auto">
           {/* Join Community Section */}
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12 text-center">
-            <h2 className="text-2xl font-bold text-white mb-6">&lt;Join Our Community/&gt;</h2>
             {!showSubscribe ? (
               <button
                 onClick={() => setShowSubscribe(true)}

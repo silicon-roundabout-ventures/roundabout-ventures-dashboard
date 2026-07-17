@@ -15,7 +15,7 @@ const CommunityContent = () => {
         <div className="flex items-center justify-center flex-col">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
           <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center">
-            Join our vibrant community of founders, engineers, and investors passionate about deep tech and innovation.
+            Join a community of thousands of Deep Tech founders, engineers, and VCs.
           </p>
         </div>
       </div>
@@ -51,20 +51,19 @@ const CommunityContent = () => {
               </div>
             )}
 
-            <div className="text-white text-left mt-8 max-w-3xl mx-auto">
+            <div className="text-white text-left mt-16 max-w-3xl mx-auto">
               <p className="font-bold mb-4">Here is what you&apos;ll find inside our community:</p>
               <ul className="space-y-4">
                 <li>
-                  📅 Access to private dinners, roundtables and public events across Europe
+                  📅 Invitation-only dinners, roundtables, and events across London and Europe.
                 </li>
                 <li>
-                  🛠️ <span className="font-bold">The Toolkit:</span> From our proprietary Investor Directory to hiring frameworks for PhD-heavy teams - we are preparing a lot of crazy stuff.
+                  🦄 Live webinars and Q&amp;As with leading Deep Tech founders and VCs.
                 </li>
                 <li>
-                  🦄 <span className="font-bold">Lessons from most exceptional Founders:</span> Raw scaling playbooks from the CEOs of Europe&apos;s biggest deeptech successes.
+                  🛠️ A proprietary Investor Directory, hiring frameworks, and other tools we&apos;re launching soon.
                 </li>
               </ul>
-              <p className="mt-6">If you&apos;re building at the edge of what&apos;s possible, you belong here.</p>
             </div>
           </div>
 

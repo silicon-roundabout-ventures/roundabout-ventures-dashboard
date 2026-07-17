@@ -408,7 +408,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 Target_Geography
                 Cheque_Size
                 Company_Country
-                Website { value }
+                Website
                 domain__from_Firm_
                 Notes
                 True_False
@@ -433,7 +433,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     .filter(n => String(n.data.True_False || '').trim().toUpperCase() === 'TRUE')
     .map(item => {
       const d = item.data;
-      const rawWebsite = d.Website?.[0]?.value || '';
+      const rawWebsite = normalizeAirtableField(d.Website) || '';
       const rawDomain = normalizeAirtableField(d.domain__from_Firm_) || '';
       const urlSource = rawWebsite || rawDomain;
       const website = urlSource && !/^https?:\/\//i.test(urlSource) ? `https://${urlSource}` : urlSource;

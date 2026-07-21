@@ -45,10 +45,10 @@ function sanitizeStealth(company) {
   };
 }
 
-function calculatePortfolioStats(nodes) {
+function calculatePortfolioStats(nodes, allInitialValuations) {
   const tickets = nodes.filter(n => n.data.GBP_Final_Ticket_Invested).map(n => n.data.GBP_Final_Ticket_Invested);
   const totalInvestments = tickets.reduce((sum, n) => sum + (n || 0), 0);
-  const vals = nodes.filter(n => n.data.GBP_Initial_Round_Pre_Money_Valuation).map(n => n.data.GBP_Initial_Round_Pre_Money_Valuation);
+  const vals = allInitialValuations || [];
   const averageInvestment = tickets.length ? tickets.reduce((a, b) => a + b, 0) / tickets.length : 0;
   const medianValuation = calculateMedian(vals);
   const oneYearAgo = new Date(); oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
@@ -202,10 +202,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                   }
                 }
                 Photo { localFiles { childImageSharp { gatsbyImageData(layout: CONSTRAINED, quality:80) } } }
-                Latest_Follow_on_Round 
-                GBP_Final_Ticket_Invested 
-                Entry_Valuation 
-                GBP_Initial_Round_Pre_Money_Valuation
+                GBP_Final_Ticket_Invested
               } 
             }
           }
@@ -227,9 +224,41 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       } else {
         nodes = result.data.allAirtable.nodes;
         fundNodes = result.data.allAirtableFunds.nodes;
+        reporter.info(`Fetched ${nodes.length} Startup records`);
+
       }
     } catch (e) {
       reporter.warn(`Error querying Airtable: ${e.message}`);
+    }
+  }
+
+  // Fetch Funding Rounds to get initial round valuations for median calculation
+  let allInitialValuations = [];
+  if (hasAirtable) {
+    try {
+      const frResult = await graphql(`
+        query {
+          allFundingRounds: allAirtable(filter: {table: {eq: "Funding Rounds [PT]"}}) {
+            nodes {
+              data {
+                Is_Initial_Round
+                Pre_Money
+              }
+            }
+          }
+        }
+      `);
+
+      if (!frResult.errors && frResult.data?.allFundingRounds) {
+        const frNodes = frResult.data.allFundingRounds.nodes;
+        reporter.info(`Fetched ${frNodes.length} Funding Round records`);
+        allInitialValuations = frNodes
+          .filter(fr => (fr.data.Is_Initial_Round === 1 || fr.data.Is_Initial_Round === true) && fr.data.Pre_Money)
+          .map(fr => fr.data.Pre_Money);
+        reporter.info(`Found ${allInitialValuations.length} initial round valuations`);
+      }
+    } catch (e) {
+      reporter.warn(`Error querying Funding Rounds: ${e.message}`);
     }
   }
 
@@ -286,10 +315,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           Technology_Type: n.sectors?.[0] || 'Tech',
           Logo: { localFiles: n.logoImage ? [n.logoImage] : [] },
           Photo: { localFiles: n.photoImage ? [n.photoImage] : [] },
-          Latest_Follow_on_Round: '',
           GBP_Final_Ticket_Invested: 0,
-          Entry_Valuation: 0,
-          GBP_Initial_Round_Pre_Money_Valuation: 0,
         }
       }));
     }
@@ -330,11 +356,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       announced: toBoolAnnounced(d.Announced),
       fund: normalizeAirtableField(d.Fund_numeral) || null,
       currentStatus: d.Current_Status || '',
-      latestFollowOnRound: d.Latest_Follow_on_Round || ''
+      latestFollowOnRound: ''
     };
   });
 
-  const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes) : getMockFundStatistics();
+  const portfolioStats = nodes.length > 0 ? calculatePortfolioStats(nodes, allInitialValuations) : getMockFundStatistics();
   const sanitizedCompanies = rawCompanies.map(sanitizeStealth);
 
   // Process Funds and calculate per-fund statistics
@@ -350,7 +376,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     // MATCHING LOGIC: Startups.Fund_numeral (normalized string) === SRV Funds.Numeral (string)
     const fundNodesFiltered = nodes.filter(n => normalizeAirtableField(n.data.Fund_numeral) === fund.name);
     // Calculate stats for this subset
-    perFundStats[fund.name] = calculatePortfolioStats(fundNodesFiltered);
+    perFundStats[fund.name] = calculatePortfolioStats(fundNodesFiltered, allInitialValuations);
   });
 
   // Emit portfolio page based on a template provided
@@ -382,7 +408,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 Target_Geography
                 Cheque_Size
                 Company_Country
-                Website { value }
+                Website
                 domain__from_Firm_
                 Notes
                 True_False
@@ -407,7 +433,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     .filter(n => String(n.data.True_False || '').trim().toUpperCase() === 'TRUE')
     .map(item => {
       const d = item.data;
-      const rawWebsite = d.Website?.[0]?.value || '';
+      const rawWebsite = normalizeAirtableField(d.Website) || '';
       const rawDomain = normalizeAirtableField(d.domain__from_Firm_) || '';
       const urlSource = rawWebsite || rawDomain;
       const website = urlSource && !/^https?:\/\//i.test(urlSource) ? `https://${urlSource}` : urlSource;

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout';
 import ImageSlider from '@/components/sections/ImageSlider';
 
 const CommunityContent = () => {
+  const [showSubscribe, setShowSubscribe] = useState(false);
 
   return (
     <div className="min-h-screen pt-20 pb-16">
@@ -13,18 +14,17 @@ const CommunityContent = () => {
       {/* Hero Section with Background Image */}
       <div className="relative mb-16">
         <div className="w-full h-[50vh] overflow-hidden rounded-lg relative">
-          {/* Use the reusable ImageSlider component */}
-          <ImageSlider 
-            imagePathPattern="community\/events"
+          <ImageSlider
+            imagePathPattern="community\/community-page"
             transitionSpeed={4000}
             overlayOpacity={50}
           />
-          
+
           {/* Text content */}
           <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
             <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center bg-black/40 backdrop-blur-sm p-4 rounded-lg">
-              Join our vibrant community of founders, engineers, and investors passionate about deep tech and innovation.
+              Join a community of thousands of Deep Tech founders, engineers, and VCs.
             </p>
           </div>
         </div>
@@ -33,6 +33,51 @@ const CommunityContent = () => {
       <div className="container mx-auto px-4 z-10 relative">
         
         <div className="max-w-5xl mx-auto">
+          {/* Join Community Section */}
+          <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12 text-center">
+            <div className="text-white text-left max-w-3xl mx-auto">
+              <p className="font-bold mb-4">Here is what you&apos;ll find inside our community:</p>
+              <ul className="space-y-4">
+                <li>
+                  📅 Invitation-only dinners, roundtables, and events across London and Europe.
+                </li>
+                <li>
+                  🦄 Live webinars and Q&amp;As with leading Deep Tech founders and VCs.
+                </li>
+                <li>
+                  🛠️ A proprietary Investor Directory, hiring frameworks, and other tools we&apos;re launching soon.
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-16">
+              {!showSubscribe ? (
+                <button
+                  onClick={() => setShowSubscribe(true)}
+                  className="px-8 py-4 bg-srv-teal hover:bg-srv-teal/80 text-black font-bold rounded-lg transition-colors inline-flex items-center gap-2"
+                >
+                  Join Community
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                  </svg>
+                </button>
+              ) : (
+                <div className="flex justify-center">
+                  {/* Substack embed form: free email subscription only, no paid tiers shown */}
+                  <iframe
+                    src="https://blog.siliconroundabout.ventures/embed"
+                    width="480"
+                    height="150"
+                    frameBorder="0"
+                    scrolling="no"
+                    title="Subscribe to Silicon Roundabout Ventures"
+                    style={{ borderRadius: '8px', border: 'none', maxWidth: '100%' }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="bg-srv-dark/70 backdrop-blur-sm p-8 rounded-lg mb-12">
            <h2 className="text-2xl font-bold text-white mb-6">&lt;Upcoming Events/&gt;</h2>
             <p className="text-white mb-6">Connect with like-minded innovators and industry leaders at our upcoming events.</p>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'gatsby';
 import ParticleBackground from '@/components/layouts/ParticleBackground';
 import Layout from '@/components/layouts/Layout';
+import ImageSlider from '@/components/sections/ImageSlider';
 
 const CommunityContent = () => {
   const [showSubscribe, setShowSubscribe] = useState(false);
@@ -10,13 +11,22 @@ const CommunityContent = () => {
     <div className="min-h-screen pt-20 pb-16">
       <ParticleBackground />
       
-      {/* Hero Section */}
-      <div className="mb-16 pt-8">
-        <div className="flex items-center justify-center flex-col">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
-          <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center">
-            Join a community of thousands of Deep Tech founders, engineers, and VCs.
-          </p>
+      {/* Hero Section with Background Image */}
+      <div className="relative mb-16">
+        <div className="w-full h-[50vh] overflow-hidden rounded-lg relative">
+          <ImageSlider
+            imagePathPattern="community\/community-page"
+            transitionSpeed={4000}
+            overlayOpacity={50}
+          />
+
+          {/* Text content */}
+          <div className="absolute inset-0 flex items-center justify-center flex-col z-20">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 px-4 text-center">&lt;Community/&gt;</h1>
+            <p className="text-lg text-white max-w-2xl mx-auto px-4 text-center bg-black/40 backdrop-blur-sm p-4 rounded-lg">
+              Join a community of thousands of Deep Tech founders, engineers, and VCs.
+            </p>
+          </div>
         </div>
       </div>
       

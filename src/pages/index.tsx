@@ -34,7 +34,8 @@ const IndexContent = () => {
         }
       }
     }
-  `);
+  `
+  );
   return (
     <div className="min-h-screen">
       <ParticleBackground />
@@ -50,12 +51,12 @@ const IndexContent = () => {
             {/* Professional typing animation using Typed.js */}
             <TypedAnimationWrapper
               strings={[
-                '<span class="text-srv-blue">the</span> <span class="text-srv-yellow-light">First</span><span class="text-srv-pink">(</span><span class="text-srv-teal">Investor</span><span class="text-srv-pink">)</span> <span class="text-srv-blue">in</span> <span class="text-srv-pink">{</span> <span class="text-srv-teal">Frontier_Technology</span><span class="text-white">.</span><span class="text-srv-teal">Founders</span> <span class="text-srv-pink">}</span> <span class="text-white">building the future</span> <span class="text-srv-teal">Computing &amp; Physical</span> <span class="text-srv-yellow-light">Infrastructure</span>'
+                '<span class="text-srv-green"> // Discoverying Today’s Industrial Pioneers </span></br></br> <span class="text-srv-pink">if</span> <span class="text-srv-teal">industrial</span>.<span class="text-srv-blue">Pioneer</span>: <span class="text-srv-yellow-light">deploy</span><span class="text-srv-yellow">() {</span> <span class="text-srv-teal">firstCheques</span> <span class="text-srv-yellow"> }</span>'
               ]}
               typeSpeed={40}
               startDelay={800}
               showCursor={true}
-              cursorChar="|"
+              cursorChar="_"
               className="font-mono"
               loop={false}
             />
@@ -96,18 +97,16 @@ const IndexContent = () => {
           <Section background="transparent" title="Who we are">
             <div className="flex flex-col space-y-6 mb-12">
               <div className="flex items-start">
-                <span className="text-srv-teal text-2xl mr-3 mt-1">⚛️</span>
                 <p className="text-xl text-white">
                   We are a Community-Driven VC firm backing{" "}
-                  <span className="text-srv-yellow-light">Deep Tech</span>{" "}
+                  <span className="text-srv-yellow-light">Deeptech</span>{" "}
                   startups from Europe at{" "}
                   <span className="text-srv-pink">pre-seed</span> and{" "}
-                  <span className="text-srv-pink">seed</span> stages.
+                  <span className="text-srv-pink">seed</span>.
                 </p>
               </div>
 
               <div className="flex items-start">
-                <span className="text-srv-teal text-2xl mr-3 mt-1">👥</span>
                 <p className="text-xl text-white">
                   Leveraging our community of 15,000 founders and engineers and
                   live pitching competitions featuring winners now worth over £7 Billion.
@@ -115,39 +114,14 @@ const IndexContent = () => {
               </div>
 
               <div className="flex items-start">
-                <span className="text-srv-teal text-2xl mr-3 mt-1">🔬️</span>
                 <p className="text-xl text-white">
                   We spot fundamental <span className="text-srv-yellow-light">Computing</span>, <span className="text-srv-yellow-light">Defence</span> and <span className="text-srv-yellow-light">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
                 </p>
               </div>
             </div>
+            <br />
+            <br />
 
-            <div className="flex flex-wrap justify-around gap-10 mb-16">
-              {/* Community images using our specialized CircularImage component */}
-              {data.communityImage1?.childImageSharp?.gatsbyImageData && (
-                <CircularImage
-                  image={data.communityImage1.childImageSharp.gatsbyImageData}
-                  alt="Community member presenting"
-                  size={180}
-                />
-              )}
-
-              {data.communityImage2?.childImageSharp?.gatsbyImageData && (
-                <CircularImage
-                  image={data.communityImage2.childImageSharp.gatsbyImageData}
-                  alt="Community meetup"
-                  size={180}
-                />
-              )}
-
-              {data.communityImage3?.childImageSharp?.gatsbyImageData && (
-                <CircularImage
-                  image={data.communityImage3.childImageSharp.gatsbyImageData}
-                  alt="Community presenter pitching"
-                  size={180}
-                />
-              )}
-            </div>
 
             <div className="text-center">
               <Link to="/apply">
@@ -158,7 +132,7 @@ const IndexContent = () => {
             </div>
 
             {/* Add scroll chevrons at the bottom of the Who We Are section */}
-            <div className="flex justify-center mt-10 mb-6">
+            <div className="flex justify-center mt-10 mb-3">
               <ScrollChevrons targetId="our-mission" />
             </div>
           </Section>

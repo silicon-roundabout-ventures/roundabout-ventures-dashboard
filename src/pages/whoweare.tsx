@@ -111,6 +111,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({
 
 interface TeamData {
   leads: TeamMemberProps[];
+  team: TeamMemberProps[];
   partners: TeamMemberProps[];
   advisors?: TeamMemberProps[];
 }
@@ -134,7 +135,7 @@ const WhoWeAre = () => {
           gatsbyImageData(width: 300, height: 300, transformOptions: {cropFocus: CENTER}, layout: CONSTRAINED, quality: 100)
         }
       }
-      mariaImage: file(relativePath: { eq: "team/maria.jpeg" }) {
+      nataliaImage: file(relativePath: { eq: "team/natalia-pavlovska.jpeg" }) {
         childImageSharp {
           gatsbyImageData(width: 300, height: 300, transformOptions: {cropFocus: CENTER}, layout: CONSTRAINED, quality: 100)
         }
@@ -159,6 +160,14 @@ const WhoWeAre = () => {
         blog: "https://francescoperticarari.com"
       }
     ],
+    team: [
+      {
+        name: "Natalia Pavlovska",
+        role: "Head of Community & Operations",
+        description: "Forbes 30 u 30 & Tech Commmunity Entrepreneur",
+        image: data.nataliaImage, // Using Gatsby image
+        linkedin: "https://www.linkedin.com/in/natalia-pavlovska/"
+      },],
     partners: [
       {
         name: "Olivia Nicoletti, PhD",
@@ -173,13 +182,6 @@ const WhoWeAre = () => {
         description: "Building our VC superpowers",
         image: data.ralphImage, // Using Gatsby image
         linkedin: "https://www.linkedin.com/in/ralph-king/"
-      },
-      {
-        name: "Maria Grazia Vigliotti, PhD",
-        role: "AI & Cybersecurity Expert",
-        description: "Angel investor & Entrepreneur",
-        image: data.mariaImage, // Using Gatsby image
-        linkedin: "https://www.linkedin.com/in/mgvigliotti/"
       }
     ]
   };
@@ -197,30 +199,10 @@ const WhoWeAre = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
               <p className="text-xl text-srv-light mb-10">
-                We are a Community-Driven VC firm backing{" "}
-                <span className="text-srv-yellow-light">Deep Tech</span>{" "}
-                founders with extreme conviction at{" "}
-                <span className="text-srv-pink">
-                  pre-seed and seed{" "}
-                </span>
-                stages.
+                <span className="text-srv-pink">We are a pre-seed VC fund</span> backing exceptional engineers and scientists building infrastructure-layer technologies before their companies become obvious. Concentrating on 6-7 bets per year.
               </p>
               <p className="text-xl text-srv-light">
-                We back founders starting out in Europe who are "sub-0.1% of the population" type of{" "}
-                <span className="text-srv-yellow-light">exceptional</span>,{" "}
-                obsessively building novel technology companies for the long term in critical areas like{" "}
-                <span className="text-srv-pink">
-                  Computing
-                </span>
-                ,{" "}
-                <span className="text-srv-pink">
-                  Defence
-                </span>
-                ,{" "}and{" "}
-                <span className="text-srv-pink">
-                  Energy
-                </span>
-                .
+                <span className="text-srv-pink">Our purpose:</span> to help Europe’s smartest engineers launch the most consequential industrial companies of the 21st century.
               </p>
             </div>
 
@@ -230,19 +212,33 @@ const WhoWeAre = () => {
             {/* General Partner */}
             <div className="mb-12">
               <h3 className="text-3xl font-bold text-white mb-6 text-center">General Partner</h3>
-              <div className="max-w-4xl mx-auto w-full">
+              <div className="flex flex-wrap justify-center gap-8 md:gap-10">
                 {teamData.leads.map((member, index) => (
-                  <TeamMember key={index} {...member} />
+                  <div key={index} className="flex justify-center w-full max-w-3xl">
+                    <TeamMember {...member} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Team */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">Team</h3>
+              <div className="flex flex-wrap justify-center gap-8 md:gap-10">
+                {teamData.team.map((member, index) => (
+                  <div key={index} className="flex justify-center w-full sm:w-72 md:w-80 max-w-xs sm:max-w-sm">
+                    <TeamMember {...member} />
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Venture Partners */}
             <div className="mb-12">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">Venture Partners</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+              <h4 className="text-2xl font-bold text-white mb-6 text-center">Venture Partners</h4>
+              <div className="flex flex-wrap justify-center gap-8 md:gap-10">
                 {teamData.partners.map((member, index) => (
-                  <div key={index} className="flex justify-center">
+                  <div key={index} className="flex justify-center w-full sm:w-72 md:w-80 max-w-xs sm:max-w-sm">
                     <TeamMember {...member} />
                   </div>
                 ))}

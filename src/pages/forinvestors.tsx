@@ -27,16 +27,6 @@ const ForInvestorsContent = () => {
               We like to work and invest for people who share our values. While our current fund is closed to new clients, we encourage prospective LPs to express their interest in advance, so that we can get to know potential investors in future funds early on.
             </p>
 
-            <h3 className="text-xl font-bold text-white mt-8 mb-4">&lt;Key Benefits/&gt;</h3>
-            <ul className="list-none mb-8 text-white space-y-4">
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">⚛️</span> <span>Access to some of the most transformative pre-seed/seed deeptech startups in Europe</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💼</span> <span>Proprietary deal flow from our 15,000+ community</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">🛠️</span> <span>Technical team and agile soloGP approach</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">📈</span> <span>Institutional-grade administration & back-office management</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">👥</span> <span>Backed by 50+ active angel investors, Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.</span></li>
-              <li className="flex items-start"><span className="text-srv-teal mr-2 text-xl">💰</span> <span>Co-investment opportunities in select portfolio companies</span></li>
-            </ul>
-
             <div className="mt-8 text-center mb-12">
               <Link
                 to="/lpenquiries"

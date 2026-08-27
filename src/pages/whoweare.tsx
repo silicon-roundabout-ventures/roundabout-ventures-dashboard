@@ -149,10 +149,12 @@ const WhoWeAre = () => {
       {
         name: "Francesco Perticarari",
         role: "General Partner",
-        description: <>I'm a computer scientist who built the largest European deeptech meetup (15k members) and ended up investing as an angel in the sector. Some of my angel portfolio companies are now clocking £40m+ in revenue or part of national security contracts, but in deeptech that's still early days. In total I wrote 17 personal cheques including the likes of edge & GPU cloud leader <b><u><a target="_blank" href="https://ori.co">Ori Industries</a></u></b>, Quantum Photonics pioneer <b><u><a target="_blank" href="https://aegiq.com">Aegiq</a></u></b>, or holography world-leader <b><u><a target="_blank" href="https://www.vividq.com">Vivid-Q</a></u></b>.<br /><br />
-          In 2023 I launched Silicon Roundabout Ventures as a soloGP fund in the UK from which I'm now investing from. We focus on writing first cheques in pre-seed and angel rounds (which we sometimes lead). I closed the fund at just over its £5m target and got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br /><br />
-          My mission? To build Europe's first community-driven and truly pan-European VC firm built by technical folks exclusively for deeptech pre-seed and seed founders.<br /><br />
-          Public keynote speaker and guest lecturer on deeptech and VC at the likes of Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).</>,
+        description: <>I'm an engineer who built Silicon Roundabout into the biggest Deeptech meetup in Europe (15k members) and leveraged that community and 2 years of angel investments to launch Silicon Roundabout Ventures as a soloGP in 2023. <br /><br /> As an angel I invested in the likes of edge & GPU cloud leader <b><u><a target="_blank" href="https://ori.co">Ori (now Radiant)</a></u></b>, Quantum Photonics pioneer <b><u><a target="_blank" href="https://aegiq.com">Aegiq</a></u></b>, or holography world-leader <b><u><a target="_blank" href="https://www.vividq.com">Vivid-Q</a></u></b>.<br /><br />
+          With the fund I got backing by the likes of Molten Ventures (LSE:GROW), Multiple Capital, and exited founders and operators including 1 Nasdaq listed & 3 unicorn companies.<br /><br />
+          My mission? To build Europe's first community-driven deeptech VC firm built by technical folks exclusively to discover today's Industrial Pioneers.<br /><br />
+          Before all this crazy journey, I grew up in a small rural Italian town called Macerata, learned to code as a teenager, moved to London to study Computer Science and worked in anything from web development to fruit and veg stall salesman to pay for my studies. After building my career up to CTO, I left it all in 2022 to focus on the community and launch our first fund.<br /><br />
+          Occasionally I give public keynotes and guest lectures on deeptech and VC at institutions and events such as Super Venture / Super Return (Berlin), Mobile World Congress (Barcelona), Hello Tomorrow (Paris), London Tech Week, The London Institute of Banking and Finance (London), ASP (Politecnico di Milano, Italy), the European GNSS Agency (Prague).<br /> <br />
+        </>,
         image: data.francescoImage, // Using Gatsby image
         linkedin: "https://www.linkedin.com/in/fperticarari/",
         twitter: "https://twitter.com/francesco_srv",
@@ -199,7 +201,10 @@ const WhoWeAre = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-[#1e2127]/70 backdrop-blur-sm p-8 rounded-lg mb-12 border border-[#4c566a]/20">
               <p className="text-xl text-srv-light mb-10">
-                <span className="text-srv-pink">We are a pre-seed VC fund</span> backing exceptional engineers and scientists building infrastructure-layer technologies before their companies become obvious. Concentrating on 6-7 bets per year.
+                <span className="text-srv-pink">We are a First Cheque VC fund</span> obsessively scouting Europe for exceptional engineers before their companies become obvious.
+              </p>
+              <p className="text-xl text-srv-light mb-10">
+                We like infrastructure-layer plays and concentrate on 6-7 bets per year.
               </p>
               <p className="text-xl text-srv-light">
                 <span className="text-srv-pink">Our purpose:</span> to help Europe’s smartest engineers launch the most consequential industrial companies of the 21st century.

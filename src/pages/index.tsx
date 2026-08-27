@@ -7,8 +7,8 @@ import Layout from '@/components/layouts/Layout';
 import { GlassCard } from "@/components/parts/GlassCard";
 import { Section } from "@/components/parts/Section";
 import { FeatureCard } from '@/components/parts/FeatureCard';
-import { CircularImage } from '@/components/parts/CircularImage';
 import ImageSlider from '@/components/sections/ImageSlider';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import TypedAnimationWrapper from '@/components/parts/TypedAnimationWrapper';
 import ScrollChevrons from '@/components/parts/ScrollChevrons';
 import SEO from '@/components/parts/SEO';
@@ -94,13 +94,13 @@ const IndexContent = () => {
 
         {/* Content overlay */}
         <div className="relative z-20 py-24">
-          <Section background="transparent" title="Who we are">
+          <Section background="transparent" eyebrow="who.we.are" title="We Are Die-Hards For Hard Stuff">
             <div className="flex flex-col space-y-6 mb-12">
               <div className="flex items-start">
                 <p className="text-xl text-white">
                   We are a Community-Driven VC firm backing{" "}
-                  <span className="text-srv-yellow-light">Deeptech</span>{" "}
-                  startups from Europe at{" "}
+                  <span className="text-srv-teal">Deeptech</span>{" "}
+                  founders from Europe at{" "}
                   <span className="text-srv-pink">pre-seed</span> and{" "}
                   <span className="text-srv-pink">seed</span>.
                 </p>
@@ -108,14 +108,13 @@ const IndexContent = () => {
 
               <div className="flex items-start">
                 <p className="text-xl text-white">
-                  Leveraging our community of 15,000 founders and engineers and
-                  live pitching competitions featuring winners now worth over £7 Billion.
+                  Before the fund even started we built a <span className="text-srv-pink">community</span> of 15,000+ deeptech founders and engineers through our meetup events, dinners, and demo days featuring winners now worth over £7 Billion.
                 </p>
               </div>
 
               <div className="flex items-start">
                 <p className="text-xl text-white">
-                  We spot fundamental <span className="text-srv-yellow-light">Computing</span>, <span className="text-srv-yellow-light">Defence</span> and <span className="text-srv-yellow-light">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
+                  We spot fundamental <span className="text-srv-teal">Computing</span>, <span className="text-srv-teal">Defence</span> and <span className="text-srv-teal">Energy</span> companies led by <span className="text-srv-pink">contrarian scientists and engineers</span>.
                 </p>
               </div>
             </div>
@@ -139,14 +138,17 @@ const IndexContent = () => {
         </div>
       </div>
 
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
       {/* Our Mission Section */}
       <div id="our-mission"></div>
-      <Section title="Our Mission">
+      <Section eyebrow="company.mission" title="Our Mission">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <GlassCard>
             <div className="space-y-4">
               <div className="flex items-start">
-                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💎</span>
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">🏭</span>
                 <p className="text-white">
                   Building a new kind of financial institution at the intersection of{" "}
                   <span className="text-srv-pink">Venture Capital</span>,{" "}
@@ -181,7 +183,7 @@ const IndexContent = () => {
               </div>
 
               <div className="flex items-start">
-                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">💻</span>
+                <span className="text-srv-yellow text-2xl mr-3 flex-shrink-0">⚛️</span>
                 <p className="text-white">
                   Focusing on Europe-based enterprises in{" "}
                   <span className="text-srv-pink">Computing</span>,{" "}
